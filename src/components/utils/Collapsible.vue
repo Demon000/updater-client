@@ -3,7 +3,7 @@
     <div v-on:click="toggleManualExpansion">
       <slot name="title" v-bind:isExpanded="isExpanded"></slot>
     </div>
-    <height-transition v-bind:speed="forceExpanded ? '0s' : '0.25s'">
+    <height-transition>
       <slot name="content" v-if="isExpanded"></slot>
     </height-transition>
   </div>
@@ -46,6 +46,10 @@ export default {
       }
     },
     toggleManualExpansion() {
+      if (this.forceExpanded) {
+        return;
+      }
+
       this.isManuallyExpanded = !this.isManuallyExpanded;
       this.refreshExpansion();
     }

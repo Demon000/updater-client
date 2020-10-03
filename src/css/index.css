@@ -7,6 +7,10 @@ html, body {
     color: rgba(0, 0, 0, 0.87);
 }
 
+* {
+    box-sizing: border-box;
+}
+
 #app {
     height: 100%;
     width: 100%;
@@ -15,6 +19,25 @@ html, body {
     align-items: center;
 }
 
-* {
-    box-sizing: border-box;
+#sidebar {
+    width: 300px;
+    max-width: 30%;
+    min-width: 128px;
+    height: 100%;
+}
+
+#main {
+    flex-grow: 1;
+    height: 100%;
+    overflow: auto;
+}
+
+.simplebar-track,
+.simplebar-track.simplebar-vertical {
+    width: 10px;
+}
+
+.simplebar-scrollbar::before {
+    background: rgba(0, 0, 0, 0.38);
+    border-radius: 5px;
 }

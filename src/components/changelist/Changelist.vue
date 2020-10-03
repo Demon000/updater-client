@@ -1,7 +1,18 @@
 <template>
-  <div class="changelist" v-on:scroll="checkScrolledToBottom" ref="changelist">
-    <div class="change" v-for="change in changes">
-      <a class="subject" v-bind:href="change.url" target="_blank">
+  <div
+      class="changelist"
+      ref="changelist"
+      v-on:scroll="checkScrolledToBottom"
+  >
+    <div
+        class="change"
+        v-for="change in changes"
+    >
+      <a
+          class="subject"
+          target="_blank"
+          v-bind:href="change.url"
+      >
         {{ change.subject }}
       </a>
       <span class="repository">
@@ -13,12 +24,12 @@
 
 <script>
 import axios from 'axios';
-import {API_HOSTNAME} from "../js/config";
+import {API_HOSTNAME} from '../../js/config';
 
 export default {
   name: 'Changelist',
   props: {
-    device: String,
+    model: String,
   },
   data() {
     return {
@@ -27,7 +38,7 @@ export default {
     };
   },
   watch: {
-    device() {
+    model() {
       this.reloadChanges();
     },
   },
@@ -41,7 +52,7 @@ export default {
       this.loadMoreChanges();
     },
     isScrolledToBottom(el) {
-      return el.scrollTop + el.offsetHeight === el.scrollHeight;
+      return el.scrollTop + el.offsetHeight >= el.scrollHeight;
     },
     checkScrolledToBottom() {
       const changelist = this.$refs.changelist;
@@ -55,7 +66,7 @@ export default {
       axios
           .get(`${API_HOSTNAME}/api/v2/changes`, {
             params: {
-              device: this.device,
+              device: this.model,
               page: this.page,
             },
           })
@@ -77,29 +88,30 @@ export default {
 
 <style scoped>
 .changelist {
-  height: 100%;
   width: 100%;
   overflow: auto;
+
+  padding: 16px;
 }
-.change {
+.changelist .change {
   height: 64px;
   padding: 0 16px 16px 16px;
 }
-.change .subject,
-.change .repository {
+.changelist .change .subject,
+.changelist .change .repository {
   display: block;
 
   vertical-align: text-bottom;
 }
 
-.change .subject {
+.changelist .change .subject {
   line-height: 28px;
 
   color: inherit;
   text-decoration: none;
 }
 
-.change .repository {
+.changelist .change .repository {
   line-height: 20px;
   font-size: 12px
 }

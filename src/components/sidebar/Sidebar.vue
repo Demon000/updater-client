@@ -2,15 +2,22 @@
   <div class="sidebar">
     <router-link to="/">
       <div class="logo">
-        <img src="../assets/header.png" alt="LineageOS Logo">
+        <img src="../../assets/header.png" alt="LineageOS Logo">
       </div>
     </router-link>
-    <div class="content">
-      <div class="search-container">
-        <input type="text" placeholder="Search..." v-model="filterText">
-      </div>
-      <sidebar-oem v-for="oem in oems" v-bind="oem"></sidebar-oem>
-      <div class="loading" v-if="!loaded">
+    <div class="search-container">
+      <input type="text" placeholder="Search..." v-model="filterText">
+      <i class="mdi mdi-close clear" v-on:click="clearFilterText"></i>
+    </div>
+    <div class="oems">
+      <sidebar-oem
+          v-for="oem in oems"
+          v-bind="oem"
+      ></sidebar-oem>
+      <div
+          class="loading"
+          v-if="!loaded"
+      >
         Loading...
       </div>
     </div>
@@ -20,7 +27,7 @@
 <script>
 import axios from 'axios';
 import SidebarOem from './SidebarOem.vue';
-import {API_HOSTNAME} from "../js/config";
+import {API_HOSTNAME} from "../../js/config";
 
 export default {
   name: 'Sidebar',
@@ -28,7 +35,7 @@ export default {
     SidebarOem,
   },
   props: {
-    device: {
+    activeModel: {
       type: String,
       default: 'all',
     },
@@ -41,7 +48,7 @@ export default {
     };
   },
   watch: {
-    device() {
+    activeModel() {
       this.refreshDevices();
     },
     filterText() {
@@ -52,6 +59,9 @@ export default {
     this.loadOems();
   },
   methods: {
+    clearFilterText() {
+      this.filterText = '';
+    },
     loadOems() {
       axios
           .get(`${API_HOSTNAME}/api/v2/oems`)
@@ -78,7 +88,7 @@ export default {
     selectActiveDevice() {
       for (const oem of this.oems) {
         for (const device of oem.devices) {
-          if (device.model === this.device) {
+          if (device.model === this.activeModel) {
             oem.forceExpanded = true;
             oem.hidden = false;
             device.hidden = false;
@@ -132,13 +142,12 @@ export default {
   display: flex;
   flex-direction: column;
 
-  /*border-right: 1px solid rgba(0, 0, 0, 0.12);*/
+  position: relative;
 
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
-  /*box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);*/
 }
 
-.logo {
+.sidebar .logo {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -146,39 +155,58 @@ export default {
   flex-shrink: 0;
 
   background: #167c80;
-  padding: 16px;
 
-  height: 96px;
+  height: 72px;
 }
-.logo img {
-  width: 100%;
-  max-width: 128px;
+.sidebar .logo img {
+  height: 40px;
 }
 
-.search-container {
+.sidebar .search-container {
   width: 100%;
   height: 64px;
+
+  padding: 16px;
+
+  display: flex;
+
+  position: relative;
 
   flex-shrink: 0;
 
   border-bottom: 1px solid rgba(0, 0, 0, 0.12);
 }
 
-.search-container input {
+.sidebar .search-container input {
   width: 100%;
-  height: 100%;
+  height: 32px;
   outline: 0;
   border: 0;
-  padding: 16px;
+
+  padding: 0;
 }
-.loading {
+
+.sidebar .clear {
+  height: 32px;
+  line-height: 32px;
+
+  font-size: 24px;
+
+  cursor: pointer;
+
+  color: rgba(0, 0, 0, 0.38);
+}
+
+.sidebar .loading {
   height: 48px;
   padding: 16px;
   text-align: center;
   font-size: 14px;
 }
 
-.content {
+.sidebar .oems {
   flex-grow: 1;
+
+  overflow: auto;
 }
 </style>
