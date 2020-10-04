@@ -1,7 +1,7 @@
 <template>
   <div
-      class="changelist"
-      ref="changelist"
+      class="changes"
+      ref="list"
       v-on:scroll="checkScrolledToBottom"
   >
     <div
@@ -35,7 +35,7 @@ import axios from 'axios';
 import {API_HOSTNAME} from '../../js/config';
 
 export default {
-  name: 'Changelist',
+  name: 'Change',
   props: {
     model: {
       type: String,
@@ -67,8 +67,7 @@ export default {
       return el.scrollTop + el.offsetHeight >= el.scrollHeight;
     },
     checkScrolledToBottom() {
-      const changelist = this.$refs.changelist;
-      if (!this.isScrolledToBottom(changelist)) {
+      if (!this.isScrolledToBottom(this.$refs.list)) {
         return;
       }
 
@@ -105,31 +104,31 @@ export default {
 </script>
 
 <style scoped>
-.changelist {
+.changes {
   width: 100%;
   overflow: auto;
 
   padding: 16px;
 }
-.changelist .change {
+.changes .change {
   height: 64px;
   padding: 8px 16px 8px 16px;
 }
-.changelist .change .subject,
-.changelist .change .repository {
+.changes .change .subject,
+.changes .change .repository {
   display: block;
 
   vertical-align: text-bottom;
 }
 
-.changelist .change .subject {
+.changes .change .subject {
   line-height: 28px;
 
   color: inherit;
   text-decoration: none;
 }
 
-.changelist .change .repository {
+.changes .change .repository {
   line-height: 20px;
   font-size: 12px
 }

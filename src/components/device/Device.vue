@@ -39,13 +39,13 @@ import axios from "axios";
 import {API_HOSTNAME} from '../../js/config';
 
 import Navbar from '../navbar/Navbar.vue';
-import Changelist from '../changelist/Changelist.vue';
+import Change from '../changes/Changes.vue';
 
 export default {
   name: 'Device',
   components: {
     Navbar,
-    Changelist,
+    Change,
   },
   props: {
     model: {
