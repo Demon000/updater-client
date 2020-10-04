@@ -156,7 +156,7 @@ export default {
 
   background: #167c80;
 
-  height: 72px;
+  height: 104px;
 }
 .sidebar .logo img {
   height: 40px;

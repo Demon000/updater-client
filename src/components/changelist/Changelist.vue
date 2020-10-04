@@ -19,6 +19,14 @@
         {{ change.repository }}
       </span>
     </div>
+    <div
+        class="change"
+        v-if="isLoading"
+    >
+      <span class="subject">
+        Loading...
+      </span>
+    </div>
   </div>
 </template>
 
@@ -29,12 +37,16 @@ import {API_HOSTNAME} from '../../js/config';
 export default {
   name: 'Changelist',
   props: {
-    model: String,
+    model: {
+      type: String,
+      default: 'all',
+    },
   },
   data() {
     return {
       changes: [],
       page: 0,
+      isLoading: false,
     };
   },
   watch: {
@@ -63,6 +75,11 @@ export default {
       this.loadMoreChanges();
     },
     loadMoreChanges() {
+      if (this.isLoading) {
+        return;
+      }
+
+      this.isLoading = true;
       axios
           .get(`${API_HOSTNAME}/api/v2/changes`, {
             params: {
@@ -75,6 +92,7 @@ export default {
             this.page += 1;
 
             this.$nextTick(() => {
+              this.isLoading = false;
               this.checkScrolledToBottom();
             });
           })
@@ -95,7 +113,7 @@ export default {
 }
 .changelist .change {
   height: 64px;
-  padding: 0 16px 16px 16px;
+  padding: 8px 16px 8px 16px;
 }
 .changelist .change .subject,
 .changelist .change .repository {

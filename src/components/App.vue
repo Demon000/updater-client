@@ -6,7 +6,6 @@
   <router-view
       id="main"
       name="main"
-      v-bind:key="$route.fullPath"
   ></router-view>
 </template>
 

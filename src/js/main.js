@@ -10,6 +10,7 @@ import '@mdi/font/css/materialdesignicons.css';
 import App from '../components/App.vue';
 import Sidebar from '../components/sidebar/Sidebar.vue';
 import Device from '../components/device/Device.vue';
+import Changelist from '../components/changelist/Changelist.vue';
 
 const router = createRouter({
     history: createWebHashHistory(),
@@ -29,6 +30,15 @@ const router = createRouter({
                 sidebar: Sidebar,
                 main: Device,
             },
+            children: [
+                {
+                    path: 'changes',
+                    name: 'device_changes',
+                    component: Changelist,
+                    props: true,
+                },
+
+            ],
             props: {
                 sidebar(route) {
                     return {

@@ -1,16 +1,16 @@
 <template>
   <div class="navbar">
-    <template v-if="model">
-      <span class="oem">{{ oem }}</span>
-      <i class="mdi mdi-chevron-right arrow"></i>
-      <span class="name">{{ name }}</span>
-      <span class="model">{{ model }}</span>
-    </template>
-    <template v-else>
-      <span class="text">
-        {{ text }}
-      </span>
-    </template>
+    <div class="top">
+      <div class="left">
+        <slot name="left"></slot>
+      </div>
+      <div class="right">
+        <slot name="right"></slot>
+      </div>
+    </div>
+    <div class="tabs">
+      <slot name="tabs"></slot>
+    </div>
   </div>
 </template>
 
@@ -46,35 +46,25 @@ export default {
 .navbar {
   width: 100%;
 
-  padding: 16px 32px;
-  line-height: 40px;
   font-size: 18px;
 
   position: relative;
 
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+
+  padding: 0 32px;
 }
 
-.navbar .oem,
-.navbar .arrow,
-.navbar .name,
-.navbar .model,
-.navbar .text {
-  display: inline-block;
-  vertical-align: top;
-}
+.navbar .top {
+  padding: 16px 0;
+  line-height: 24px;
+  min-height: 56px;
 
-.navbar .arrow,
-.navbar .model {
-  margin: 0 8px;
+  display: flex;
+  justify-content: space-between;
 }
-
-.navbar .arrow {
-  height: 40px;
-}
-
-.navbar .model {
-  font-size: 16px;
-  color: rgba(0, 0, 0, 0.5);
+.navbar .tabs {
+  min-height: 48px;
+  line-height: 48px;
 }
 </style>
