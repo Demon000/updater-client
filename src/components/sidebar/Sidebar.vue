@@ -14,12 +14,12 @@
           v-for="oem in oems"
           v-bind="oem"
       ></sidebar-oem>
-      <div
+      <horizontal-loader
           class="loading"
           v-if="!loaded"
       >
         Loading...
-      </div>
+      </horizontal-loader>
     </div>
   </div>
 </template>
@@ -27,11 +27,13 @@
 <script>
 import axios from 'axios';
 import SidebarOem from './SidebarOem.vue';
-import {API_HOSTNAME} from "../../js/config";
+import {API_HOSTNAME} from '../../js/config';
+import HorizontalLoader from '../utils/HorizontalLoader.vue';
 
 export default {
   name: 'Sidebar',
   components: {
+    HorizontalLoader,
     SidebarOem,
   },
   props: {
@@ -195,13 +197,6 @@ export default {
   cursor: pointer;
 
   color: rgba(0, 0, 0, 0.38);
-}
-
-.sidebar .loading {
-  height: 48px;
-  padding: 16px;
-  text-align: center;
-  font-size: 14px;
 }
 
 .sidebar .oems {

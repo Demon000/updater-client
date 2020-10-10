@@ -1,13 +1,17 @@
 <template>
   <div class="device">
     <navbar>
-      <template
-          v-slot:left
-          v-if="loaded">
-        <span class="oem">{{ oem }}</span>
-        <i class="mdi mdi-chevron-right arrow"></i>
-        <span class="name">{{ name }}</span>
-        <span class="model">{{ model }}</span>
+      <template v-slot:left>
+        <template v-if="loaded">
+          <span class="oem">{{ oem }}</span>
+          <i class="mdi mdi-chevron-right arrow"></i>
+          <span class="name">{{ name }}</span>
+          <span class="model">{{ model }}</span>
+        </template>
+        <template v-else>
+          <horizontal-loader class="loading">
+          </horizontal-loader>
+        </template>
       </template>
       <template v-slot:tabs>
         <router-link
@@ -60,11 +64,13 @@ import axios from "axios";
 import {API_HOSTNAME} from '../../js/config';
 
 import Navbar from '../navbar/Navbar.vue';
+import HorizontalLoader from '../utils/HorizontalLoader.vue';
 
 export default {
   name: 'Device',
   components: {
     Navbar,
+    HorizontalLoader,
   },
   props: {
     model: {
@@ -151,6 +157,12 @@ export default {
 .device .navbar .model {
   font-size: 16px;
   color: rgba(0, 0, 0, 0.5);
+}
+
+.device .navbar .loading {
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 
 .device .content {

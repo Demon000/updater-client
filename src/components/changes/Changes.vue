@@ -1,32 +1,28 @@
 <template>
   <div
       class="changes"
+      ref="scrollable"
+      v-on:scroll="checkScrolledToBottom"
   >
-    <div
-        class="scrollable"
-        ref="scrollable"
-        v-on:scroll="checkScrolledToBottom"
-    >
-      <div
-          class="change"
-          v-for="change in changes"
-      >
-        <a
-            class="subject"
-            target="_blank"
-            v-bind:href="change.url"
-        >
-          {{ change.subject }}
-        </a>
-        <span class="repository">
-        {{ change.repository }}
-      </span>
-      </div>
-    </div>
     <horizontal-loader
         class="loading"
         v-if="isLoading"
     ></horizontal-loader>
+    <div
+        class="change"
+        v-for="change in changes"
+    >
+      <a
+          class="subject"
+          target="_blank"
+          v-bind:href="change.url"
+      >
+        {{ change.subject }}
+      </a>
+      <span class="repository">
+        {{ change.repository }}
+      </span>
+    </div>
   </div>
 </template>
 
@@ -115,11 +111,10 @@ export default {
   position: relative;
 }
 
-.changes .scrollable {
-  width: 100%;
-  height: 100%;
-
-  overflow: auto;
+.changes .loading {
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 
 .changes .change {
@@ -143,11 +138,5 @@ export default {
 .changes .change .repository {
   line-height: 20px;
   font-size: 12px
-}
-
-.changes .loading {
-  position: absolute;
-  bottom: 0;
-  left: 0;
 }
 </style>
