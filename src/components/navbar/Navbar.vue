@@ -67,4 +67,23 @@ export default {
   min-height: 48px;
   line-height: 48px;
 }
+
+.navbar .tabs >>> .tab {
+  vertical-align: top;
+
+  text-decoration: none;
+  color: rgba(0, 0, 0, 0.87);
+
+  display: inline-block;
+
+  height: 48px;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 0 24px;
+  text-transform: uppercase;
+}
+
+.navbar .tabs >>> .tab.router-link-exact-active {
+  border-bottom: 4px solid #167c80;
+}
 </style>

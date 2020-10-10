@@ -1,41 +1,45 @@
 <template>
   <div
       class="changes"
-      ref="list"
-      v-on:scroll="checkScrolledToBottom"
   >
     <div
-        class="change"
-        v-for="change in changes"
+        class="scrollable"
+        ref="scrollable"
+        v-on:scroll="checkScrolledToBottom"
     >
-      <a
-          class="subject"
-          target="_blank"
-          v-bind:href="change.url"
+      <div
+          class="change"
+          v-for="change in changes"
       >
-        {{ change.subject }}
-      </a>
-      <span class="repository">
+        <a
+            class="subject"
+            target="_blank"
+            v-bind:href="change.url"
+        >
+          {{ change.subject }}
+        </a>
+        <span class="repository">
         {{ change.repository }}
       </span>
+      </div>
     </div>
-    <div
-        class="change"
+    <horizontal-loader
+        class="loading"
         v-if="isLoading"
-    >
-      <span class="subject">
-        Loading...
-      </span>
-    </div>
+    ></horizontal-loader>
   </div>
 </template>
 
 <script>
 import axios from 'axios';
 import {API_HOSTNAME} from '../../js/config';
+import HorizontalLoader from '../utils/HorizontalLoader.vue';
 
 export default {
-  name: 'Change',
+  name: 'Changes',
+  components: {
+    HorizontalLoader,
+  },
   props: {
     model: {
       type: String,
@@ -64,10 +68,10 @@ export default {
       this.loadMoreChanges();
     },
     isScrolledToBottom(el) {
-      return el.scrollTop + el.offsetHeight >= el.scrollHeight;
+      return el.scrollTop + el.offsetHeight >= el.scrollHeight - 64;
     },
     checkScrolledToBottom() {
-      if (!this.isScrolledToBottom(this.$refs.list)) {
+      if (!this.isScrolledToBottom(this.$refs.scrollable)) {
         return;
       }
 
@@ -106,10 +110,18 @@ export default {
 <style scoped>
 .changes {
   width: 100%;
-  overflow: auto;
 
-  padding: 16px;
+  overflow: auto;
+  position: relative;
 }
+
+.changes .scrollable {
+  width: 100%;
+  height: 100%;
+
+  overflow: auto;
+}
+
 .changes .change {
   height: 64px;
   padding: 8px 16px 8px 16px;
@@ -131,5 +143,11 @@ export default {
 .changes .change .repository {
   line-height: 20px;
   font-size: 12px
+}
+
+.changes .loading {
+  position: absolute;
+  bottom: 0;
+  left: 0;
 }
 </style>

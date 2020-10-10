@@ -1,20 +1,26 @@
 <template>
   <div class="device">
     <navbar>
-      <template v-slot:left v-if="loaded">
-        <template v-if="model">
-          <span class="oem">{{ oem }}</span>
-          <i class="mdi mdi-chevron-right arrow"></i>
-          <span class="name">{{ name }}</span>
-          <span class="model">{{ model }}</span>
-        </template>
-        <template v-else>
-          <span class="text">
-            All devices
-          </span>
-        </template>
+      <template
+          v-slot:left
+          v-if="loaded">
+        <span class="oem">{{ oem }}</span>
+        <i class="mdi mdi-chevron-right arrow"></i>
+        <span class="name">{{ name }}</span>
+        <span class="model">{{ model }}</span>
       </template>
       <template v-slot:tabs>
+        <router-link
+            class="tab"
+            v-bind:to="{
+              name: 'device_builds',
+              params: {
+                model,
+              },
+            }"
+        >
+          Builds
+        </router-link>
         <router-link
             class="tab"
             v-bind:to="{
@@ -26,6 +32,22 @@
         >
         Changes
         </router-link>
+        <a
+            class="tab"
+            target="_blank"
+            v-bind:href="info_url"
+        >
+          Device info
+          <span class="mdi mdi-open-in-new"></span>
+        </a>
+        <a
+            class="tab"
+            target="_blank"
+            v-bind:href="install_url"
+        >
+          Install instructions
+          <span class="mdi mdi-open-in-new"></span>
+        </a>
       </template>
     </navbar>
 
@@ -35,17 +57,14 @@
 
 <script>
 import axios from "axios";
-
 import {API_HOSTNAME} from '../../js/config';
 
 import Navbar from '../navbar/Navbar.vue';
-import Change from '../changes/Changes.vue';
 
 export default {
   name: 'Device',
   components: {
     Navbar,
-    Change,
   },
   props: {
     model: {
@@ -103,8 +122,6 @@ export default {
 
 <style scoped>
 .device {
-  width: 100%;
-
   display: flex;
   flex-direction: column;
 }
@@ -138,25 +155,5 @@ export default {
 
 .device .content {
   flex-grow: 1;
-  overflow: auto;
-}
-
-.device .tab {
-  vertical-align: top;
-
-  text-decoration: none;
-  color: rgba(0, 0, 0, 0.87);
-
-  display: inline-block;
-
-  height: 48px;
-  font-size: 14px;
-  font-weight: 500;
-  padding: 0 24px;
-  text-transform: uppercase;
-}
-
-.device .tab.router-link-exact-active {
-  border-bottom: 4px solid #167c80;
 }
 </style>

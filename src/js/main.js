@@ -10,18 +10,27 @@ import '@mdi/font/css/materialdesignicons.css';
 import App from '../components/App.vue';
 import Sidebar from '../components/sidebar/Sidebar.vue';
 import Device from '../components/device/Device.vue';
-import Change from '../components/changes/Changes.vue';
+import Changes from '../components/changes/Changes.vue';
+import Builds from '../components/builds/Builds.vue';
+import Home from '../components/home/Home.vue';
 
 const router = createRouter({
     history: createWebHashHistory(),
     routes: [
         {
             path: '/',
-            name: 'index',
+            name: 'home',
             components: {
                 sidebar: Sidebar,
-                main: Device,
+                main: Home,
             },
+            children: [
+                {
+                    path: '',
+                    name: 'home_changes',
+                    component: Changes,
+                },
+            ],
         },
         {
             path: '/devices/:model',
@@ -32,9 +41,15 @@ const router = createRouter({
             },
             children: [
                 {
+                    path: '',
+                    name: 'device_builds',
+                    component: Builds,
+                    props: true,
+                },
+                {
                     path: 'changes',
                     name: 'device_changes',
-                    component: Change,
+                    component: Changes,
                     props: true,
                 },
 

@@ -1,7 +1,7 @@
 <template>
   <router-link
       v-bind:to="{
-        name: 'device',
+        name: 'device_builds',
         params: {
           model,
         },
