@@ -68,7 +68,7 @@ export default {
   line-height: 48px;
 }
 
-.navbar .tabs >>> .tab {
+.navbar .tabs::v-deep(.tab) {
   vertical-align: top;
 
   text-decoration: none;
@@ -83,7 +83,7 @@ export default {
   text-transform: uppercase;
 }
 
-.navbar .tabs >>> .tab.router-link-exact-active {
+.navbar .tabs::v-deep(.tab.router-link-exact-active) {
   border-bottom: 4px solid #167c80;
 }
 </style>

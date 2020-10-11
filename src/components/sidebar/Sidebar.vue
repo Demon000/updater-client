@@ -9,7 +9,10 @@
       <input type="text" placeholder="Search..." v-model="filterText">
       <i class="mdi mdi-close clear" v-on:click="clearFilterText"></i>
     </div>
-    <div class="oems">
+    <div
+        class="oems"
+        data-simplebar
+    >
       <sidebar-oem
           v-for="oem in oems"
           v-bind="oem"
@@ -200,8 +203,8 @@ export default {
 }
 
 .sidebar .oems {
+  max-height: 100%;
   flex-grow: 1;
-
   overflow: auto;
 }
 </style>
