@@ -2,16 +2,10 @@
   <div class="device">
     <navbar>
       <template v-slot:left>
-        <template v-if="loaded">
-          <span class="oem">{{ oem }}</span>
-          <i class="mdi mdi-chevron-right arrow"></i>
-          <span class="name">{{ name }}</span>
-          <span class="model">{{ model }}</span>
-        </template>
-        <template v-else>
-          <horizontal-loader class="loading">
-          </horizontal-loader>
-        </template>
+        <span class="oem">{{ oem }}</span>
+        <i class="mdi mdi-chevron-right arrow"></i>
+        <span class="name">{{ name }}</span>
+        <span class="model">{{ model }}</span>
       </template>
       <template v-slot:tabs>
         <router-link
@@ -65,9 +59,13 @@ import {API_HOSTNAME} from '../../js/config';
 
 import Navbar from '../navbar/Navbar.vue';
 import HorizontalLoader from '../utils/HorizontalLoader.vue';
+import LoadingMixin from '../utils/LoadingMixin';
 
 export default {
   name: 'Device',
+  mixins: [
+    LoadingMixin,
+  ],
   components: {
     Navbar,
     HorizontalLoader,
@@ -86,7 +84,6 @@ export default {
       name: '',
       oem: '',
       versions: [],
-      loaded: false,
     };
   },
   watch: {
@@ -99,12 +96,8 @@ export default {
   },
   methods: {
     loadDeviceDetails() {
-      if (!this.model) {
-        this.loaded = true;
-        return;
-      }
+      this.setLoading(true);
 
-      this.loaded = false;
       axios
           .get(`${API_HOSTNAME}/api/v2/devices/${this.model}`)
           .then(response => {
@@ -116,7 +109,10 @@ export default {
               'oem',
               'versions'
             ].forEach(k => this[k] = response.data[k]);
-            this.loaded = true;
+
+            this.$nextTick(() => {
+              this.setLoading(false);
+            });
           })
           .catch(err => {
             console.error(err);
@@ -157,12 +153,6 @@ export default {
 .device .navbar .model {
   font-size: 16px;
   color: rgba(0, 0, 0, 0.5);
-}
-
-.device .navbar .loading {
-  position: absolute;
-  top: 0;
-  left: 0;
 }
 
 .device .content {

@@ -3,25 +3,9 @@
       class="changes"
       ref="scrollable"
   >
-    <horizontal-loader
-        class="loading"
-        v-if="isLoading"
-    ></horizontal-loader>
     <template v-if="model">
       <template v-for="buildChanges in buildsChanges">
-        <template v-if="buildChanges.items.length">
-          <div class="header">
-            <template v-if="buildChanges.for === 'next'">
-              To be included in next build
-            </template>
-            <template v-else>
-              Included in {{ buildChanges.for }}
-            </template>
-          </div>
-          <template v-for="change in buildChanges.items">
-            <change v-bind="change"></change>
-          </template>
-        </template>
+        <build-changes v-bind="buildChanges"></build-changes>
       </template>
     </template>
     <template v-else>
@@ -36,13 +20,17 @@
 import axios from 'axios';
 import SimpleBar from 'simplebar';
 import {API_HOSTNAME} from '../../js/config';
-import HorizontalLoader from '../utils/HorizontalLoader.vue';
 import Change from './Change.vue';
+import BuildChanges from './BuildChanges.vue';
+import LoadingMixin from '../utils/LoadingMixin';
 
 export default {
   name: 'Changes',
+  mixins: [
+    LoadingMixin,
+  ],
   components: {
-    HorizontalLoader,
+    BuildChanges,
     Change,
   },
   props: {
@@ -51,10 +39,11 @@ export default {
   data() {
     return {
       buildsChanges: [],
+      bumpedBuildsChanges: [],
       changes: [],
       page: 0,
-      isLoading: false,
       scrollbar: null,
+      scrollable: null,
     };
   },
   watch: {
@@ -66,10 +55,12 @@ export default {
     this.reloadChanges();
 
     this.scrollbar = new SimpleBar(this.$refs.scrollable);
-    this.scrollbar.getScrollElement().addEventListener('scroll', this.checkScrolledToBottom);
+    this.scrollable = this.scrollbar.getScrollElement();
+    this.scrollable.addEventListener('scroll', this.checkScrolledToBottom);
   },
-  destroyed() {
-    this.scrollbar.getScrollElement().removeEventListener('scroll', this.checkScrolledToBottom);
+  unmounted() {
+    this.scrollable.removeEventListener('scroll', this.checkScrolledToBottom);
+    this.scrollbar.unMount();
   },
   methods: {
     reloadChanges() {
@@ -78,41 +69,99 @@ export default {
       this.page = 0;
       this.loadMoreChanges();
     },
+    extractBumpedChanges(buildsChanges) {
+      const bumpedBuildsChanges = [];
+
+      for (const newBuildChanges of buildsChanges) {
+        if (!newBuildChanges.items.length) {
+          continue;
+        }
+
+        const bumpedBuildChanges = {
+          build: newBuildChanges.build,
+          items: [],
+        };
+
+        for (let i = newBuildChanges.items.length - 1; i >= 0; i--) {
+          const change = newBuildChanges.items[i];
+          if (change.updated > change.submitted) {
+            bumpedBuildChanges.items.push(change);
+            newBuildChanges.items.splice(i, 1);
+          }
+        }
+
+        bumpedBuildsChanges.push(bumpedBuildChanges);
+      }
+
+      return bumpedBuildsChanges;
+    },
+    mergeBuildsChanges(buildsChanges, targetBuildsChanges, checkIfHasAny=false) {
+      for (const newBuildChanges of buildsChanges) {
+        let found = false;
+
+        if (!newBuildChanges.items.length) {
+          continue;
+        }
+
+        for (const buildChanges of targetBuildsChanges) {
+          if (buildChanges.build.filename !== newBuildChanges.build.filename ||
+              buildChanges.build.version !== newBuildChanges.build.version) {
+            continue;
+          }
+
+          found = true;
+
+          if (!checkIfHasAny || buildChanges.items.length !== 0) {
+            buildChanges.items = buildChanges.items.concat(newBuildChanges.items);
+            newBuildChanges.items = [];
+          }
+
+          break;
+        }
+
+        if (!found) {
+          targetBuildsChanges.push(newBuildChanges);
+        }
+      }
+    },
+    sortBuildsChanges(buildsChanges) {
+      buildsChanges.sort((first, second) => {
+        if (first.build.filename === 'next') {
+          if (second.build.filename === 'next') {
+            return parseFloat(second.build.version) - parseFloat(first.build.version);
+          } else {
+            return -1;
+          }
+        } else {
+          if (second.build.filename === 'next') {
+            return 1;
+          }
+        }
+
+        return second.build.datetime - first.build.datetime;
+      });
+
+      for (const buildChanges of buildsChanges) {
+        buildChanges.items.sort((first, second) => {
+          return second.submitted - first.submitted;
+        });
+      }
+    },
     isScrolledToBottom(el) {
-      return el.scrollTop + el.offsetHeight >= el.scrollHeight - 64;
+      return el.scrollHeight - el.scrollTop === el.clientHeight;
     },
     checkScrolledToBottom() {
-      let scrollable = this.scrollbar.getScrollElement();
-      if (!this.isScrolledToBottom(scrollable)) {
+      if (!this.isScrolledToBottom(this.scrollable)) {
         return;
       }
 
       this.loadMoreChanges();
     },
-    mergeBuildsChanges(buildsChanges) {
-      for (const newBuildChanges of buildsChanges) {
-        let found = false;
-
-        for (const buildChanges of this.buildsChanges) {
-          if (buildChanges.for !== newBuildChanges.for) {
-            continue;
-          }
-
-          found = true;
-          buildChanges.items = buildChanges.items.concat(newBuildChanges.items);
-          break;
-        }
-
-        if (!found) {
-          this.buildsChanges.push(newBuildChanges);
-        }
-      }
-    },
     afterLoad() {
       this.page += 1;
 
       this.$nextTick(() => {
-        this.isLoading = false;
+        this.setLoading(false);
         this.checkScrolledToBottom();
       });
     },
@@ -124,7 +173,12 @@ export default {
             },
           })
           .then(response => {
-            this.mergeBuildsChanges(response.data);
+            const buildsChanges = response.data;
+            const bumpedBuildsChanges = this.extractBumpedChanges(buildsChanges);
+            this.mergeBuildsChanges(bumpedBuildsChanges, this.bumpedBuildsChanges);
+            this.mergeBuildsChanges(buildsChanges, this.buildsChanges);
+            this.mergeBuildsChanges(this.bumpedBuildsChanges, this.buildsChanges, true);
+            this.sortBuildsChanges(this.buildsChanges);
             this.afterLoad();
           })
           .catch(err => {
@@ -154,7 +208,7 @@ export default {
         return;
       }
 
-      this.isLoading = true;
+      this.setLoading(true);
 
       if (this.model) {
         this.loadDeviceChanges();
@@ -170,23 +224,8 @@ export default {
 .changes {
   width: 100%;
   max-height: 100%;
-
   overflow: auto;
+
   position: relative;
-}
-
-.changes .header {
-  padding: 16px 16px 0 16px;
-  font-size: 12px;
-  font-weight: 500;
-  text-transform: uppercase;
-  color: #167c80;
-  letter-spacing: 1px;
-}
-
-.changes .loading {
-  position: absolute;
-  top: 0;
-  left: 0;
 }
 </style>

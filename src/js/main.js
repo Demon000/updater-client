@@ -13,6 +13,7 @@ import Device from '../components/device/Device.vue';
 import Changes from '../components/changes/Changes.vue';
 import Builds from '../components/builds/Builds.vue';
 import Home from '../components/home/Home.vue';
+import store from './store';
 
 const router = createRouter({
     history: createWebHashHistory(),
@@ -68,5 +69,6 @@ const router = createRouter({
 
 const app = createApp(App);
 
+app.use(store);
 app.use(router);
 app.mount('#app');

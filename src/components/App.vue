@@ -7,11 +7,25 @@
       id="main"
       name="main"
   ></router-view>
+  <horizontal-loader
+      id="loader"
+      v-if="anyLoading"
+  ></horizontal-loader>
 </template>
 
 <script>
+import HorizontalLoader from './utils/HorizontalLoader.vue';
+
 export default {
   name: 'App',
+  components: {
+    HorizontalLoader,
+  },
+  computed: {
+    anyLoading() {
+      return this.$store.getters.anyLoading;
+    },
+  },
 }
 </script>
 
@@ -33,5 +47,11 @@ export default {
 #main {
   flex-grow: 1;
   height: 100%;
+}
+
+#loader {
+  position: absolute;
+  bottom: 0;
+  left: 0;
 }
 </style>

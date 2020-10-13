@@ -50,7 +50,7 @@ export default {
 
   position: relative;
 
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.24);
 
   padding: 0 32px;
 }
@@ -64,8 +64,7 @@ export default {
   justify-content: space-between;
 }
 .navbar .tabs {
-  min-height: 48px;
-  line-height: 48px;
+  line-height: 44px;
 }
 
 .navbar .tabs::v-deep(.tab) {
@@ -76,7 +75,6 @@ export default {
 
   display: inline-block;
 
-  height: 48px;
   font-size: 14px;
   font-weight: 500;
   padding: 0 24px;
