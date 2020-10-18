@@ -23,7 +23,7 @@ export default {
   },
   computed: {
     anyLoading() {
-      return this.$store.getters.anyLoading;
+      return !!this.$store.getters.ongoingRequests;
     },
   },
 }

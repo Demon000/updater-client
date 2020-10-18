@@ -22,17 +22,14 @@
 </template>
 
 <script>
-import axios from 'axios';
 import SidebarOem from './SidebarOem.vue';
-import {API_HOSTNAME} from '../../js/config';
+import ApiService from '../../js/ApiService';
+import {beforeTryError} from '../../js/router_utils';
+
 import HorizontalLoader from '../utils/HorizontalLoader.vue';
-import LoadingMixin from '../utils/LoadingMixin';
 
 export default {
   name: 'Sidebar',
-  mixins: [
-    LoadingMixin,
-  ],
   components: {
     HorizontalLoader,
     SidebarOem,
@@ -45,10 +42,17 @@ export default {
   },
   data() {
     return {
-      oems: [],
       filterText: '',
     };
   },
+  computed: {
+    oems() {
+      return this.$store.getters.oems;
+    }
+  },
+  beforeRouteEnter: beforeTryError(() => {
+    return ApiService.loadOems();
+  }),
   watch: {
     activeModel() {
       this.refreshDevices();
@@ -56,30 +60,13 @@ export default {
     filterText() {
       this.onFilterChange();
     },
-  },
-  mounted() {
-    this.loadOems();
+    oems() {
+      this.refreshDevices();
+    },
   },
   methods: {
     clearFilterText() {
       this.filterText = '';
-    },
-    loadOems() {
-      this.setLoading(true);
-
-      axios
-          .get(`${API_HOSTNAME}/api/v2/oems`)
-          .then(response => {
-            this.oems = response.data;
-            this.refreshDevices();
-
-            this.$nextTick(() => {
-              this.setLoading(false);
-            });
-          })
-          .catch(err => {
-            console.error(err);
-          });
     },
     resetFilterDevices() {
       for (const oem of this.oems) {

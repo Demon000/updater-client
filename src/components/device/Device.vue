@@ -54,18 +54,17 @@
 </template>
 
 <script>
-import axios from "axios";
-import {API_HOSTNAME} from '../../js/config';
-
 import Navbar from '../navbar/Navbar.vue';
 import HorizontalLoader from '../utils/HorizontalLoader.vue';
-import LoadingMixin from '../utils/LoadingMixin';
+import ApiService from '../../js/ApiService';
+import {beforeTryError} from '../../js/router_utils';
+
+const loadDeviceBeforeHook = beforeTryError((to) => {
+  return ApiService.loadDevice(to.params.model);
+});
 
 export default {
   name: 'Device',
-  mixins: [
-    LoadingMixin,
-  ],
   components: {
     Navbar,
     HorizontalLoader,
@@ -83,9 +82,10 @@ export default {
       install_url: '',
       name: '',
       oem: '',
-      versions: [],
     };
   },
+  beforeRouteEnter: loadDeviceBeforeHook,
+  beforeRouteUpdate: loadDeviceBeforeHook,
   watch: {
     model() {
       this.loadDeviceDetails();
@@ -96,27 +96,17 @@ export default {
   },
   methods: {
     loadDeviceDetails() {
-      this.setLoading(true);
+      const data = this.$store.getters.getDevice(this.model);
+      if (!data) {
+        throw new Error('Failed to get device data');
+      }
 
-      axios
-          .get(`${API_HOSTNAME}/api/v2/devices/${this.model}`)
-          .then(response => {
-            [
-              'builds',
-              'info_url',
-              'install_url',
-              'name',
-              'oem',
-              'versions'
-            ].forEach(k => this[k] = response.data[k]);
-
-            this.$nextTick(() => {
-              this.setLoading(false);
-            });
-          })
-          .catch(err => {
-            console.error(err);
-          });
+      [
+        'info_url',
+        'install_url',
+        'name',
+        'oem',
+      ].forEach(k => this[k] = data[k]);
     },
   },
 }

@@ -17,18 +17,22 @@
 </template>
 
 <script>
-import axios from 'axios';
 import SimpleBar from 'simplebar';
-import {API_HOSTNAME} from '../../js/config';
 import Change from './Change.vue';
 import BuildChanges from './BuildChanges.vue';
-import LoadingMixin from '../utils/LoadingMixin';
+import ApiService from '../../js/ApiService';
+import {beforeTryError} from '../../js/router_utils';
+
+const loadDeviceBuildsBeforeHook = beforeTryError((to) => {
+  if (!to.params.model) {
+    return;
+  }
+
+  return ApiService.loadDeviceBuilds(to.params.model);
+});
 
 export default {
   name: 'Changes',
-  mixins: [
-    LoadingMixin,
-  ],
   components: {
     BuildChanges,
     Change,
@@ -39,112 +43,40 @@ export default {
   data() {
     return {
       buildsChanges: [],
-      bumpedBuildsChanges: [],
-      changes: [],
-      page: 0,
       scrollbar: null,
       scrollable: null,
     };
   },
+  computed: {
+    changes() {
+      return this.$store.getters.changes;
+    },
+  },
+  beforeRouteEnter: loadDeviceBuildsBeforeHook,
+  beforeRouteUpdate: loadDeviceBuildsBeforeHook,
   watch: {
     model() {
-      this.reloadChanges();
+      this.reloadDeviceChanges();
+    },
+    changes() {
+      this.reloadDeviceChanges();
     },
   },
   mounted() {
-    this.reloadChanges();
-
     this.scrollbar = new SimpleBar(this.$refs.scrollable);
     this.scrollable = this.scrollbar.getScrollElement();
     this.scrollable.addEventListener('scroll', this.checkScrolledToBottom);
+
+    this.loadMoreChanges();
   },
   unmounted() {
     this.scrollable.removeEventListener('scroll', this.checkScrolledToBottom);
     this.scrollbar.unMount();
   },
   methods: {
-    reloadChanges() {
-      this.changes = [];
-      this.buildsChanges = [];
-      this.page = 0;
-      this.loadMoreChanges();
-    },
-    extractBumpedChanges(buildsChanges) {
-      const bumpedBuildsChanges = [];
-
-      for (const newBuildChanges of buildsChanges) {
-        if (!newBuildChanges.items.length) {
-          continue;
-        }
-
-        const bumpedBuildChanges = {
-          build: newBuildChanges.build,
-          items: [],
-        };
-
-        for (let i = newBuildChanges.items.length - 1; i >= 0; i--) {
-          const change = newBuildChanges.items[i];
-          if (change.updated > change.submitted) {
-            bumpedBuildChanges.items.push(change);
-            newBuildChanges.items.splice(i, 1);
-          }
-        }
-
-        bumpedBuildsChanges.push(bumpedBuildChanges);
-      }
-
-      return bumpedBuildsChanges;
-    },
-    mergeBuildsChanges(buildsChanges, targetBuildsChanges, checkIfHasAny=false) {
-      for (const newBuildChanges of buildsChanges) {
-        let found = false;
-
-        if (!newBuildChanges.items.length) {
-          continue;
-        }
-
-        for (const buildChanges of targetBuildsChanges) {
-          if (buildChanges.build.filename !== newBuildChanges.build.filename ||
-              buildChanges.build.version !== newBuildChanges.build.version) {
-            continue;
-          }
-
-          found = true;
-
-          if (!checkIfHasAny || buildChanges.items.length !== 0) {
-            buildChanges.items = buildChanges.items.concat(newBuildChanges.items);
-            newBuildChanges.items = [];
-          }
-
-          break;
-        }
-
-        if (!found) {
-          targetBuildsChanges.push(newBuildChanges);
-        }
-      }
-    },
-    sortBuildsChanges(buildsChanges) {
-      buildsChanges.sort((first, second) => {
-        if (first.build.filename === 'next') {
-          if (second.build.filename === 'next') {
-            return parseFloat(second.build.version) - parseFloat(first.build.version);
-          } else {
-            return -1;
-          }
-        } else {
-          if (second.build.filename === 'next') {
-            return 1;
-          }
-        }
-
-        return second.build.datetime - first.build.datetime;
-      });
-
-      for (const buildChanges of buildsChanges) {
-        buildChanges.items.sort((first, second) => {
-          return second.submitted - first.submitted;
-        });
+    reloadDeviceChanges() {
+      if (this.model) {
+        this.buildsChanges = ApiService.getDeviceChanges(this.model);
       }
     },
     isScrolledToBottom(el) {
@@ -157,63 +89,12 @@ export default {
 
       this.loadMoreChanges();
     },
-    afterLoad() {
-      this.page += 1;
-
-      this.$nextTick(() => {
-        this.setLoading(false);
+    async loadMoreChanges() {
+      try {
+        await ApiService.loadMoreChanges();
         this.checkScrolledToBottom();
-      });
-    },
-    loadDeviceChanges() {
-      axios
-          .get(`${API_HOSTNAME}/api/v2/devices/${this.model}/changes`, {
-            params: {
-              page: this.page,
-            },
-          })
-          .then(response => {
-            const buildsChanges = response.data;
-            const bumpedBuildsChanges = this.extractBumpedChanges(buildsChanges);
-            this.mergeBuildsChanges(bumpedBuildsChanges, this.bumpedBuildsChanges);
-            this.mergeBuildsChanges(buildsChanges, this.buildsChanges);
-            this.mergeBuildsChanges(this.bumpedBuildsChanges, this.buildsChanges, true);
-            this.sortBuildsChanges(this.buildsChanges);
-            this.afterLoad();
-          })
-          .catch(err => {
-            console.error(err);
-          });
-    },
-    mergeAllChanges(changes) {
-      this.changes = this.changes.concat(changes);
-    },
-    loadAllChanges() {
-      axios
-          .get(`${API_HOSTNAME}/api/v2/changes`, {
-            params: {
-              page: this.page,
-            },
-          })
-          .then(response => {
-            this.mergeAllChanges(response.data);
-            this.afterLoad();
-          })
-          .catch(err => {
-            console.error(err);
-          });
-    },
-    loadMoreChanges() {
-      if (this.isLoading) {
-        return;
-      }
-
-      this.setLoading(true);
-
-      if (this.model) {
-        this.loadDeviceChanges();
-      } else {
-        this.loadAllChanges();
+      } catch (err) {
+        console.error(err);
       }
     },
   },

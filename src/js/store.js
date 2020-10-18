@@ -3,26 +3,55 @@ import { createStore } from 'vuex'
 export default createStore({
     state() {
         return {
-            loading: {},
+            ongoingRequests: 0,
+            oems: [],
+            devices: {},
+            builds: {},
+            changes: {
+                page: -1,
+                items: [],
+            },
         };
     },
     mutations: {
-        loading(state, payload) {
-            state.loading[payload.uid] = !!payload.value;
+        startRequest(state) {
+            state.ongoingRequests++;
+        },
+        endRequest(state) {
+            state.ongoingRequests--;
+        },
+        setOems(state, oems) {
+            state.oems = oems;
+        },
+        setDevice(state, payload) {
+            state.devices[payload.model] = payload.data;
+        },
+        setDeviceBuilds(state, payload) {
+            state.builds[payload.model] = payload.data;
+        },
+        addNextChangesPage(state, changes) {
+            state.changes.items = state.changes.items.concat(changes);
+            state.changes.page++;
         },
     },
     getters: {
-        anyLoading(state) {
-            for (const property in Object.getOwnPropertyNames(state.loading)) {
-                if (state.loading[property]) {
-                    return true;
-                }
-            }
-
-            return false;
+        ongoingRequests(state) {
+            return state.ongoingRequests;
         },
-        loading: (state) => (uid) => {
-            return state.loading[uid];
+        oems(state) {
+            return state.oems;
+        },
+        getDevice: (state) => (model) => {
+            return state.devices[model];
+        },
+        getDeviceBuilds: (state) => (model) => {
+            return state.builds[model];
+        },
+        changes(state) {
+            return state.changes.items;
+        },
+        changesPage(state) {
+            return state.changes.page;
         },
     },
 });
