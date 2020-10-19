@@ -197,7 +197,6 @@ export default class ApiService {
 
     static conditionalInsertMany(items, newItems, compareFn) {
         for (const newChange of newItems) {
-            console.log(newChange)
             this.conditionalInsertOne(items, newChange, compareFn);
         }
     }

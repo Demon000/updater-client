@@ -1,11 +1,12 @@
 <template>
-  <transition name="expand"
-              @enter="enter"
-              @after-enter="afterEnter"
-              @leave="leave"
-              v-bind:style="{
-                  transition: `height ${this.speed} ${this.type}`,
-              }"
+  <transition
+      name="expand"
+      @enter="enter"
+      @after-enter="afterEnter"
+      @leave="leave"
+      v-bind:style="{
+        transition: `height ${this.speed} ${this.timing}`,
+      }"
   >
     <slot/>
   </transition>
@@ -16,11 +17,11 @@
 export default {
   name: 'HeightTransition',
   props: {
-    'speed': {
+    speed: {
       type: String,
       default: '0.25s',
     },
-    'type': {
+    timing: {
       type: String,
       default: 'ease-out',
     },
@@ -65,10 +66,5 @@ export default {
 .expand-enter-active,
 .expand-leave-active {
   overflow: hidden;
-}
-
-.expand-enter,
-.expand-leave-to {
-  height: 0;
 }
 </style>

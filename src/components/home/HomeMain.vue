@@ -1,5 +1,5 @@
 <template>
-  <div class="home">
+  <div class="home-main">
     <navbar>
       <template v-slot:left>
       <span class="text">
@@ -10,15 +10,25 @@
         <router-link
             class="tab"
             v-bind:to="{
-            name: 'home_changes',
-          }"
+              name: 'home_devices',
+            }"
+        >
+          Devices
+        </router-link>
+        <router-link
+            class="tab"
+            v-bind:to="{
+              name: 'home_changes',
+            }"
         >
           Changes
         </router-link>
       </template>
     </navbar>
 
-    <router-view class="content"></router-view>
+    <div class="content">
+      <router-view></router-view>
+    </div>
   </div>
 </template>
 
@@ -26,7 +36,7 @@
 import Navbar from '../navbar/Navbar.vue';
 
 export default {
-  name: 'Home',
+  name: 'HomeMain',
   components: {
     Navbar,
   },
@@ -34,16 +44,17 @@ export default {
 </script>
 
 <style scoped>
-.home {
+.home-main {
   display: flex;
   flex-direction: column;
 }
 
-.home .navbar {
+.home-main .navbar {
   flex-shrink: 0;
 }
 
-.home .content {
+.home-main .content {
   flex-grow: 1;
+  overflow: auto;
 }
 </style>

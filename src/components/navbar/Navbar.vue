@@ -51,25 +51,31 @@ export default {
   position: relative;
 
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.24);
-
-  padding: 0 32px;
 }
 
 .navbar .top {
-  padding: 16px 0;
   line-height: 24px;
-  min-height: 56px;
+  padding: 16px 24px;
 
   display: flex;
   justify-content: space-between;
 }
+
+.navbar .left {
+  display: flex;
+}
+
 .navbar .tabs {
-  line-height: 44px;
+  line-height: 16px;
+
+  overflow: auto;
+  white-space: nowrap;
+
+  display: flex;
 }
 
 .navbar .tabs::v-deep(.tab) {
-  vertical-align: top;
-
+  padding: 8px 24px 16px 24px;
   text-decoration: none;
   color: rgba(0, 0, 0, 0.87);
 
@@ -77,7 +83,6 @@ export default {
 
   font-size: 14px;
   font-weight: 500;
-  padding: 0 24px;
   text-transform: uppercase;
 }
 

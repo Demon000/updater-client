@@ -1,19 +1,13 @@
 <template>
-  <div class="builds">
+  <div class="builds-tab-page">
     <div
         class="banner"
         v-if="!bannerHidden"
     >
       <div class="text">
-        You can verify a file has not been tampered with by checking its signature.
+        You can verify that a file has not been tampered with by checking its signature.
       </div>
       <div class="buttons">
-        <a
-            class="button"
-            v-on:click="hideBanner"
-        >
-          Got it
-        </a>
         <a
             class="button"
             href="https://wiki.lineageos.org/verifying-builds.html"
@@ -22,23 +16,31 @@
           Learn more
           <span class="mdi mdi-open-in-new"></span>
         </a>
+        <a
+            class="button"
+            v-on:click="hideBanner"
+        >
+          Got it
+        </a>
       </div>
     </div>
-    <div class="content">
-      <div
-          class="build"
-          v-for="build in builds"
-      >
-        {{ build.filename }}
+    <div
+        class="list-container"
+        data-simplebar
+    >
+      <div class="list">
+        <template v-for="build in builds">
+          <build-group v-bind="build"></build-group>
+        </template>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import HeightTransition from '../utils/HeightTransition.vue';
 import ApiService from '../../js/ApiService';
 import {beforeTryError} from '../../js/router_utils';
+import BuildGroup from './BuildGroup.vue';
 
 const VERIFY_BUILD_BANNER_HIDE = 'verify-build-banner-hide';
 
@@ -49,7 +51,7 @@ const loadDeviceBuildsBeforeHook = beforeTryError((to) => {
 export default {
   name: 'Builds',
   components: {
-    HeightTransition,
+    BuildGroup,
   },
   props: {
     model: String,
@@ -92,33 +94,44 @@ export default {
 </script>
 
 <style scoped>
-.builds .banner {
-  padding: 16px;
+.builds-tab-page {
+  width: 100%;
+  height: 100%;
 
-  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+  display: flex;
 }
 
-.builds .banner {
+.builds-tab-page .banner {
+  flex-shrink: 0;
+
+  width: 100%;
+
   display: flex;
   justify-content: space-between;
   align-items: center;
+
+  line-height: 32px;
+
+  padding: 16px 16px 15px 16px;
+
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
 }
-.builds .banner.hidden {
+.builds-tab-page .banner.hidden {
   display: none;
 }
 
-.builds .banner .button {
-  vertical-align: middle;
+.builds-tab-page .banner .button {
+  vertical-align: top;
 
   text-decoration: none;
   color: #167c80;
 
   display: inline-block;
 
-  line-height: 36px;
   font-size: 14px;
   font-weight: 500;
-  padding: 0 24px;
+  padding: 0 16px;
+  margin: 0 8px;
   text-transform: uppercase;
 
   border-radius: 2px;
@@ -130,15 +143,31 @@ export default {
   user-select: none;
 }
 
-.builds .banner .button:hover {
+.builds-tab-page .banner .button:hover {
   background: rgba(22, 124, 128, 0.15);
 }
 
-.builds .banner .button:active {
+.builds-tab-page .banner .button:active {
   background: rgba(22, 124, 128, 0.35);
 }
 
-.builds .content {
-  padding: 16px;
+.builds-tab-page .list-container {
+  flex-grow: 1;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
 }
+
+.builds-tab-page .list {
+  min-width: 0;
+  max-width: 756px;
+  margin: 0 auto;
+}
+
+@media (max-width: 1024px) {
+  .builds-tab-page .banner .buttons {
+    text-align: right;
+  }
+}
+
 </style>

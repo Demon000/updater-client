@@ -1,5 +1,5 @@
 <template>
-  <div class="device">
+  <div class="device-main">
     <navbar>
       <template v-slot:left>
         <span class="oem">{{ oem }}</span>
@@ -49,13 +49,14 @@
       </template>
     </navbar>
 
-    <router-view class="content"></router-view>
+    <div class="content">
+      <router-view></router-view>
+    </div>
   </div>
 </template>
 
 <script>
 import Navbar from '../navbar/Navbar.vue';
-import HorizontalLoader from '../utils/HorizontalLoader.vue';
 import ApiService from '../../js/ApiService';
 import {beforeTryError} from '../../js/router_utils';
 
@@ -64,10 +65,9 @@ const loadDeviceBeforeHook = beforeTryError((to) => {
 });
 
 export default {
-  name: 'Device',
+  name: 'DeviceMain',
   components: {
     Navbar,
-    HorizontalLoader,
   },
   props: {
     model: {
@@ -113,39 +113,31 @@ export default {
 </script>
 
 <style scoped>
-.device {
+.device-main {
   display: flex;
   flex-direction: column;
 }
 
-.device .navbar {
+.device-main .navbar {
   flex-shrink: 0;
 }
 
-.device .navbar .oem,
-.device .navbar .arrow,
-.device .navbar .name,
-.device .navbar .model,
-.device .navbar .text {
-  display: inline-block;
-  vertical-align: top;
-}
-
-.device .navbar .arrow,
-.device .navbar .model {
+.device-main .navbar .arrow,
+.device-main .navbar .model {
   margin: 0 8px;
 }
 
-.device .navbar .arrow {
+.device-main .navbar .arrow {
   height: 24px;
 }
 
-.device .navbar .model {
+.device-main .navbar .model {
   font-size: 16px;
   color: rgba(0, 0, 0, 0.5);
 }
 
-.device .content {
+.device-main .content {
   flex-grow: 1;
+  overflow: auto;
 }
 </style>

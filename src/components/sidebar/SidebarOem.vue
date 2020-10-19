@@ -6,9 +6,14 @@
         'hidden': hidden,
       }"
   >
-    <template v-slot:title="{ isExpanded }">
+    <template
+        v-slot:title="{
+          isExpanded,
+          toggleManualExpansion,
+        }">
       <div
           class="title-container"
+          v-on:click="toggleManualExpansion"
           v-bind:class="{
             expanded: isExpanded
           }"
@@ -44,17 +49,13 @@ import SidebarDevice from './SidebarDevice.vue';
 export default {
   name: 'SidebarOem',
   props: {
-    'name': {
-      type: String,
-    },
-    'devices': {
-      type: Array,
-    },
-    'forceExpanded': {
+    name: String,
+    devices: Array,
+    forceExpanded: {
       type: Boolean,
       default: false,
     },
-    'hidden': {
+    hidden: {
       type: Boolean,
       default: false,
     },

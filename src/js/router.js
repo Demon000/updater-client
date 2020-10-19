@@ -1,11 +1,12 @@
 import {createRouter, createWebHashHistory} from 'vue-router';
 
 import Sidebar from '../components/sidebar/Sidebar.vue';
-import Home from '../components/home/Home.vue';
-import Changes from '../components/changes/Changes.vue';
-import Device from '../components/device/Device.vue';
-import Builds from '../components/builds/Builds.vue';
-import Error from '../components/home/Error.vue';
+import HomeMain from '../components/home/HomeMain.vue';
+import ChangesTabPage from '../components/changes/ChangesTabPage.vue';
+import DeviceMain from '../components/device/DeviceMain.vue';
+import Builds from '../components/builds/BuildsTabPage.vue';
+import ErrorMain from '../components/error/ErrorMain.vue';
+import DevicesTabPage from '../components/devices/DevicesTabPage.vue';
 import ApiService from './ApiService';
 
 export default createRouter({
@@ -16,14 +17,19 @@ export default createRouter({
             name: 'home',
             components: {
                 sidebar: Sidebar,
-                main: Home,
+                main: HomeMain,
             },
             children: [
                 {
                     path: '',
                     name: 'home_changes',
-                    component: Changes,
+                    component: ChangesTabPage,
                 },
+                {
+                    path: 'devices',
+                    name: 'home_devices',
+                    component: DevicesTabPage,
+                }
             ],
         },
         {
@@ -31,7 +37,7 @@ export default createRouter({
             name: 'device',
             components: {
                 sidebar: Sidebar,
-                main: Device,
+                main: DeviceMain,
             },
             props: {
                 sidebar(route) {
@@ -47,24 +53,13 @@ export default createRouter({
                     name: 'device_builds',
                     component: Builds,
                     props: true,
-                    async beforeEnter(to, from, next) {
-                        try {
-                            await ApiService.loadDeviceBuilds(to.params.model);
-                        } catch (err) {
-                            console.error(err);
-                            return;
-                        }
-
-                        next();
-                    },
                 },
                 {
                     path: 'changes',
                     name: 'device_changes',
-                    component: Changes,
+                    component: ChangesTabPage,
                     props: true,
                 },
-
             ],
         },
         {
@@ -73,7 +68,7 @@ export default createRouter({
             props: true,
             components: {
                 sidebar: Sidebar,
-                main: Error,
+                main: ErrorMain,
             },
         }
     ],

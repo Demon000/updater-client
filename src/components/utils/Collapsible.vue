@@ -1,7 +1,10 @@
 <template>
   <div>
-    <div v-on:click="toggleManualExpansion">
-      <slot name="title" v-bind:isExpanded="isExpanded"></slot>
+    <div>
+      <slot name="title"
+            v-bind:isExpanded="isExpanded"
+            v-bind:toggleManualExpansion="toggleManualExpansion"
+      ></slot>
     </div>
     <height-transition>
       <slot name="content" v-if="isExpanded"></slot>

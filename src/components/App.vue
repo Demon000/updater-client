@@ -40,13 +40,13 @@ export default {
 #sidebar {
   width: 300px;
   max-width: 30%;
-  min-width: 128px;
   height: 100%;
 }
 
 #main {
   flex-grow: 1;
   height: 100%;
+  width: 100%;
 }
 
 #loader {

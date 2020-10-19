@@ -1,12 +1,12 @@
 <template>
-  <div class="error">
+  <div class="error-main">
     <span>{{ message }}</span>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'Error',
+  name: 'ErrorMain',
   props: {
     message: {
       type: String,
@@ -17,7 +17,7 @@ export default {
 </script>
 
 <style scoped>
-.error {
+.error-main {
   display: flex;
   align-items: center;
   justify-content: center;

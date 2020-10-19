@@ -1,10 +1,10 @@
 <template>
   <div class="sidebar">
-    <router-link to="/">
-      <div class="logo">
+    <div class="logo">
+      <router-link to="/">
         <img src="../../assets/header.png" alt="LineageOS Logo">
-      </div>
-    </router-link>
+      </router-link>
+    </div>
     <div class="search-container">
       <input type="text" placeholder="Search..." v-model="filterText">
       <i class="mdi mdi-close clear" v-on:click="clearFilterText"></i>
@@ -23,109 +23,26 @@
 
 <script>
 import SidebarOem from './SidebarOem.vue';
-import ApiService from '../../js/ApiService';
-import {beforeTryError} from '../../js/router_utils';
 
-import HorizontalLoader from '../utils/HorizontalLoader.vue';
+import HeightTransition from '../utils/HeightTransition.vue';
+import DeviceSelector from '../device-selector/DeviceSelectorMixin';
+import {beforeTryError} from '../../js/router_utils';
+import ApiService from '../../js/ApiService';
 
 export default {
   name: 'Sidebar',
+  mixins: [
+      DeviceSelector,
+  ],
   components: {
-    HorizontalLoader,
+    HeightTransition,
     SidebarOem,
-  },
-  props: {
-    activeModel: {
-      type: String,
-      default: 'all',
-    },
-  },
-  data() {
-    return {
-      filterText: '',
-    };
-  },
-  computed: {
-    oems() {
-      return this.$store.getters.oems;
-    }
   },
   beforeRouteEnter: beforeTryError(() => {
     return ApiService.loadOems();
   }),
-  watch: {
-    activeModel() {
-      this.refreshDevices();
-    },
-    filterText() {
-      this.onFilterChange();
-    },
-    oems() {
-      this.refreshDevices();
-    },
-  },
-  methods: {
-    clearFilterText() {
-      this.filterText = '';
-    },
-    resetFilterDevices() {
-      for (const oem of this.oems) {
-        oem.forceExpanded = false;
-        oem.hidden = false;
-        for (const device of oem.devices) {
-          device.hidden = false;
-          device.selected = false;
-        }
-      }
-    },
-    selectActiveDevice() {
-      for (const oem of this.oems) {
-        for (const device of oem.devices) {
-          if (device.model === this.activeModel) {
-            oem.forceExpanded = true;
-            oem.hidden = false;
-            device.hidden = false;
-            device.selected = true;
-          }
-        }
-      }
-    },
-    refreshDevices() {
-      this.resetFilterDevices();
-      this.selectActiveDevice();
-    },
-    filterDevices(filterText) {
-      if (!filterText) {
-        this.refreshDevices();
-        return;
-      }
-
-      this.resetFilterDevices();
-
-      for (const oem of this.oems) {
-        if (oem.name.toLowerCase().includes(filterText)) {
-          oem.forceExpanded = true;
-          continue;
-        }
-
-        oem.hidden = true;
-        for (const device of oem.devices) {
-          device.hidden = true;
-
-          if (device.name.toLowerCase().includes(filterText) ||
-              device.model.toLowerCase().includes(filterText)) {
-            oem.forceExpanded = true;
-            oem.hidden = false;
-            device.hidden = false;
-          }
-        }
-      }
-
-      this.selectActiveDevice();
-    },
-    onFilterChange() {
-      this.filterDevices(this.filterText.toLowerCase());
-    },
+  mounted() {
+    this.refreshDevices();
   },
 }
 </script>
@@ -149,7 +66,7 @@ export default {
 
   background: #167c80;
 
-  height: 104px;
+  height: 100px;
 }
 .sidebar .logo img {
   height: 40px;

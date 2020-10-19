@@ -1,25 +1,29 @@
 <template>
-  <div
-      class="changes"
-      ref="scrollable"
-  >
-    <template v-if="model">
-      <template v-for="buildChanges in buildsChanges">
-        <build-changes v-bind="buildChanges"></build-changes>
-      </template>
-    </template>
-    <template v-else>
-      <template v-for="change in changes">
-        <change v-bind="change"></change>
-      </template>
-    </template>
+  <div class="changes-tab-page">
+    <div
+        class="list-container"
+        ref="scrollable"
+    >
+      <div class="list">
+        <template v-if="model">
+          <template v-for="buildChanges in buildsChanges">
+            <changes-group v-bind="buildChanges"></changes-group>
+          </template>
+        </template>
+        <template v-else>
+          <template v-for="change in changes">
+            <change v-bind="change"></change>
+          </template>
+        </template>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
 import SimpleBar from 'simplebar';
 import Change from './Change.vue';
-import BuildChanges from './BuildChanges.vue';
+import ChangesGroup from './ChangesGroup.vue';
 import ApiService from '../../js/ApiService';
 import {beforeTryError} from '../../js/router_utils';
 
@@ -32,9 +36,9 @@ const loadDeviceBuildsBeforeHook = beforeTryError((to) => {
 });
 
 export default {
-  name: 'Changes',
+  name: 'ChangesTabPage',
   components: {
-    BuildChanges,
+    ChangesGroup,
     Change,
   },
   props: {
@@ -45,6 +49,7 @@ export default {
       buildsChanges: [],
       scrollbar: null,
       scrollable: null,
+      stopLoading: false,
     };
   },
   computed: {
@@ -60,18 +65,21 @@ export default {
     },
     changes() {
       this.reloadDeviceChanges();
+      this.checkScrolledToBottom();
     },
   },
   mounted() {
+    this.stopLoading = false;
     this.scrollbar = new SimpleBar(this.$refs.scrollable);
     this.scrollable = this.scrollbar.getScrollElement();
     this.scrollable.addEventListener('scroll', this.checkScrolledToBottom);
 
-    this.loadMoreChanges();
+    this.checkScrolledToBottom();
   },
   unmounted() {
     this.scrollable.removeEventListener('scroll', this.checkScrolledToBottom);
     this.scrollbar.unMount();
+    this.stopLoading = true;
   },
   methods: {
     reloadDeviceChanges() {
@@ -80,10 +88,14 @@ export default {
       }
     },
     isScrolledToBottom(el) {
-      return el.scrollHeight - el.scrollTop === el.clientHeight;
+      return el.scrollHeight - el.scrollTop - el.clientHeight < 1;
     },
     checkScrolledToBottom() {
       if (!this.isScrolledToBottom(this.scrollable)) {
+        return;
+      }
+
+      if (this.stopLoading) {
         return;
       }
 
@@ -92,7 +104,6 @@ export default {
     async loadMoreChanges() {
       try {
         await ApiService.loadMoreChanges();
-        this.checkScrolledToBottom();
       } catch (err) {
         console.error(err);
       }
@@ -102,11 +113,23 @@ export default {
 </script>
 
 <style scoped>
-.changes {
+.changes-tab-page {
   width: 100%;
-  max-height: 100%;
-  overflow: auto;
+  height: 100%;
 
-  position: relative;
+  display: flex;
+}
+
+.changes-tab-page .list-container {
+  flex-grow: 1;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+}
+
+.changes-tab-page .list {
+  min-width: 0;
+  max-width: 756px;
+  margin: 0 auto;
 }
 </style>
