@@ -1,5 +1,11 @@
 <template>
+  <div class="devices-tab-page tab-page">
+    <div class="list-container">
+      <div class="list">
 
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -14,5 +20,5 @@ export default {
 </script>
 
 <style scoped>
-
+@import '../../css/tab-page.css';
 </style>

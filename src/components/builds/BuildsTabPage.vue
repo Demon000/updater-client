@@ -1,5 +1,5 @@
 <template>
-  <div class="builds-tab-page">
+  <div class="builds-tab-page tab-page">
     <div
         class="banner"
         v-if="!bannerHidden"
@@ -94,52 +94,51 @@ export default {
 </script>
 
 <style scoped>
-.builds-tab-page {
-  width: 100%;
-  height: 100%;
-
-  display: flex;
-}
+@import '../../css/tab-page.css';
 
 .builds-tab-page .banner {
   flex-shrink: 0;
-
-  width: 100%;
 
   display: flex;
   justify-content: space-between;
   align-items: center;
 
-  line-height: 32px;
+  line-height: 24px;
 
   padding: 16px 16px 15px 16px;
 
   border-bottom: 1px solid rgba(0, 0, 0, 0.12);
 }
+
 .builds-tab-page .banner.hidden {
   display: none;
 }
 
-.builds-tab-page .banner .button {
-  vertical-align: top;
-
+.builds-tab-page .banner .text {
+  padding: 4px 0;
+}
+.builds-tab-page .banner .buttons {
   text-decoration: none;
-  color: #167c80;
-
-  display: inline-block;
-
+  text-transform: uppercase;
+  line-height: 32px;
   font-size: 14px;
   font-weight: 500;
+}
+
+.builds-tab-page .banner .button {
   padding: 0 16px;
   margin: 0 8px;
-  text-transform: uppercase;
-
   border-radius: 2px;
 
-  cursor: pointer;
+  display: inline-block;
+  vertical-align: top;
+
+  color: #167c80;
+  text-decoration: none;
 
   transition: background 0.25s ease-out;
 
+  cursor: pointer;
   user-select: none;
 }
 
@@ -151,20 +150,11 @@ export default {
   background: rgba(22, 124, 128, 0.35);
 }
 
-.builds-tab-page .list-container {
-  flex-grow: 1;
-  width: 100%;
-  height: 100%;
-  overflow: auto;
-}
-
-.builds-tab-page .list {
-  min-width: 0;
-  max-width: 756px;
-  margin: 0 auto;
-}
-
 @media (max-width: 1024px) {
+  .builds-tab-page .banner {
+    display: block;
+  }
+
   .builds-tab-page .banner .buttons {
     text-align: right;
   }

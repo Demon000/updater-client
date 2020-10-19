@@ -11,6 +11,14 @@
         <router-link
             class="tab"
             v-bind:to="{
+              name: 'home_devices',
+            }"
+        >
+          Devices
+        </router-link>
+        <router-link
+            class="tab"
+            v-bind:to="{
               name: 'device_builds',
               params: {
                 model,
@@ -77,7 +85,6 @@ export default {
   },
   data() {
     return {
-      builds: [],
       info_url: '',
       install_url: '',
       name: '',

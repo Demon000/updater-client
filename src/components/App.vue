@@ -40,6 +40,7 @@ export default {
 #sidebar {
   width: 300px;
   max-width: 30%;
+  min-width: 128px;
   height: 100%;
 }
 
@@ -53,5 +54,11 @@ export default {
   position: absolute;
   bottom: 0;
   left: 0;
+}
+
+@media (max-width: 1024px) {
+  #sidebar {
+    display: none;
+  }
 }
 </style>

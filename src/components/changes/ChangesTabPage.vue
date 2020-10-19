@@ -1,5 +1,5 @@
 <template>
-  <div class="changes-tab-page">
+  <div class="tab-page changes-tab-page">
     <div
         class="list-container"
         ref="scrollable"
@@ -113,23 +113,5 @@ export default {
 </script>
 
 <style scoped>
-.changes-tab-page {
-  width: 100%;
-  height: 100%;
-
-  display: flex;
-}
-
-.changes-tab-page .list-container {
-  flex-grow: 1;
-  width: 100%;
-  height: 100%;
-  overflow: auto;
-}
-
-.changes-tab-page .list {
-  min-width: 0;
-  max-width: 756px;
-  margin: 0 auto;
-}
+@import '../../css/tab-page.css';
 </style>
