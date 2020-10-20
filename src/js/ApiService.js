@@ -94,6 +94,12 @@ export default class ApiService {
         return filteredChanges;
     }
 
+    static distinguishDeviceSpecificChanges(changes) {
+        for (const change of changes) {
+            change.isDeviceSpecific = this.isDeviceSpecificChange(change);
+        }
+    }
+
     static async loadMoreChanges(minPages=-1) {
         const page = store.getters.changesPage + 1;
         if (minPages !== -1 && page >= minPages) {
@@ -110,6 +116,7 @@ export default class ApiService {
                 });
 
             const changes = this.filterChanges(response.data);
+            this.distinguishDeviceSpecificChanges(changes);
             store.commit('addNextChangesPage', changes);
             store.commit('endRequest');
         } catch (err) {

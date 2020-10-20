@@ -9,9 +9,20 @@
     >
       {{ subject }}
     </a>
-    <span class="repository">
+    <div class="repository-type">
+      <span class="type">
+        <template v-if="isDeviceSpecific">
+          device specific
+        </template>
+        <template v-else>
+          platform
+        </template>
+      </span>
+
+      <span class="repository">
         {{ repository }}
       </span>
+    </div>
   </div>
 </template>
 
@@ -22,6 +33,7 @@ export default {
     url: String,
     subject: String,
     repository: String,
+    isDeviceSpecific: Boolean,
   },
 }
 </script>
@@ -44,8 +56,23 @@ export default {
   text-decoration: none;
 }
 
-.change .repository {
-  line-height: 20px;
-  font-size: 12px
+.change .repository-type {
+  font-size: 12px;
+  line-height: 24px;
+
+  display: flex;
+  align-items: center;
+}
+
+.change .type {
+  border-radius: 12px;
+  padding: 0 8px;
+  margin-right: 8px;
+
+  background: rgba(0, 0, 0, 0.15);
+}
+
+#app.dark .change .type {
+  background: rgba(255, 255, 255, 0.15);
 }
 </style>
