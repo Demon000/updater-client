@@ -9,12 +9,13 @@
       </template>
       <template v-slot:tabs>
         <router-link
-            class="tab"
+            class="mobile-visible-tab tab"
             v-bind:to="{
-              name: 'home_devices',
+              name: 'home_index',
             }"
         >
-          Devices
+          Home
+          <i class="mdi mdi-exit-to-app"></i>
         </router-link>
         <router-link
             class="tab"
@@ -78,10 +79,7 @@ export default {
     Navbar,
   },
   props: {
-    model: {
-      type: String,
-      default: undefined,
-    },
+    model: String,
   },
   data() {
     return {
@@ -105,7 +103,7 @@ export default {
     loadDeviceDetails() {
       const data = this.$store.getters.getDevice(this.model);
       if (!data) {
-        throw new Error('Failed to get device data');
+        throw new Error('Failed to get device-main data');
       }
 
       [

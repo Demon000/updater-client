@@ -1,0 +1,192 @@
+<template>
+  <div class="device-selector">
+    <div class="search-container">
+      <input type="text" placeholder="Search..." v-model="filterText">
+      <i class="mdi mdi-close clear" v-on:click="clearFilterText"></i>
+    </div>
+    <div
+        class="oems"
+        data-simplebar
+    >
+      <oem
+          v-for="oem in oems"
+          v-bind="oem"
+      ></oem>
+    </div>
+  </div>
+</template>
+
+<script>
+import ApiService from '../../js/ApiService';
+import Oem from './Oem.vue';
+
+export default {
+  name: 'DeviceSelector',
+  components: {
+    Oem,
+  },
+  props: {
+    activeModel: String,
+  },
+  data() {
+    return {
+      filterText: '',
+    };
+  },
+  computed: {
+    oems() {
+      return this.$store.getters.oems;
+    },
+  },
+  watch: {
+    activeModel() {
+      const cleared = this.clearFilterText();
+      if (!cleared) {
+        this.refreshDevices();
+      }
+    },
+    filterText() {
+      this.onFilterChange();
+    },
+    oems() {
+      this.refreshDevices();
+    },
+  },
+  async beforeMount() {
+    try {
+      await ApiService.loadOems();
+    } catch (err) {
+      console.error(err);
+    }
+  },
+  methods: {
+    clearFilterText() {
+      if (this.filterText === '') {
+        return false;
+      }
+
+      this.filterText = '';
+      return true;
+    },
+    resetFilterDevices() {
+      for (const oem of this.oems) {
+        oem.forceExpanded = false;
+        oem.hidden = false;
+        for (const device of oem.devices) {
+          device.hidden = false;
+          device.selected = false;
+        }
+      }
+    },
+    selectActiveDevice() {
+      for (const oem of this.oems) {
+        for (const device of oem.devices) {
+          if (device.model === this.activeModel) {
+            oem.forceExpanded = true;
+            oem.hidden = false;
+            device.hidden = false;
+            device.selected = true;
+          }
+        }
+      }
+    },
+    refreshDevices() {
+      this.resetFilterDevices();
+      this.selectActiveDevice();
+    },
+    filterDevices(filterText) {
+      if (!filterText) {
+        this.refreshDevices();
+        return;
+      }
+
+      this.resetFilterDevices();
+
+      for (const oem of this.oems) {
+        if (oem.name.toLowerCase().includes(filterText)) {
+          oem.forceExpanded = true;
+          continue;
+        }
+
+        oem.hidden = true;
+        for (const device of oem.devices) {
+          device.hidden = true;
+
+          if (device.name.toLowerCase().includes(filterText) ||
+              device.model.toLowerCase().includes(filterText)) {
+            oem.forceExpanded = true;
+            oem.hidden = false;
+            device.hidden = false;
+          }
+        }
+      }
+
+      this.selectActiveDevice();
+    },
+    onFilterChange() {
+      this.filterDevices(this.filterText.toLowerCase());
+    },
+  },
+}
+</script>
+
+<style scoped>
+.device-selector {
+  display: flex;
+  flex-direction: column;
+
+  overflow: auto;
+}
+
+.device-selector .search-container {
+  width: 100%;
+  height: 64px;
+
+  display: flex;
+
+  position: relative;
+
+  flex-shrink: 0;
+}
+
+.device-selector .search-container input {
+  width: 100%;
+  height: 100%;
+  padding: 16px;
+
+  outline: 0;
+  border: 0;
+  background: transparent;
+
+  transition: border 0.125s ease-out;
+
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+.device-selector .search-container input:focus {
+  border-bottom: 2px solid rgba(22, 124, 128, 255);
+}
+
+.device-selector .search-container .clear {
+  display: block;
+  position: absolute;
+  right: 16px;
+  top: 16px;
+
+  height: 32px;
+  width: 32px;
+  line-height: 32px;
+
+  font-size: 24px;
+
+  cursor: pointer;
+
+  color: rgba(0, 0, 0, 0.38);
+}
+
+.device-selector .oems {
+  flex-grow: 1;
+  height: 100%;
+  overflow: auto;
+}
+</style>

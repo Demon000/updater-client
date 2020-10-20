@@ -5,7 +5,11 @@
         <slot name="left"></slot>
       </div>
       <div class="right">
-        <slot name="right"></slot>
+        <slot name="right">
+          <div class="logo">
+            <img src="../../assets/navbar-logo.png" alt="LineageOS Logo">
+          </div>
+        </slot>
       </div>
     </div>
     <div class="tabs">
@@ -65,6 +69,16 @@ export default {
   display: flex;
 }
 
+.navbar .logo {
+  height: 24px;
+
+  display: none;
+}
+
+.navbar .logo > img {
+  height: 100%;
+}
+
 .navbar .tabs {
   line-height: 16px;
 
@@ -79,14 +93,28 @@ export default {
   text-decoration: none;
   color: rgba(0, 0, 0, 0.87);
 
-  display: inline-block;
+  display: block;
 
   font-size: 14px;
   font-weight: 500;
   text-transform: uppercase;
 }
 
+.navbar .tabs::v-deep(.mobile-visible-tab) {
+  display: none;
+}
+
 .navbar .tabs::v-deep(.tab.router-link-exact-active) {
   border-bottom: 4px solid #167c80;
+}
+
+@media (max-width: 1024px) {
+  .navbar .tabs::v-deep(.mobile-visible-tab) {
+    display: block;
+  }
+
+  .navbar .logo {
+    display: block;
+  }
 }
 </style>

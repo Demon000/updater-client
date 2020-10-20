@@ -1,24 +1,26 @@
 <template>
   <div class="devices-tab-page tab-page">
     <div class="list-container">
-      <div class="list">
-
-      </div>
+      <device-selector class="list"></device-selector>
     </div>
   </div>
 </template>
 
 <script>
-import DeviceSelectorMixin from '../device-selector/DeviceSelectorMixin';
+import DeviceSelector from '../device-selector/DeviceSelector.vue';
 
 export default {
   name: 'DevicesTab',
-  mixins: [
-      DeviceSelectorMixin,
-  ],
+  components: {
+    DeviceSelector,
+  },
 }
 </script>
 
 <style scoped>
 @import '../../css/tab-page.css';
+
+.devices-tab-page .list {
+  height: 100%;
+}
 </style>

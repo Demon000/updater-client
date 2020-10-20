@@ -84,7 +84,7 @@ export default {
     async loadBuilds() {
       const data = this.$store.getters.getDeviceBuilds(this.model);
       if (!data) {
-        throw new Error('Failed to get device builds');
+        throw new Error('Failed to get device-main builds-tab');
       }
 
       this.builds = data;

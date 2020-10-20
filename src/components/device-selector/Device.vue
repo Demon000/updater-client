@@ -1,23 +1,23 @@
 <template>
   <router-link
       v-bind:to="{
-        name: 'device_builds',
+        name: 'device_index',
         params: {
           model,
         },
       }"
   >
     <div
-        class="sidebar-device"
+        class="device"
         v-bind:class="{
           'hidden': hidden,
           'selected': selected,
         }"
     >
-      <span class="device-name">
+      <span class="name">
         {{ name }}
       </span>
-      <span class="device-model">
+      <span class="model">
         {{ model }}
       </span>
     </div>
@@ -26,7 +26,7 @@
 
 <script>
 export default {
-  name: 'SidebarDevice',
+  name: 'Device',
   props: {
     hidden: Boolean,
     selected: Boolean,
@@ -37,18 +37,18 @@ export default {
 </script>
 
 <style scoped>
-.sidebar-device.hidden {
+.device.hidden {
   display: none;
 }
 
-.sidebar-device {
+.device {
   line-height: 16px;
 
   font-size: 14px;
   font-weight: 500;
 }
 
-.sidebar-device {
+.device {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -58,19 +58,19 @@ export default {
   border-top: 1px solid rgba(0, 0, 0, 0.12);
 }
 
-.sidebar-device .device-model {
+.device .model {
   color: rgba(0, 0, 0, 0.25);
 }
 
-.sidebar-device.selected {
+.device.selected {
   background: #167c80;
 }
 
-.sidebar-device.selected .device-name {
+.device.selected .name {
   color: rgba(255, 255, 255, 0.87);
 }
 
-.sidebar-device.selected .device-model {
+.device.selected .model {
   color: rgba(255, 255, 255, 0.5);
 }
 </style>

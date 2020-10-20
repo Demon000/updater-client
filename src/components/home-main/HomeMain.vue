@@ -8,7 +8,7 @@
       </template>
       <template v-slot:tabs>
         <router-link
-            class="tab"
+            class="mobile-visible-tab tab"
             v-bind:to="{
               name: 'home_devices',
             }"

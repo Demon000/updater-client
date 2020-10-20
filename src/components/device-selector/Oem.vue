@@ -1,6 +1,6 @@
 <template>
   <collapsible
-      class="sidebar-oem"
+      class="oem"
       v-bind:forceExpanded="forceExpanded"
       v-bind:class="{
         'hidden': hidden,
@@ -32,9 +32,9 @@
       <div class="devices-container">
         <div class="devices">
           <template v-for="device in devices">
-            <sidebar-device
+            <device
                 v-bind="device"
-            ></sidebar-device>
+            ></device>
           </template>
         </div>
       </div>
@@ -44,10 +44,10 @@
 
 <script>
 import Collapsible from '../utils/Collapsible.vue';
-import SidebarDevice from './SidebarDevice.vue';
+import Device from './Device.vue';
 
 export default {
-  name: 'SidebarOem',
+  name: 'Oem',
   props: {
     name: String,
     devices: Array,
@@ -61,31 +61,31 @@ export default {
     },
   },
   components: {
-    SidebarDevice,
+    Device,
     Collapsible,
   },
 }
 </script>
 
-<style>
-.sidebar-oem {
+<style scoped>
+.oem {
   border-bottom: 1px solid rgba(0, 0, 0, 0.12);
 
   user-select: none;
 }
 
-.sidebar-oem.hidden {
+.oem.hidden {
   display: none;
 }
 
-.sidebar-oem .title-container {
+.oem .title-container {
   line-height: 16px;
 
   font-size: 14px;
   font-weight: 500;
 }
 
-.sidebar-oem .title-container {
+.oem .title-container {
   height: 48px;
   padding: 16px;
   position: relative;
@@ -100,14 +100,14 @@ export default {
   cursor: pointer;
 }
 
-.sidebar-oem .title-container.expanded {
+.oem .title-container.expanded {
   height: 64px;
   padding: 24px 16px;
 
   background: rgba(0, 0, 0, 0.12)
 }
 
-.sidebar-oem .title-container .icon {
+.oem .title-container .icon {
   font-size: 24px;
 
   transition:
@@ -117,11 +117,11 @@ export default {
   color: rgba(0, 0, 0, 0.38);
 }
 
-.sidebar-oem .title-container.expanded .icon {
+.oem .title-container.expanded .icon {
   transform: rotate(-180deg);
 }
 
-.sidebar-oem a {
+.oem a {
   text-decoration: none;
   color: rgba(0, 0, 0, 0.87);
 }
