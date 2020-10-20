@@ -160,7 +160,15 @@ export default {
 
   transition: border 0.125s ease-out;
 
+  color: rgba(0, 0, 0, 0.87);
+
   border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+#app.dark .device-selector .search-container input {
+  color: rgba(255, 255, 255, 0.87);
+
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
 }
 
 .device-selector .search-container input:focus {
@@ -182,6 +190,10 @@ export default {
   cursor: pointer;
 
   color: rgba(0, 0, 0, 0.38);
+}
+
+#app.dark .device-selector .search-container .clear {
+  color: rgba(255, 255, 255, 0.38);
 }
 
 .device-selector .oems {

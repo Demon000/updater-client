@@ -30,6 +30,14 @@ export default {
 </script>
 
 <style scoped>
+.changes-group {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+#app.dark .changes-group {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+}
+
 .changes-group .header {
   padding: 16px 16px 0 16px;
   font-size: 12px;
@@ -37,9 +45,5 @@ export default {
   text-transform: uppercase;
   color: #167c80;
   letter-spacing: 1px;
-}
-
-.changes-group {
-  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
 }
 </style>

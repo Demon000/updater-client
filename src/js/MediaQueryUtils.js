@@ -1,4 +1,8 @@
 export default class MediaQueryUtils {
+    static DEVICE_THEME_PREFERENCE = '(prefers-color-scheme: dark)';
+    static THEME_DARK = 'dark';
+    static THEME_LIGHT = 'light';
+
     static MOBILE_MEDIA_QUERY = '(max-width: 1024px)';
     static MOBILE_TYPE = 'mobile';
 
@@ -21,6 +25,12 @@ export default class MediaQueryUtils {
     static matchMediaAddListener(query, cb) {
         const matcher = this.matchMediaQuery(query);
         matcher.addEventListener('change', cb);
+    }
+
+    static getDeviceTheme() {
+        const isDarkPreferred = this.isMediaQueryActive(this.DEVICE_THEME_PREFERENCE);
+        console.log(isDarkPreferred)
+        return isDarkPreferred ? this.THEME_DARK : this.THEME_LIGHT;
     }
 
     static getDeviceType() {

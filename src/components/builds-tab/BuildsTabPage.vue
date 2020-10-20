@@ -110,6 +110,10 @@ export default {
   border-bottom: 1px solid rgba(0, 0, 0, 0.12);
 }
 
+#app.dark .builds-tab-page .banner {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+}
+
 .builds-tab-page .banner.hidden {
   display: none;
 }

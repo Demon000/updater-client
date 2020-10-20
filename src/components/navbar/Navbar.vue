@@ -107,6 +107,10 @@ export default {
   text-transform: uppercase;
 }
 
+#app.dark .navbar .tabs::v-deep(.tab) {
+  color: rgba(255, 255, 255, 0.87)
+}
+
 .navbar .tabs::v-deep(.mobile-visible-tab) {
   display: none;
 }

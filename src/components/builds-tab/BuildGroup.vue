@@ -49,4 +49,8 @@ export default {
   padding: 16px;
   border-bottom: 1px solid rgba(0, 0, 0, 0.12);
 }
+
+#app.dark .build-group {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+}
 </style>

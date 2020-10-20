@@ -74,6 +74,10 @@ export default {
   user-select: none;
 }
 
+#app.dark .oem {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+}
+
 .oem.hidden {
   display: none;
 }
@@ -107,6 +111,10 @@ export default {
   background: rgba(0, 0, 0, 0.12)
 }
 
+#app.dark .oem .title-container.expanded {
+  background: rgba(255, 255, 255, 0.05)
+}
+
 .oem .title-container .icon {
   font-size: 24px;
 
@@ -117,6 +125,10 @@ export default {
   color: rgba(0, 0, 0, 0.38);
 }
 
+#app.dark .oem .title-container .icon {
+  color: rgba(255, 255, 255, 0.38);
+}
+
 .oem .title-container.expanded .icon {
   transform: rotate(-180deg);
 }
@@ -124,5 +136,9 @@ export default {
 .oem a {
   text-decoration: none;
   color: rgba(0, 0, 0, 0.87);
+}
+
+#app.dark .oem a {
+  color: rgba(255, 255, 255, 0.87);
 }
 </style>

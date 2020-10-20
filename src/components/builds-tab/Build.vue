@@ -118,8 +118,16 @@ export default {
   cursor: pointer;
 }
 
-.build .title-container .icon:hover {
+#app.dark .build .title-container .controls .icon {
+  color: rgba(255, 255, 255, 0.56);
+}
+
+.build .title-container .controls .icon:hover {
   background: rgba(0, 0, 0, 0.15);
+}
+
+#app.dark .build .title-container .controls .icon:hover {
+  background: rgba(255, 255, 255, 0.15);
 }
 
 .build .title-container.expanded .expand-icon {
@@ -129,10 +137,15 @@ export default {
 .builds-tab-page .details {
   line-height: 24px;
   padding: 4px 8px;
-  border-radius: 2px;
+  border-radius: 3px;
 
   font-size: 14px;
 
   background: rgba(0, 0, 0, 0.05);
 }
+
+#app.dark  .builds-tab-page .details {
+  background: rgba(255, 255, 255, 0.05);
+}
+
 </style>

@@ -141,6 +141,10 @@ export default {
   color: rgba(0, 0, 0, 0.5);
 }
 
+#app.dark .device-main .navbar .model {
+  color: rgba(255, 255, 255, 0.5);
+}
+
 .device-main .content {
   flex-grow: 1;
   overflow: auto;
