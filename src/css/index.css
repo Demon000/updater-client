@@ -18,6 +18,21 @@ html, body {
 }
 
 .simplebar-scrollbar::before {
-    background: rgba(0, 0, 0, 0.38);
+    background: rgba(0, 0, 0, 0.35);
     border-radius: 5px;
+}
+
+#app.dark .simplebar-scrollbar::before {
+    background: rgba(255, 255, 255, 0.35);
+}
+
+@media (max-width: 1024px) {
+    .simplebar-track,
+    .simplebar-track.simplebar-vertical {
+        width: 6px;
+    }
+
+    .simplebar-scrollbar::before {
+        border-radius: 3px;
+    }
 }
