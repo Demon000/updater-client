@@ -59,14 +59,21 @@ export default {
 
 .navbar .top {
   line-height: 24px;
-  padding: 16px 24px;
 
   display: flex;
   justify-content: space-between;
 }
 
+.navbar .left,
+.navbar .right {
+  padding: 16px;
+}
+
 .navbar .left {
   display: flex;
+
+  overflow: auto;
+  white-space: nowrap;
 }
 
 .navbar .logo {
@@ -89,7 +96,7 @@ export default {
 }
 
 .navbar .tabs::v-deep(.tab) {
-  padding: 8px 24px 16px 24px;
+  padding: 8px 16px 16px 16px;
   text-decoration: none;
   color: rgba(0, 0, 0, 0.87);
 
