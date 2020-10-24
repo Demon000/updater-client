@@ -2,7 +2,7 @@
   <div class="tab-page extras-tab-page">
     <div
         class="list-container"
-        ref="scrollable"
+        data-simplebar
     >
       <div class="list">
         <template v-for="extra in extras">

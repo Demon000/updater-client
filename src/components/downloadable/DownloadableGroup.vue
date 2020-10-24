@@ -1,6 +1,9 @@
 <template>
   <div class="group">
-    <div class="group-header" v-if="title">
+    <div
+        class="group-header"
+        v-if="title"
+    >
       {{ title }}
     </div>
     <template v-for="item in items">

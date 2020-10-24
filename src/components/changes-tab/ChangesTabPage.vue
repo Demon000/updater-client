@@ -11,9 +11,11 @@
           </template>
         </template>
         <template v-else>
-          <template v-for="change in changes">
-            <change v-bind="change"></change>
-          </template>
+          <changes-group
+              v-bind="{
+                items: changes,
+              }"
+          ></changes-group>
         </template>
       </div>
     </div>

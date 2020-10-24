@@ -1,6 +1,9 @@
 <template>
-  <div class="group changes-group" v-if="items.length">
-    <div class="group-header">
+  <div class="group" v-if="items.length">
+    <div
+        class="group-header"
+        v-if="build"
+    >
       <template v-if="build.filename === 'next'">
         To be included in next {{ build.version }} build
       </template>

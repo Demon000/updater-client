@@ -11,7 +11,7 @@
       <div
           class="title-container"
           v-bind:class="{
-            expanded: isExpanded
+            expanded: isExpanded,
           }"
       >
         <div class="title">
@@ -134,7 +134,8 @@ export default {
   background: rgba(255, 255, 255, 0.15);
 }
 
-.downloadable .title-container.expanded .expand-icon {
+.downloadable .title-container.expanded .controls .expand-icon,
+#app.dark .downloadable .title-container.expanded .controls .expand-icon {
   color: #167c80;
 }
 
