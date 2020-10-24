@@ -9,7 +9,7 @@
       </template>
       <template v-slot:tabs>
         <router-link
-            class="mobile-visible-tab tab"
+            class="tab"
             v-bind:to="{
               name: 'home_index',
             }"

@@ -1,5 +1,5 @@
 <template>
-  <div class="build-detail">
+  <div class="downloadable-detail">
     <div class="title">{{ title }}</div>
     <div class="value">{{ value }}</div>
   </div>
@@ -7,7 +7,7 @@
 
 <script>
 export default {
-  name: 'BuildDetail',
+  name: 'DownloadableDetail',
   props: {
     title: String,
     value: String,
@@ -16,39 +16,39 @@ export default {
 </script>
 
 <style scoped>
-.build-detail {
+.downloadable-detail {
   display: flex;
   padding: 4px 0;
 }
 
-.build-detail .title,
-.build-detail .value {
+.downloadable-detail .title,
+.downloadable-detail .value {
   display: inline-block;
 }
 
-.build-detail .title {
+.downloadable-detail .title {
   width: 25%;
   flex-shrink: 0;
   color: rgba(0, 0, 0, 0.5);
 }
 
-#app.dark .build-detail .title {
+#app.dark .downloadable-detail .title {
   color: rgba(255, 255, 255, 0.5);
 }
 
-.build-detail .value {
+.downloadable-detail .value {
   width: 85%;
   flex-shrink: 0;
   word-wrap: break-word;
 }
 
 @media (max-width: 1024px) {
-  .build-detail {
+  .downloadable-detail {
     display: block;
   }
 
-  .build-detail .title,
-  .build-detail .value {
+  .downloadable-detail .title,
+  .downloadable-detail .value {
     display: block;
     width: 100%;
   }

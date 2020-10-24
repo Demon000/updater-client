@@ -29,7 +29,6 @@ export default class MediaQueryUtils {
 
     static getDeviceTheme() {
         const isDarkPreferred = this.isMediaQueryActive(this.DEVICE_THEME_PREFERENCE);
-        console.log(isDarkPreferred)
         return isDarkPreferred ? this.THEME_DARK : this.THEME_LIGHT;
     }
 

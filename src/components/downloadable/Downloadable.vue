@@ -1,6 +1,6 @@
 <template>
   <collapsible
-      class="build"
+      class="downloadable"
   >
     <template
         v-slot:title="{
@@ -15,7 +15,7 @@
           }"
       >
         <div class="title">
-          {{ filename }}
+          {{ name || filename }}
         </div>
         <div class="controls">
           <i
@@ -31,22 +31,26 @@
     </template>
     <template v-slot:content>
       <div class="details">
-        <build-detail
+        <downloadable-detail
             title="Date"
+            v-if="date"
             v-bind:value="date"
-        ></build-detail>
-        <build-detail
-          title="Type"
-          v-bind:value="type"
-        ></build-detail>
-        <build-detail
+        ></downloadable-detail>
+        <downloadable-detail
+            title="Type"
+            v-if="type"
+            v-bind:value="type"
+        ></downloadable-detail>
+        <downloadable-detail
             title="Size"
+            v-if="sizeHuman"
             v-bind:value="sizeHuman"
-        ></build-detail>
-        <build-detail
+        ></downloadable-detail>
+        <downloadable-detail
             title="SHA256"
+            v-if="sha256"
             v-bind:value="sha256"
-        ></build-detail>
+        ></downloadable-detail>
       </div>
     </template>
   </collapsible>
@@ -54,17 +58,18 @@
 
 <script>
 import Collapsible from '../utils/Collapsible.vue';
-import BuildDetail from './BuildDetail.vue';
+import DownloadableDetail from './DownloadableDetail.vue';
 
 export default {
-  name: 'Build',
+  name: 'Downloadable',
   components: {
     Collapsible,
-    BuildDetail,
+    DownloadableDetail,
   },
   props: {
     date: String,
     datetime: Number,
+    name: String,
     filename: String,
     filepath: String,
     sha256: String,
@@ -75,20 +80,20 @@ export default {
   },
   computed: {
     sizeHuman() {
-      return `${(this.size / 1000000).toFixed(2)} MB`;
+      return this.size ? `${(this.size / 1000000).toFixed(2)} MB` : '';
     },
   },
 }
 </script>
 
 <style scoped>
-.build {
+.downloadable {
   line-height: 24px;
   vertical-align: center;
   padding: 8px 0;
 }
 
-.build .title-container {
+.downloadable .title-container {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -96,11 +101,11 @@ export default {
   margin-bottom: 4px;
 }
 
-.build .title-container .controls {
+.downloadable .title-container .controls {
   display: flex;
 }
 
-.build .title-container .controls .icon {
+.downloadable .title-container .controls .icon {
   display: block;
   flex-shrink: 0;
 
@@ -118,23 +123,23 @@ export default {
   cursor: pointer;
 }
 
-#app.dark .build .title-container .controls .icon {
+#app.dark .downloadable .title-container .controls .icon {
   color: rgba(255, 255, 255, 0.56);
 }
 
-.build .title-container .controls .icon:hover {
+.downloadable .title-container .controls .icon:hover {
   background: rgba(0, 0, 0, 0.15);
 }
 
-#app.dark .build .title-container .controls .icon:hover {
+#app.dark .downloadable .title-container .controls .icon:hover {
   background: rgba(255, 255, 255, 0.15);
 }
 
-.build .title-container.expanded .expand-icon {
+.downloadable .title-container.expanded .expand-icon {
   color: #167c80;
 }
 
-.builds-tab-page .details {
+.downloadable .details {
   line-height: 24px;
   padding: 4px 8px;
   border-radius: 3px;
@@ -144,7 +149,7 @@ export default {
   background: rgba(0, 0, 0, 0.05);
 }
 
-#app.dark  .builds-tab-page .details {
+#app.dark  .downloadable .details {
   background: rgba(255, 255, 255, 0.05);
 }
 

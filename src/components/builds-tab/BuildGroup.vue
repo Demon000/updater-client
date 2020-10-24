@@ -1,6 +1,6 @@
 <template>
-  <div class="build-group">
-    <build
+  <div class="group build-group">
+    <downloadable
         v-bind="{
           date,
           datetime,
@@ -12,21 +12,21 @@
           url,
           version,
         }"
-    ></build>
-    <build
+    ></downloadable>
+    <downloadable
         v-if="recovery"
         v-bind="recovery"
-    ></build>
+    ></downloadable>
   </div>
 </template>
 
 <script>
-import Build from './Build.vue';
+import Downloadable from '../downloadable/Downloadable.vue';
 
 export default {
   name: 'BuildGroup',
   components: {
-    Build,
+    Downloadable,
   },
   props: {
     build: Object,
@@ -45,12 +45,5 @@ export default {
 </script>
 
 <style scoped>
-.build-group {
-  padding: 16px;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
-}
-
-#app.dark .build-group {
-  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
-}
+@import '../../css/group.css';
 </style>
