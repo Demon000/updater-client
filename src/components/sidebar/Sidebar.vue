@@ -2,7 +2,7 @@
   <div class="sidebar">
     <div class="logo">
       <router-link to="/">
-        <img src="../../assets/sidebar-logo.png" alt="LineageOS Logo">
+        <img src="../../assets/sidebar-logo.svg" alt="LineageOS Logo">
       </router-link>
     </div>
     <device-selector

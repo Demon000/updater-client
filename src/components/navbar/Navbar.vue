@@ -7,7 +7,7 @@
       <div class="right">
         <slot name="right">
           <div class="logo">
-            <img src="../../assets/navbar-logo.png" alt="LineageOS Logo">
+            <img src="../../assets/navbar-logo.svg" alt="LineageOS Logo">
           </div>
         </slot>
       </div>
