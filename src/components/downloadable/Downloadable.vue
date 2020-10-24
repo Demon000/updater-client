@@ -90,7 +90,6 @@ export default {
 .downloadable {
   line-height: 24px;
   vertical-align: center;
-  padding: 8px 0;
 }
 
 .downloadable .title-container {
@@ -98,7 +97,7 @@ export default {
   justify-content: space-between;
   align-items: center;
 
-  margin-bottom: 4px;
+  margin: 4px 0;
 }
 
 .downloadable .title-container .controls {

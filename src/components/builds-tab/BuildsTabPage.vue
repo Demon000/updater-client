@@ -30,7 +30,14 @@
     >
       <div class="list">
         <template v-for="build in builds">
-          <build-group v-bind="build"></build-group>
+          <downloadable-group
+              v-bind="{
+                items: [
+                    build,
+                    build.recovery,
+                ],
+              }"
+          ></downloadable-group>
         </template>
       </div>
     </div>
@@ -40,7 +47,7 @@
 <script>
 import ApiService from '../../js/ApiService';
 import {beforeTryError} from '../../js/router_utils';
-import BuildGroup from './BuildGroup.vue';
+import DownloadableGroup from '../downloadable/DownloadableGroup.vue';
 
 const VERIFY_BUILD_BANNER_HIDE = 'verify-build-banner-hide';
 
@@ -51,7 +58,7 @@ const loadDeviceBuildsBeforeHook = beforeTryError((to) => {
 export default {
   name: 'Builds',
   components: {
-    BuildGroup,
+    DownloadableGroup,
   },
   props: {
     model: String,

@@ -6,7 +6,12 @@
     >
       <div class="list">
         <template v-for="extra in extras">
-          <extras-group v-bind="extra"></extras-group>
+          <downloadable-group
+              v-bind="{
+                title: extra.version,
+                items: extra.extras,
+              }"
+          ></downloadable-group>
         </template>
       </div>
     </div>
@@ -14,7 +19,7 @@
 </template>
 
 <script>
-import ExtrasGroup from './ExtrasGroup.vue';
+import DownloadableGroup from '../downloadable/DownloadableGroup.vue';
 import {beforeTryError} from '../../js/router_utils';
 import ApiService from '../../js/ApiService';
 
@@ -25,7 +30,7 @@ const loadExtrasBeforeHook = beforeTryError(() => {
 export default {
   name: 'ExtrasTabPage',
   components: {
-    ExtrasGroup,
+    DownloadableGroup,
   },
   beforeRouteEnter: loadExtrasBeforeHook,
   beforeRouteUpdate: loadExtrasBeforeHook,
