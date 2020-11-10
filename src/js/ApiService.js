@@ -266,12 +266,12 @@ export default class ApiService {
     static getDeviceChanges(model) {
         const device = store.getters.getDevice(model);
         if (!device) {
-            throw new Error('Failed to get device-main data');
+            throw new Error('Failed to get device data');
         }
 
         const builds = store.getters.getDeviceBuilds(model);
         if (!builds) {
-            throw new Error('Failed to get device-main builds-tab');
+            throw new Error('Failed to get device builds');
         }
 
         const changes = this.filterDeviceChanges(device, store.getters.changes);

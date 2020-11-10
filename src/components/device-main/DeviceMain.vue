@@ -103,7 +103,7 @@ export default {
     loadDeviceDetails() {
       const data = this.$store.getters.getDevice(this.model);
       if (!data) {
-        throw new Error('Failed to get device-main data');
+        throw new Error('Failed to get device data');
       }
 
       [

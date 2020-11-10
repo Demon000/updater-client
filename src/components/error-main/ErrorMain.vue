@@ -10,7 +10,7 @@ export default {
   props: {
     message: {
       type: String,
-      default: 'An unknown error-main occurred',
+      default: 'An unknown error occurred',
     },
   },
 }
