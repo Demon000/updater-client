@@ -67,7 +67,7 @@ export default {
     },
     changes() {
       this.reloadDeviceChanges();
-      this.loadChangesIfScrolledCompletely();
+      this.loadChangesIfCannotScroll();
     },
   },
   mounted() {
@@ -119,18 +119,25 @@ export default {
     isScrollable(el) {
       return el.scrollHeight > el.clientHeight;
     },
-    loadChangesIfScrolledCompletely() {
-      if (this.isScrollable(this.scrollable) && !this.isScrolledToBottom(this.scrollable)) {
+    loadChangesIfCannotScroll() {
+      if (this.isScrollable(this.scrollable)) {
         return;
       }
 
-      if (this.stopLoading) {
+      this.loadMoreChanges();
+    },
+    loadChangesIfScrolledCompletely() {
+      if (!this.isScrolledToBottom(this.scrollable)) {
         return;
       }
 
       this.loadMoreChanges();
     },
     async loadMoreChanges() {
+      if (this.stopLoading) {
+        return;
+      }
+
       try {
         await ApiService.loadMoreChanges();
       } catch (err) {
