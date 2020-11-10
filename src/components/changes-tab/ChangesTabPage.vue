@@ -1,8 +1,11 @@
 <template>
-  <div class="tab-page changes-tab-page">
+  <div
+      class="tab-page changes-tab-page"
+      ref="scrollableContainer"
+  >
     <div
         class="list-container"
-        ref="scrollable"
+        data-simplebar
     >
       <div class="list">
         <template v-if="model">
@@ -49,7 +52,6 @@ export default {
   data() {
     return {
       buildsChanges: [],
-      scrollbar: null,
       scrollable: null,
       stopLoading: false,
     };
@@ -72,15 +74,18 @@ export default {
   },
   mounted() {
     this.stopLoading = false;
-    this.scrollbar = new SimpleBar(this.$refs.scrollable);
-    this.scrollable = this.scrollbar.getScrollElement();
-    this.scrollable.addEventListener('scroll', this.loadChangesIfScrolledCompletely);
+
+    this.$nextTick(() => {
+      const scrollbarElement = this.$refs.scrollableContainer.querySelector('[data-simplebar]');
+      const scrollbar = SimpleBar.instances.get(scrollbarElement);
+      this.scrollable = scrollbar.getScrollElement();
+      this.scrollable.addEventListener('scroll', this.loadChangesIfScrolledCompletely);
+    });
 
     this.loadInitialChanges();
   },
   unmounted() {
     this.scrollable.removeEventListener('scroll', this.loadChangesIfScrolledCompletely);
-    this.scrollbar.unMount();
     this.stopLoading = true;
   },
   methods: {
