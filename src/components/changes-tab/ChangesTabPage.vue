@@ -63,27 +63,51 @@ export default {
   beforeRouteUpdate: loadDeviceBuildsBeforeHook,
   watch: {
     model() {
-      this.reloadDeviceChanges();
+      this.loadInitialChanges();
     },
     changes() {
       this.reloadDeviceChanges();
-      this.checkScrolledToBottom();
+      this.loadChangesIfScrolledCompletely();
     },
   },
   mounted() {
     this.stopLoading = false;
     this.scrollbar = new SimpleBar(this.$refs.scrollable);
     this.scrollable = this.scrollbar.getScrollElement();
-    this.scrollable.addEventListener('scroll', this.checkScrolledToBottom);
+    this.scrollable.addEventListener('scroll', this.loadChangesIfScrolledCompletely);
 
-    this.checkScrolledToBottom();
+    this.loadInitialChanges();
   },
   unmounted() {
-    this.scrollable.removeEventListener('scroll', this.checkScrolledToBottom);
+    this.scrollable.removeEventListener('scroll', this.loadChangesIfScrolledCompletely);
     this.scrollbar.unMount();
     this.stopLoading = true;
   },
   methods: {
+    hasAnyChanges() {
+      if (this.model) {
+        for (const buildChanges of this.buildsChanges) {
+          if (buildChanges.items.length) {
+            return true;
+          }
+        }
+      } else {
+        if (this.changes.length) {
+          return true;
+        }
+      }
+
+      return false;
+    },
+    loadInitialChanges() {
+      this.reloadDeviceChanges();
+
+      if (this.hasAnyChanges()) {
+        return;
+      }
+
+      this.loadMoreChanges();
+    },
     reloadDeviceChanges() {
       if (this.model) {
         this.buildsChanges = ApiService.getDeviceChanges(this.model);
@@ -92,8 +116,11 @@ export default {
     isScrolledToBottom(el) {
       return el.scrollHeight - el.scrollTop - el.clientHeight < 1;
     },
-    checkScrolledToBottom() {
-      if (!this.isScrolledToBottom(this.scrollable)) {
+    isScrollable(el) {
+      return el.scrollHeight > el.clientHeight;
+    },
+    loadChangesIfScrolledCompletely() {
+      if (this.isScrollable(this.scrollable) && !this.isScrolledToBottom(this.scrollable)) {
         return;
       }
 
