@@ -3,6 +3,10 @@ import axios from 'axios';
 import {API_HOSTNAME} from './config';
 
 export default class ApiService {
+    static apiV2Request = axios.create({
+        baseURL: `${API_HOSTNAME}/api/v2`,
+    });
+
     static sortOems(oems) {
         const nameSortFn = (first, second)  => {
             return first.name.localeCompare(second.name);
@@ -18,8 +22,8 @@ export default class ApiService {
     static async loadOems() {
         try {
             store.commit('startRequest');
-            const response = await axios
-                .get(`${API_HOSTNAME}/api/v2/oems`);
+            const response = await this.apiV2Request
+                .get('/oems');
             this.sortOems(response.data);
             store.commit('setOems', response.data);
             store.commit('endRequest');
@@ -32,8 +36,8 @@ export default class ApiService {
     static async loadDevice(model) {
         try {
             store.commit('startRequest');
-            const response = await axios
-                .get(`${API_HOSTNAME}/api/v2/devices/${model}`);
+            const response = await this.apiV2Request
+                .get(`/devices/${model}`);
             store.commit('setDevice', {
                 model,
                 data: response.data,
@@ -48,7 +52,7 @@ export default class ApiService {
     static sortDeviceBuilds(builds, newestFirst=true) {
         let sortFn;
         if (newestFirst) {
-            sortFn = (first, second) => second.datetime - first.datetime;;
+            sortFn = (first, second) => second.datetime - first.datetime;
         } else {
             sortFn = (first, second) => first.datetime - second.datetime;
         }
@@ -60,8 +64,8 @@ export default class ApiService {
 
         try {
             store.commit('startRequest');
-            const response = await axios
-                .get(`${API_HOSTNAME}/api/v2/devices/${model}/builds`);
+            const response = await this.apiV2Request
+                .get(`/devices/${model}/builds`);
 
             this.sortDeviceBuilds(response.data);
 
@@ -108,8 +112,8 @@ export default class ApiService {
 
         try {
             store.commit('startRequest');
-            const response = await axios
-                .get(`${API_HOSTNAME}/api/v2/changes`, {
+            const response = await this.apiV2Request
+                .get('/changes', {
                     params: {
                         page,
                     },
@@ -284,8 +288,8 @@ export default class ApiService {
     static async loadExtras() {
         try {
             store.commit('startRequest');
-            const response = await axios
-                .get(`${API_HOSTNAME}/api/v2/extras`);
+            const response = await this.apiV2Request
+                .get('/extras');
 
             store.commit('setExtras', response.data);
             store.commit('endRequest');
