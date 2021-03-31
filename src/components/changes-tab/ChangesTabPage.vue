@@ -7,7 +7,7 @@
         class="list-container"
         data-simplebar
     >
-      <div class="list">
+      <div class="list" ref="listContainer">
         <template v-if="model">
           <template v-for="buildChanges in buildsChanges">
             <changes-group v-bind="buildChanges"></changes-group>
@@ -21,6 +21,12 @@
           ></changes-group>
         </template>
       </div>
+      <div class="list" v-if="anyLoading" style="padding: 16px">
+        <skeleton ref="firstSkeleton"/>
+        <template v-for="n in skeletonCount - 1">
+          <skeleton />
+        </template>
+      </div>
     </div>
   </div>
 </template>
@@ -30,6 +36,7 @@ import SimpleBar from 'simplebar';
 import Change from './Change.vue';
 import ChangesGroup from './ChangesGroup.vue';
 import ApiService from '../../js/ApiService';
+import Skeleton from '../utils/Skeleton.vue';
 import {beforeTryError} from '../../js/router_utils';
 
 const loadDeviceBuildsBeforeHook = beforeTryError((to) => {
@@ -45,6 +52,7 @@ export default {
   components: {
     ChangesGroup,
     Change,
+    Skeleton,
   },
   props: {
     model: String,
@@ -54,11 +62,16 @@ export default {
       buildsChanges: [],
       scrollable: null,
       stopLoading: false,
+      skeletonCount: 5,
+      skeletonHeight: 1,
     };
   },
   computed: {
     changes() {
       return this.$store.getters.changes;
+    },
+    anyLoading() {
+      return !!this.$store.getters.ongoingRequests;
     },
   },
   beforeRouteEnter: loadDeviceBuildsBeforeHook,
@@ -81,6 +94,11 @@ export default {
       this.scrollable = scrollbar.getScrollElement();
       this.scrollable.addEventListener('scroll', this.loadChangesIfScrolledCompletely);
     });
+
+    if (this.$refs.firstSkeleton != undefined) {
+      this.skeletonHeight = this.$refs.firstSkeleton.getHeight;
+    }
+    this.calculateSkeletonCount();
 
     this.loadInitialChanges();
   },
@@ -144,10 +162,18 @@ export default {
       }
 
       try {
+        this.calculateSkeletonCount();
         await ApiService.loadMoreChanges();
       } catch (err) {
         console.error(err);
       }
+    },
+    calculateSkeletonCount() {
+      if (this.$refs.scrollableContainer == undefined) return;
+      var containerHeight = this.$refs.scrollableContainer.clientHeight;
+      var listHeight = this.$refs.listContainer.clientHeight;
+      this.skeletonCount = Math.max((containerHeight - listHeight - 32) / this.skeletonHeight, 5);
+      this.skeletonCount = Math.floor(this.skeletonCount);
     },
   },
 }
