@@ -104,11 +104,8 @@ export default class ApiService {
         }
     }
 
-    static async loadMoreChanges(minPages=-1) {
+    static async loadMoreChanges() {
         const page = store.getters.changesPage + 1;
-        if (minPages !== -1 && page >= minPages) {
-            return;
-        }
 
         try {
             store.commit('startRequest');
