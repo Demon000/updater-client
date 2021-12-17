@@ -1,25 +1,38 @@
 <template>
-  <div class="skeleton" ref="main">
-    <div class="title" ref="title"/>
-    <div class="type" />
-    <div class="repo" ref="repo"/>
+  <div class="skeleton">
+    <div
+      class="title"
+      :style="{
+        width: titleWidth,
+      }"
+    ></div>
+    <div class="type"></div>
+    <div
+      class="repo"
+      :style="{
+        width: repoWidth,
+      }"
+    ></div>
   </div>
 </template>
 
 <script>
 export default {
   name: 'Skeleton',
+  data() {
+    return {
+      titleWidth: '0px',
+      repoWidth: '0px',
+    }
+  },
   computed: {
-    getHeight() {
-      return this.$refs.main.clientHeight;
+    height() {
+      return this.$el.clientHeight;
     },
   },
   mounted() {
-    var width = Math.floor(50 + Math.random() * 50) + "%";
-    this.$refs.title.style.width = width;
-
-    width = Math.floor(160 + Math.random() * 60) + "px";
-    this.$refs.repo.style.width = width;
+    this.titleWidth = Math.floor(50 + Math.random() * 50) + '%';
+    this.repoWidth = Math.floor(160 + Math.random() * 60) + 'px';
   },
 }
 </script>

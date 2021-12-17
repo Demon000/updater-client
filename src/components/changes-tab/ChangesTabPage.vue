@@ -3,6 +3,10 @@
       class="tab-page changes-tab-page"
       ref="scrollableContainer"
   >
+    <skeleton
+        class="skeleton-hidden"
+        ref="hiddenSkeleton"
+    ></skeleton>
     <div
         class="list-container"
         data-simplebar
@@ -21,10 +25,9 @@
           ></changes-group>
         </template>
       </div>
-      <div class="list" v-if="anyLoading" style="padding: 16px">
-        <skeleton ref="firstSkeleton"/>
-        <template v-for="n in skeletonCount - 1">
-          <skeleton />
+      <div class="list" v-if="anyLoading">
+        <template v-for="i in skeletonCount" :key="i">
+          <skeleton></skeleton>
         </template>
       </div>
     </div>
@@ -95,9 +98,7 @@ export default {
       this.scrollable.addEventListener('scroll', this.loadChangesIfScrolledCompletely);
     });
 
-    if (this.$refs.firstSkeleton != undefined) {
-      this.skeletonHeight = this.$refs.firstSkeleton.getHeight;
-    }
+    this.skeletonHeight = this.$refs.hiddenSkeleton.height;
     this.calculateSkeletonCount();
 
     this.loadInitialChanges();
@@ -161,19 +162,23 @@ export default {
         return;
       }
 
+      this.calculateSkeletonCount();
+
       try {
-        this.calculateSkeletonCount();
         await ApiService.loadMoreChanges();
       } catch (err) {
         console.error(err);
       }
     },
     calculateSkeletonCount() {
-      if (this.$refs.scrollableContainer == undefined) return;
-      var containerHeight = this.$refs.scrollableContainer.clientHeight;
-      var listHeight = this.$refs.listContainer.clientHeight;
-      this.skeletonCount = Math.max((containerHeight - listHeight - 32) / this.skeletonHeight, 5);
-      this.skeletonCount = Math.floor(this.skeletonCount);
+      const containerHeight = this.$refs.scrollableContainer.clientHeight;
+      const listHeight = this.$refs.listContainer.clientHeight;
+      const fillableHeight = containerHeight - listHeight;
+      if (fillableHeight <= 0) {
+        this.skeletonCount = 0;
+      } else {
+        this.skeletonCount = Math.floor(fillableHeight / this.skeletonHeight);
+      }
     },
   },
 }
@@ -181,4 +186,9 @@ export default {
 
 <style scoped>
 @import '../../css/tab-page.css';
+
+.skeleton-hidden {
+  visibility: hidden;
+  position: absolute;
+}
 </style>
