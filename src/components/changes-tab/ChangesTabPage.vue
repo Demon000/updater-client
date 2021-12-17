@@ -35,6 +35,7 @@
 </template>
 
 <script>
+import PerfectScrollbar from 'perfect-scrollbar';
 import Change from './Change.vue';
 import ChangesGroup from './ChangesGroup.vue';
 import ApiService from '../../js/ApiService';
@@ -61,8 +62,8 @@ export default {
   },
   data() {
     return {
+      scrollbar: undefined,
       buildsChanges: [],
-      scrollable: null,
       stopLoading: false,
       skeletonCount: 5,
       skeletonHeight: 1,
@@ -90,16 +91,16 @@ export default {
   mounted() {
     this.stopLoading = false;
 
-    this.scrollable = this.$refs.scrollable;
-    this.scrollable.addEventListener('scroll', this.loadChangesIfScrolledCompletely);
+    this.scrollbar = new PerfectScrollbar(this.$refs.scrollable);
+    this.$refs.scrollable.addEventListener('scroll', this.loadChangesIfScrolledCompletely);
 
     this.skeletonHeight = this.$refs.hiddenSkeleton.height;
     this.calculateSkeletonCount();
 
     this.loadInitialChanges();
   },
-  unmounted() {
-    this.scrollable.removeEventListener('scroll', this.loadChangesIfScrolledCompletely);
+  beforeUnmount() {
+    this.$refs.scrollable.removeEventListener('scroll', this.loadChangesIfScrolledCompletely);
     this.stopLoading = true;
   },
   methods: {
@@ -139,14 +140,14 @@ export default {
       return el.scrollHeight > el.clientHeight;
     },
     loadChangesIfCannotScroll() {
-      if (this.isScrollable(this.scrollable)) {
+      if (this.isScrollable(this.$refs.scrollable)) {
         return;
       }
 
       this.loadMoreChanges();
     },
     loadChangesIfScrolledCompletely() {
-      if (!this.isScrolledToBottom(this.scrollable)) {
+      if (!this.isScrolledToBottom(this.$refs.scrollable)) {
         return;
       }
 
@@ -161,6 +162,8 @@ export default {
 
       try {
         await ApiService.loadMoreChanges();
+        this.scrollbar.update();
+        this.loadChangesIfScrolledCompletely();
       } catch (err) {
         console.error(err);
       }

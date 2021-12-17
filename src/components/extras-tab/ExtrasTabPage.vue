@@ -2,6 +2,7 @@
   <div class="tab-page extras-tab-page">
     <div
         class="list-container"
+        ref="scrollable"
     >
       <div class="list">
         <template v-for="extra in extras">
@@ -18,6 +19,7 @@
 </template>
 
 <script>
+import PerfectScrollbar from 'perfect-scrollbar';
 import DownloadableGroup from '../downloadable/DownloadableGroup.vue';
 import {beforeTryError} from '../../js/router_utils';
 import ApiService from '../../js/ApiService';
@@ -33,6 +35,9 @@ export default {
   },
   beforeRouteEnter: loadExtrasBeforeHook,
   beforeRouteUpdate: loadExtrasBeforeHook,
+  mounted() {
+    new PerfectScrollbar(this.$refs.scrollable);
+  },
   computed: {
     extras() {
       return this.$store.getters.extras;

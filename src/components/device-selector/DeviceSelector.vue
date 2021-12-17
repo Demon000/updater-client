@@ -6,6 +6,7 @@
     </div>
     <div
         class="oems"
+        ref="scrollable"
     >
       <oem
           v-for="oem in oems"
@@ -16,6 +17,7 @@
 </template>
 
 <script>
+import PerfectScrollbar from 'perfect-scrollbar';
 import ApiService from '../../js/ApiService';
 import Oem from './Oem.vue';
 
@@ -50,6 +52,9 @@ export default {
     oems() {
       this.refreshDevices();
     },
+  },
+  mounted() {
+    new PerfectScrollbar(this.$refs.scrollable);
   },
   async beforeMount() {
     try {
@@ -199,5 +204,7 @@ export default {
   flex-grow: 1;
   height: 100%;
   overflow: auto;
+
+  position: relative;
 }
 </style>

@@ -8,6 +8,7 @@
   "dependencies": {
     "@mdi/font": "^5.8.55",
     "axios": "^0.20.0",
+    "perfect-scrollbar": "^1.5.3",
     "vite": "^1.0.0-rc.9",
     "vue": "^3.0.2",
     "vue-router": "^4.0.0-rc.2",
