@@ -45,8 +45,6 @@ export default {
 .change .subject,
 .change .repository {
   display: block;
-
-  vertical-align: text-bottom;
 }
 
 .change .subject {
