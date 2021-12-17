@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "dev": "vite",
-    "build": "vite build"
+    "build": "vite build --debug --sourcemap"
   },
   "dependencies": {
     "@mdi/font": "^5.8.55",
