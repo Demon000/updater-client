@@ -1,5 +1,3 @@
-import 'simplebar/dist/simplebar.css';
-import 'simplebar';
 
 import { createApp } from 'vue';
 

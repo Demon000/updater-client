@@ -6,7 +6,6 @@
     </div>
     <div
         class="oems"
-        data-simplebar
     >
       <oem
           v-for="oem in oems"

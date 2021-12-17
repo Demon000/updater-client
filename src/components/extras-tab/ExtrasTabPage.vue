@@ -2,7 +2,6 @@
   <div class="tab-page extras-tab-page">
     <div
         class="list-container"
-        data-simplebar
     >
       <div class="list">
         <template v-for="extra in extras">

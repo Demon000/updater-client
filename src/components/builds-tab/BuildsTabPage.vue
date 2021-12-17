@@ -25,8 +25,8 @@
       </div>
     </div>
     <div
-        class="list-container"
-        data-simplebar
+      class="list-container"
+      ref="listContainer"
     >
       <div class="list">
         <template v-for="build in builds">

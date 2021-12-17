@@ -9,7 +9,7 @@
     ></skeleton>
     <div
         class="list-container"
-        data-simplebar
+        ref="scrollable"
     >
       <div class="list" ref="listContainer">
         <template v-if="model">
@@ -35,7 +35,6 @@
 </template>
 
 <script>
-import SimpleBar from 'simplebar';
 import Change from './Change.vue';
 import ChangesGroup from './ChangesGroup.vue';
 import ApiService from '../../js/ApiService';
@@ -91,12 +90,8 @@ export default {
   mounted() {
     this.stopLoading = false;
 
-    this.$nextTick(() => {
-      const scrollbarElement = this.$refs.scrollableContainer.querySelector('[data-simplebar]');
-      const scrollbar = SimpleBar.instances.get(scrollbarElement);
-      this.scrollable = scrollbar.getScrollElement();
-      this.scrollable.addEventListener('scroll', this.loadChangesIfScrolledCompletely);
-    });
+    this.scrollable = this.$refs.scrollable;
+    this.scrollable.addEventListener('scroll', this.loadChangesIfScrolledCompletely);
 
     this.skeletonHeight = this.$refs.hiddenSkeleton.height;
     this.calculateSkeletonCount();
