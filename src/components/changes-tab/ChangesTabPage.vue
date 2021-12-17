@@ -41,6 +41,7 @@ import ChangesGroup from './ChangesGroup.vue';
 import ApiService from '../../js/ApiService';
 import Skeleton from '../utils/Skeleton.vue';
 import {beforeTryError} from '../../js/router_utils';
+import { nextTick } from '@vue/runtime-core';
 
 const loadDeviceBuildsBeforeHook = beforeTryError((to) => {
   if (!to.params.model) {
@@ -81,57 +82,40 @@ export default {
   beforeRouteUpdate: loadDeviceBuildsBeforeHook,
   watch: {
     model() {
-      this.loadInitialChanges();
+      this.reloadChanges();
     },
-    changes() {
-      this.reloadDeviceChanges();
-      this.loadChangesIfCannotScroll();
+    changes: {
+      handler() {
+        this.reloadChanges();
+      },
+      deep: true,
     },
   },
   mounted() {
     this.stopLoading = false;
 
     this.scrollbar = new PerfectScrollbar(this.$refs.scrollable);
-    this.$refs.scrollable.addEventListener('scroll', this.loadChangesIfScrolledCompletely);
+    this.$refs.scrollable.addEventListener('scroll', this.loadChangesIfNeeded);
 
     this.skeletonHeight = this.$refs.hiddenSkeleton.height;
     this.calculateSkeletonCount();
 
-    this.loadInitialChanges();
+    this.reloadChanges();
   },
   beforeUnmount() {
-    this.$refs.scrollable.removeEventListener('scroll', this.loadChangesIfScrolledCompletely);
+    this.$refs.scrollable.removeEventListener('scroll', this.loadChangesIfNeeded);
     this.stopLoading = true;
   },
   methods: {
-    hasAnyChanges() {
-      if (this.model) {
-        for (const buildChanges of this.buildsChanges) {
-          if (buildChanges.items.length) {
-            return true;
-          }
-        }
-      } else {
-        if (this.changes.length) {
-          return true;
-        }
-      }
-
-      return false;
-    },
-    loadInitialChanges() {
-      this.reloadDeviceChanges();
-
-      if (this.hasAnyChanges()) {
-        return;
-      }
-
-      this.loadMoreChanges();
-    },
-    reloadDeviceChanges() {
+    reloadChanges() {
       if (this.model) {
         this.buildsChanges = ApiService.getDeviceChanges(this.model);
       }
+
+      nextTick(() => {
+        this.scrollbar.update();
+        this.loadChangesIfNeeded();
+      });
     },
     isScrolledToBottom(el) {
       return el.scrollHeight - el.scrollTop - el.clientHeight < 1;
@@ -139,15 +123,13 @@ export default {
     isScrollable(el) {
       return el.scrollHeight > el.clientHeight;
     },
-    loadChangesIfCannotScroll() {
-      if (this.isScrollable(this.$refs.scrollable)) {
+    loadChangesIfNeeded() {
+      if (!this.$refs.scrollable) {
         return;
       }
 
-      this.loadMoreChanges();
-    },
-    loadChangesIfScrolledCompletely() {
-      if (!this.isScrolledToBottom(this.$refs.scrollable)) {
+      if (!this.isScrolledToBottom(this.$refs.scrollable)
+          && this.isScrollable(this.$refs.scrollable)) {
         return;
       }
 
@@ -162,8 +144,6 @@ export default {
 
       try {
         await ApiService.loadMoreChanges();
-        this.scrollbar.update();
-        this.loadChangesIfScrolledCompletely();
       } catch (err) {
         console.error(err);
       }

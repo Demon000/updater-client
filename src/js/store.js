@@ -31,7 +31,9 @@ export default createStore({
             state.builds[payload.model] = payload.data;
         },
         addNextChangesPage(state, changes) {
-            state.changes.items = state.changes.items.concat(changes);
+            for (const change of changes) {
+                state.changes.items.push(change);
+            }
             state.changes.page++;
         },
         setExtras(state, extras) {
