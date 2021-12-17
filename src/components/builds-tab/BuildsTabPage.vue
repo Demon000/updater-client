@@ -26,7 +26,6 @@
     </div>
     <div
       class="list-container"
-      ref="listContainer"
     >
       <div class="list">
         <template v-for="build in builds">
