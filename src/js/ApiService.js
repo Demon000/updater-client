@@ -61,7 +61,6 @@ export default class ApiService {
     }
 
     static async loadDeviceBuilds(model) {
-
         try {
             store.commit('startRequest');
             const response = await this.apiV2Request
