@@ -12,8 +12,8 @@
       </template>
     </div>
       <change
-          v-for="(change, index) in items"
-          v-bind:key="index"
+          v-for="change in items"
+          v-bind:key="change.url"
           v-bind="change"
       ></change>
   </div>
