@@ -156,7 +156,7 @@ export default {
       const listHeight = this.$refs.listContainer.clientHeight;
       const fillableHeight = containerHeight - listHeight;
       if (fillableHeight <= 0) {
-        this.skeletonCount = 0;
+        this.skeletonCount = 5;
       } else {
         this.skeletonCount = Math.floor(fillableHeight / this.skeletonHeight);
       }
