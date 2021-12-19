@@ -18,6 +18,7 @@
 </template>
 
 <script>
+import OverlayScrollbars from 'overlayscrollbars';
 import ApiService from '../../js/ApiService';
 import Oem from './Oem.vue';
 
@@ -59,6 +60,9 @@ export default {
     } catch (err) {
       console.error(err);
     }
+  },
+  mounted() {
+    OverlayScrollbars(this.$refs.scrollable, {});
   },
   methods: {
     clearFilterText() {

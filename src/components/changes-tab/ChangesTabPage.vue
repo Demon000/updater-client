@@ -38,6 +38,7 @@
 </template>
 
 <script>
+import OverlayScrollbars from 'overlayscrollbars';
 import ChangesGroup from './ChangesGroup.vue';
 import ApiService from '../../js/ApiService';
 import Skeleton from '../utils/Skeleton.vue';
@@ -67,6 +68,7 @@ export default {
       stopLoading: false,
       skeletonCount: 5,
       skeletonHeight: 1,
+      scrollbar: undefined,
     };
   },
   computed: {
@@ -93,7 +95,11 @@ export default {
   mounted() {
     this.stopLoading = false;
 
-    this.$refs.scrollable.addEventListener('scroll', this.loadChangesIfNeeded);
+    this.scrollbar = OverlayScrollbars(this.$refs.scrollable, {
+      callbacks: {
+        onScroll: this.loadChangesIfNeeded,
+      },
+    });
 
     this.skeletonHeight = this.$refs.hiddenSkeleton.height;
     this.calculateSkeletonCount();
@@ -101,7 +107,6 @@ export default {
     this.reloadChanges();
   },
   beforeUnmount() {
-    this.$refs.scrollable.removeEventListener('scroll', this.loadChangesIfNeeded);
     this.stopLoading = true;
   },
   methods: {
@@ -114,19 +119,22 @@ export default {
         this.loadChangesIfNeeded();
       });
     },
-    isScrolledToBottom(el) {
-      return el.scrollHeight - el.scrollTop - el.clientHeight < 1;
+    isScrolledToBottom() {
+      const state = this.scrollbar.getState();
+      const scroll = this.scrollbar.scroll();
+      return state.contentScrollSize.height - scroll.position.y - state.viewportSize.height < 1;
     },
-    isScrollable(el) {
-      return el.scrollHeight > el.clientHeight;
+    isScrollable() {
+      const state = this.scrollbar.getState();
+      return state.contentScrollSize.height > state.viewportSize.height;
     },
     loadChangesIfNeeded() {
       if (!this.$refs.scrollable) {
         return;
       }
 
-      if (!this.isScrolledToBottom(this.$refs.scrollable)
-          && this.isScrollable(this.$refs.scrollable)) {
+      if (!this.isScrolledToBottom()
+          && this.isScrollable()) {
         return;
       }
 

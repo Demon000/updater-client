@@ -45,6 +45,7 @@
 </template>
 
 <script>
+import OverlayScrollbars from 'overlayscrollbars';
 import ApiService from '../../js/ApiService';
 import {beforeTryError} from '../../js/router_utils';
 import DownloadableGroup from '../downloadable/DownloadableGroup.vue';
@@ -77,6 +78,7 @@ export default {
     },
   },
   mounted() {
+    OverlayScrollbars(this.$refs.scrollable, {});
     this.bannerHidden = this.isBannerHidden();
     this.loadBuilds();
   },

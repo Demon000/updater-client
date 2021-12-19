@@ -1,6 +1,7 @@
 import { createApp } from 'vue';
 
 import '@mdi/font/css/materialdesignicons.css';
+import 'overlayscrollbars/css/OverlayScrollbars.css';
 import './css/index.css';
 
 import App from './App.vue';

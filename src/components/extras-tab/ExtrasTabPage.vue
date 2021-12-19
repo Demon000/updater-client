@@ -19,6 +19,7 @@
 </template>
 
 <script>
+import OverlayScrollbars from 'overlayscrollbars';
 import DownloadableGroup from '../downloadable/DownloadableGroup.vue';
 import {beforeTryError} from '../../js/router_utils';
 import ApiService from '../../js/ApiService';
@@ -38,6 +39,9 @@ export default {
     extras() {
       return this.$store.getters.extras;
     },
+  },
+  mounted() {
+    OverlayScrollbars(this.$refs.scrollable, {});
   },
 }
 </script>
