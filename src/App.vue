@@ -49,6 +49,18 @@ export default {
   color: rgba(255, 255, 255, 0.87)
 }
 
+#app.dark .os-theme-dark > .os-scrollbar > .os-scrollbar-track > .os-scrollbar-handle {
+  background: rgba(255, 255, 255, 0.4);
+}
+
+#app.dark .os-theme-dark > .os-scrollbar:hover > .os-scrollbar-track > .os-scrollbar-handle {
+  background: rgba(255, 255, 255, .55);
+}
+
+#app.dark .os-theme-dark > .os-scrollbar > .os-scrollbar-track > .os-scrollbar-handle.active {
+  background: rgba(255, 255, 255, .7);
+}
+
 #sidebar {
   width: 300px;
   max-width: 30%;
