@@ -1,7 +1,6 @@
 import { createApp } from 'vue';
 
 import '@mdi/font/css/materialdesignicons.css';
-import 'perfect-scrollbar/css/perfect-scrollbar.css';
 import './css/index.css';
 
 import App from './App.vue';

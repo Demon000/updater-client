@@ -19,7 +19,6 @@
 </template>
 
 <script>
-import PerfectScrollbar from 'perfect-scrollbar';
 import DownloadableGroup from '../downloadable/DownloadableGroup.vue';
 import {beforeTryError} from '../../js/router_utils';
 import ApiService from '../../js/ApiService';
@@ -35,9 +34,6 @@ export default {
   },
   beforeRouteEnter: loadExtrasBeforeHook,
   beforeRouteUpdate: loadExtrasBeforeHook,
-  mounted() {
-    new PerfectScrollbar(this.$refs.scrollable);
-  },
   computed: {
     extras() {
       return this.$store.getters.extras;

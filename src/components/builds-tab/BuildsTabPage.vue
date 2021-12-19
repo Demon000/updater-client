@@ -45,7 +45,6 @@
 </template>
 
 <script>
-import PerfectScrollbar from 'perfect-scrollbar';
 import ApiService from '../../js/ApiService';
 import {beforeTryError} from '../../js/router_utils';
 import DownloadableGroup from '../downloadable/DownloadableGroup.vue';
@@ -78,8 +77,6 @@ export default {
     },
   },
   mounted() {
-    new PerfectScrollbar(this.$refs.scrollable);
-
     this.bannerHidden = this.isBannerHidden();
     this.loadBuilds();
   },

@@ -38,7 +38,6 @@
 </template>
 
 <script>
-import PerfectScrollbar from 'perfect-scrollbar';
 import ChangesGroup from './ChangesGroup.vue';
 import ApiService from '../../js/ApiService';
 import Skeleton from '../utils/Skeleton.vue';
@@ -64,7 +63,6 @@ export default {
   },
   data() {
     return {
-      scrollbar: undefined,
       buildsChanges: [],
       stopLoading: false,
       skeletonCount: 5,
@@ -95,7 +93,6 @@ export default {
   mounted() {
     this.stopLoading = false;
 
-    this.scrollbar = new PerfectScrollbar(this.$refs.scrollable);
     this.$refs.scrollable.addEventListener('scroll', this.loadChangesIfNeeded);
 
     this.skeletonHeight = this.$refs.hiddenSkeleton.height;
@@ -114,7 +111,6 @@ export default {
       }
 
       nextTick(() => {
-        this.scrollbar.update();
         this.loadChangesIfNeeded();
       });
     },
