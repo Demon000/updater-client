@@ -47,6 +47,10 @@ export default {
   height: 100px;
 }
 
+.sidebar .device-selector {
+  flex-grow: 1;
+}
+
 .sidebar .logo img {
   height: 40px;
 }
