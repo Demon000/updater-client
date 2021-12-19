@@ -144,7 +144,9 @@ export default {
       this.calculateSkeletonCount();
 
       try {
+        this.stopLoading = true;
         await ApiService.loadMoreChanges();
+        this.stopLoading = false;
       } catch (err) {
         console.error(err);
       }
