@@ -52,6 +52,7 @@ export default {
 
   color: inherit;
   text-decoration: none;
+  overflow-wrap: break-word;
 }
 
 .change .repository-type {
