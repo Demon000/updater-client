@@ -30,11 +30,13 @@ export default createStore({
         setDeviceBuilds(state, payload) {
             state.builds[payload.model] = payload.data;
         },
-        addNextChangesPage(state, changes) {
+        incrementChangesPage(state) {
+            state.changes.page++;
+        },
+        addChanges(state, changes) {
             for (const change of changes) {
                 state.changes.items.push(change);
             }
-            state.changes.page++;
         },
         setExtras(state, extras) {
             state.extras = extras;

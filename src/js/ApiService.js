@@ -104,7 +104,8 @@ export default class ApiService {
     }
 
     static async loadMoreChanges() {
-        const page = store.getters.changesPage + 1;
+        store.commit('incrementChangesPage');
+        const page = store.getters.changesPage;
 
         try {
             store.commit('startRequest');
@@ -117,7 +118,7 @@ export default class ApiService {
 
             const changes = this.filterChanges(response.data);
             this.distinguishDeviceSpecificChanges(changes);
-            store.commit('addNextChangesPage', changes);
+            store.commit('addChanges', changes);
             store.commit('endRequest');
         } catch (err) {
             store.commit('endRequest');
