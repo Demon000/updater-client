@@ -2,19 +2,45 @@
   "name": "updater-client",
   "version": "0.0.0",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build --debug --sourcemap"
+    "dev": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "core-js": "^3.6.5",
+    "vue": "^3.0.0",
     "@mdi/font": "^5.8.55",
     "axios": "^0.20.0",
     "perfect-scrollbar": "^1.5.3",
-    "vite": "^1.0.0-rc.9",
-    "vue": "^3.0.2",
     "vue-router": "^4.0.0-rc.2",
     "vuex": "^4.0.0-rc.1"
   },
   "devDependencies": {
-    "@vue/compiler-sfc": "^3.0.2"
-  }
+    "@vue/cli-plugin-babel": "~4.5.0",
+    "@vue/cli-plugin-eslint": "~4.5.0",
+    "@vue/cli-service": "~4.5.0",
+    "@vue/compiler-sfc": "^3.0.0",
+    "babel-eslint": "^10.1.0",
+    "eslint": "^6.7.2",
+    "eslint-plugin-vue": "^7.0.0"
+  },
+  "eslintConfig": {
+    "root": true,
+    "env": {
+      "node": true
+    },
+    "extends": [
+      "plugin:vue/vue3-essential",
+      "eslint:recommended"
+    ],
+    "parserOptions": {
+      "parser": "babel-eslint"
+    },
+    "rules": {}
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead"
+  ]
 }

@@ -10,7 +10,7 @@ Create a file named `.env.local`.
 
 Example:
 ```
-VITE_API_HOSTNAME=http://192.168.100.25:5000
+VUE_APP_API_HOSTNAME=http://192.168.100.25:5000
 ```
 Replace `http://192.168.100.25:5000` with the hostname of the updater server.
 
