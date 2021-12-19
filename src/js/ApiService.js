@@ -81,7 +81,7 @@ export default class ApiService {
 
     static changeSubmittedCompare(first, second) {
         return second.submitted - first.submitted;
-    };
+    }
 
     static filterChanges(changes) {
         const filteredChanges = [];

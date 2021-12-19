@@ -38,9 +38,11 @@ export default {
       type: String,
       default: undefined,
     },
-    versions: {
-      type: Array,
-      default: [],
+    versions() {
+      return {
+        type: Array,
+        default: [],
+      };
     },
   },
 }

@@ -25,20 +25,20 @@
       </div>
     </div>
     <div
-      class="list-container"
-      ref="scrollable"
+        class="list-container"
+        ref="scrollable"
     >
       <div class="list">
-        <template v-for="build in builds">
-          <downloadable-group
-              v-bind="{
-                items: [
-                    build,
-                    build.recovery,
-                ],
-              }"
-          ></downloadable-group>
-        </template>
+        <downloadable-group
+            v-for="(build, index) in builds"
+            v-bind:key="index"
+            v-bind="{
+              items: [
+                  build,
+                  build.recovery,
+              ],
+            }"
+        ></downloadable-group>
       </div>
     </div>
   </div>

@@ -10,7 +10,8 @@
         v-slot:title="{
           isExpanded,
           toggleManualExpansion,
-        }">
+        }"
+    >
       <div
           class="title-container"
           v-on:click="toggleManualExpansion"
@@ -31,11 +32,11 @@
     <template v-slot:content>
       <div class="devices-container">
         <div class="devices">
-          <template v-for="device in devices">
-            <device
-                v-bind="device"
-            ></device>
-          </template>
+          <device
+              v-for="(device, index) in devices"
+              v-bind:key="index"
+              v-bind="device"
+          ></device>
         </div>
       </div>
     </template>

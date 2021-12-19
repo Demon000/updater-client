@@ -6,9 +6,11 @@
     >
       {{ title }}
     </div>
-    <template v-for="item in items">
-      <downloadable v-bind="item"></downloadable>
-    </template>
+    <downloadable
+        v-for="(item, index) in items"
+        v-bind:key="index"
+        v-bind="item"
+    ></downloadable>
   </div>
 </template>
 

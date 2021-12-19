@@ -11,9 +11,11 @@
         Included in {{ build.filename }}
       </template>
     </div>
-    <template v-for="change in items">
-      <change v-bind="change"></change>
-    </template>
+      <change
+          v-for="(change, index) in items"
+          v-bind:key="index"
+          v-bind="change"
+      ></change>
   </div>
 </template>
 

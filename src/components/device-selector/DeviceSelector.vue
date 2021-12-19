@@ -9,8 +9,9 @@
         ref="scrollable"
     >
       <oem
-          v-for="oem in oems"
+          v-for="(oem, index) in oems"
           v-bind="oem"
+          v-bind:key="index"
       ></oem>
     </div>
   </div>

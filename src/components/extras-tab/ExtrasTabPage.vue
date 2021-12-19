@@ -5,14 +5,14 @@
         ref="scrollable"
     >
       <div class="list">
-        <template v-for="extra in extras">
-          <downloadable-group
-              v-bind="{
-                title: extra.version,
-                items: extra.extras,
-              }"
-          ></downloadable-group>
-        </template>
+        <downloadable-group
+            v-for="(extra, index) in extras"
+            v-bind:key="index"
+            v-bind="{
+              title: extra.version,
+              items: extra.extras,
+            }"
+        ></downloadable-group>
       </div>
     </div>
   </div>

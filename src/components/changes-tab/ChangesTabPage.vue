@@ -13,9 +13,11 @@
     >
       <div class="list" ref="listContainer">
         <template v-if="model">
-          <template v-for="buildChanges in buildsChanges">
-            <changes-group v-bind="buildChanges"></changes-group>
-          </template>
+          <changes-group
+              v-for="(buildChanges, index) in buildsChanges"
+              v-bind:key="index"
+              v-bind="buildChanges"
+          ></changes-group>
         </template>
         <template v-else>
           <changes-group
@@ -26,9 +28,10 @@
         </template>
       </div>
       <div class="list" v-if="anyLoading">
-        <template v-for="i in skeletonCount" :key="i">
-          <skeleton></skeleton>
-        </template>
+        <skeleton
+          v-for="i in skeletonCount"
+          v-bind:key="i"
+        ></skeleton>
       </div>
     </div>
   </div>
@@ -36,7 +39,6 @@
 
 <script>
 import PerfectScrollbar from 'perfect-scrollbar';
-import Change from './Change.vue';
 import ChangesGroup from './ChangesGroup.vue';
 import ApiService from '../../js/ApiService';
 import Skeleton from '../utils/Skeleton.vue';
@@ -55,7 +57,6 @@ export default {
   name: 'ChangesTabPage',
   components: {
     ChangesGroup,
-    Change,
     Skeleton,
   },
   props: {
