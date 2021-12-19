@@ -27,7 +27,7 @@
           ></changes-group>
         </template>
       </div>
-      <div class="list" v-if="anyLoading">
+      <div class="skeleton-list list" v-if="anyLoading">
         <skeleton
           v-for="i in skeletonCount"
           v-bind:key="i"
@@ -171,5 +171,9 @@ export default {
 .skeleton-hidden {
   visibility: hidden;
   position: absolute;
+}
+
+.skeleton-list {
+  padding: 16px;
 }
 </style>
