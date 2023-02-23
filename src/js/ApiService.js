@@ -19,7 +19,7 @@ export default class ApiService {
         try {
             store.commit('startRequest');
             const response = await axios
-                .get(`${API_HOSTNAME}/api/v2/oems`);
+                .get(`${API_HOSTNAME}api/v2/oems`);
             this.sortOems(response.data);
             store.commit('setOems', response.data);
             store.commit('endRequest');
@@ -33,7 +33,7 @@ export default class ApiService {
         try {
             store.commit('startRequest');
             const response = await axios
-                .get(`${API_HOSTNAME}/api/v2/devices/${model}`);
+                .get(`${API_HOSTNAME}api/v2/devices/${model}`);
             store.commit('setDevice', {
                 model,
                 data: response.data,
@@ -61,7 +61,7 @@ export default class ApiService {
         try {
             store.commit('startRequest');
             const response = await axios
-                .get(`${API_HOSTNAME}/api/v2/devices/${model}/builds`);
+                .get(`${API_HOSTNAME}api/v2/devices/${model}/builds`);
 
             this.sortDeviceBuilds(response.data);
 
@@ -109,7 +109,7 @@ export default class ApiService {
         try {
             store.commit('startRequest');
             const response = await axios
-                .get(`${API_HOSTNAME}/api/v2/changes`, {
+                .get(`${API_HOSTNAME}api/v2/changes`, {
                     params: {
                         page,
                     },
@@ -285,7 +285,7 @@ export default class ApiService {
         try {
             store.commit('startRequest');
             const response = await axios
-                .get(`${API_HOSTNAME}/api/v2/extras`);
+                .get(`${API_HOSTNAME}api/v2/extras`);
 
             store.commit('setExtras', response.data);
             store.commit('endRequest');

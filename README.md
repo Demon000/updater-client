@@ -10,9 +10,9 @@ Create a file named `.env.local`.
 
 Example:
 ```
-VITE_API_HOSTNAME=http://192.168.100.25:5000
+VITE_API_HOSTNAME=http://192.168.100.25:5000/
 ```
-Replace `http://192.168.100.25:5000` with the hostname of the updater server.
+Replace `http://192.168.100.25:5000/` with the hostname of the updater server. Note: the trailing slash _is required_
 
 2. Install all npm modules
 
