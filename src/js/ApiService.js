@@ -281,17 +281,4 @@ export default class ApiService {
         return changesGroups.reverse();
     }
 
-    static async loadExtras() {
-        try {
-            store.commit('startRequest');
-            const response = await axios
-                .get(`${API_HOSTNAME}api/v2/extras`);
-
-            store.commit('setExtras', response.data);
-            store.commit('endRequest');
-        } catch (err) {
-            store.commit('endRequest');
-            throw err;
-        }
-    }
 }
