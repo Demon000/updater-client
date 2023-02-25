@@ -7,7 +7,6 @@ import DeviceMain from '../components/device-main/DeviceMain.vue';
 import Builds from '../components/builds-tab/BuildsTabPage.vue';
 import ErrorMain from '../components/error-main/ErrorMain.vue';
 import DevicesTabPage from '../components/devices-tab/DevicesTabPage.vue';
-import ExtrasTabPage from '../components/extras-tab/ExtrasTabPage.vue';
 import MediaQueryUtils from './MediaQueryUtils';
 
 const getRedirectForHomeIndex = (deviceType) => {
@@ -47,11 +46,6 @@ const router = createRouter({
                     path: 'changes',
                     name: 'home_changes',
                     component: ChangesTabPage,
-                },
-                {
-                    path: 'extras',
-                    name: 'home_extras',
-                    component: ExtrasTabPage,
                 }
             ],
         },

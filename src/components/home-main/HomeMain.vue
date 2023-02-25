@@ -25,14 +25,6 @@
           Changes
         </router-link>
 
-        <router-link
-            class="tab"
-            v-bind:to="{
-              name: 'home_extras',
-            }"
-        >
-          Extras
-        </router-link>
       </template>
     </navbar>
 

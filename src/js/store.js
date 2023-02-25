@@ -5,7 +5,6 @@ export default createStore({
         return {
             ongoingRequests: 0,
             oems: [],
-            extras: [],
             devices: {},
             builds: {},
             changes: {
@@ -34,9 +33,6 @@ export default createStore({
             state.changes.items = state.changes.items.concat(changes);
             state.changes.page++;
         },
-        setExtras(state, extras) {
-            state.extras = extras;
-        },
     },
     getters: {
         ongoingRequests(state) {
@@ -56,9 +52,6 @@ export default createStore({
         },
         changesPage(state) {
             return state.changes.page;
-        },
-        extras(state) {
-            return state.extras;
         },
     },
 });
