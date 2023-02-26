@@ -112,8 +112,7 @@ export default {
         for (const device of oem.devices) {
           device.hidden = true;
 
-          if (device.name.toLowerCase().includes(filterText) ||
-              device.model.toLowerCase().includes(filterText)) {
+          if (`${oem.name} ${device.name} ${device.model}`.toLowerCase().includes(filterText)) {
             oem.forceExpanded = true;
             oem.hidden = false;
             device.hidden = false;
