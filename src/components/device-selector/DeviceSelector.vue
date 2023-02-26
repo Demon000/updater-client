@@ -2,7 +2,7 @@
   <div class="device-selector">
     <div class="search-container">
       <input type="text" placeholder="Search..." v-model="filterText">
-      <i class="mdi mdi-close clear" v-on:click="clearFilterText"></i>
+      <i class="mdi mdi-close clear" v-if="filterText" v-on:click="clearFilterText"></i>
     </div>
     <div
         class="oems"
