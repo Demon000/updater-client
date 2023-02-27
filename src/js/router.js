@@ -87,6 +87,12 @@ const router = createRouter({
             ],
         },
         {
+            path: '/:model/changes',
+            redirect: {
+                name: 'device_changes',
+            },
+        },
+        {
             path: '/error',
             name: 'error',
             props: true,
