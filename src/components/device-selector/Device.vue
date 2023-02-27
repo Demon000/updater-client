@@ -10,9 +10,9 @@
     <div
         class="device"
         v-bind:class="{
-          'hidden': hidden,
           'selected': selected,
         }"
+        v-show="!hidden"
     >
       <span class="name">
         {{ name }}
@@ -37,10 +37,6 @@ export default {
 </script>
 
 <style scoped>
-.device.hidden {
-  display: none;
-}
-
 .device {
   line-height: 16px;
 

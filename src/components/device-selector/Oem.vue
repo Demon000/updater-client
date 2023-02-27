@@ -2,9 +2,7 @@
   <collapsible
       class="oem"
       v-bind:forceExpanded="forceExpanded"
-      v-bind:class="{
-        'hidden': hidden,
-      }"
+      v-show="!hidden"
   >
     <template
         v-slot:title="{
@@ -76,10 +74,6 @@ export default {
 
 #app.dark .oem {
   border-bottom: 1px solid rgba(255, 255, 255, 0.12);
-}
-
-.oem.hidden {
-  display: none;
 }
 
 .oem .title-container {
