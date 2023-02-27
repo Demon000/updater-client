@@ -6,8 +6,8 @@
             v-bind:toggleManualExpansion="toggleManualExpansion"
       ></slot>
     </div>
-    <height-transition>
-      <slot name="content" v-if="isExpanded"></slot>
+    <height-transition v-show="isExpanded">
+      <slot name="content"></slot>
     </height-transition>
   </div>
 </template>
