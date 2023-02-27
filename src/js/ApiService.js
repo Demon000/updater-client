@@ -245,16 +245,14 @@ export default class ApiService {
             });
         }
 
-        for (const version of versions) {
-            buildsChanges.push({
-                build: {
-                    filename: 'next',
-                    datetime: Number.MAX_SAFE_INTEGER,
-                    version,
-                },
-                items: [],
-            });
-        }
+        buildsChanges.push({
+            build: {
+                filename: 'next',
+                datetime: Number.MAX_SAFE_INTEGER,
+                version: versions.at(-1),
+            },
+            items: [],
+        });
 
         return buildsChanges;
     }
