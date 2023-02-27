@@ -249,7 +249,9 @@ export default class ApiService {
             build: {
                 filename: 'next',
                 datetime: Number.MAX_SAFE_INTEGER,
-                version: versions.at(-1),
+                version: versions.reduce((a, b) => {
+                    return parseFloat(a) > parseFloat(b) ? a : b;
+                }),
             },
             items: [],
         });
