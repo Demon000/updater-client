@@ -32,10 +32,7 @@
         <template v-for="build in builds">
           <downloadable-group
               v-bind="{
-                items: [
-                    build,
-                    build.recovery,
-                ].filter((e) => e !== undefined),
+                items: build.files,
               }"
           ></downloadable-group>
         </template>
