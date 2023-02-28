@@ -87,10 +87,21 @@ const router = createRouter({
             ],
         },
         {
-            path: '/:model/changes',
-            redirect: {
-                name: 'device_changes',
-            },
+            path: '/:model',
+            children: [
+                {
+                    path: '',
+                    redirect: {
+                        name: 'device_builds',
+                    },
+                },
+                {
+                    path: 'changes',
+                    redirect: {
+                        name: 'device_changes',
+                    },
+                }
+            ],
         },
         {
             path: '/error',
