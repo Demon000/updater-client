@@ -240,7 +240,11 @@ export default class ApiService {
 
         for (const build of builds) {
             buildsChanges.push({
-                build,
+                build: {
+                    filename: build.files[0].filename,
+                    datetime: build.datetime,
+                    version: build.version,
+                },
                 items: [],
             });
         }
