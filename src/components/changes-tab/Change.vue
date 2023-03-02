@@ -11,12 +11,7 @@
     </a>
     <div class="repository-type">
       <span class="type">
-        <template v-if="isDeviceSpecific">
-          device specific
-        </template>
-        <template v-else>
-          platform
-        </template>
+        {{ type }}
       </span>
 
       <span class="repository">
@@ -33,7 +28,7 @@ export default {
     url: String,
     subject: String,
     repository: String,
-    isDeviceSpecific: Boolean,
+    type: String,
   },
 }
 </script>

@@ -95,8 +95,34 @@ export default class ApiService {
     }
 
     static distinguishDeviceSpecificChanges(changes) {
+        // Matches https://github.com/LineageOS/android/blob/aa01966/snippets/lineage.xml#L163-L173
+        const typeOverrides = {
+            'infrastructure': [
+                'charter',
+                'cm_crowdin',
+                'hudson',
+                'mirror',
+                'www',
+                'lineage_wiki',
+            ],
+            'tools': [
+                'contributors-cloud-generator',
+                'scripts',
+            ],
+        };
+
         for (const change of changes) {
-            change.isDeviceSpecific = this.isDeviceSpecificChange(change);
+            const typeOverride = Object.keys(typeOverrides).find(t => {
+                return typeOverrides[t].includes(change.repository);
+            });
+
+            if (typeOverride !== undefined) {
+                change.type = typeOverride;
+            } else if (this.isDeviceSpecificChange(change)) {
+                change.type = 'device specific';
+            } else {
+                change.type = 'platform';
+            }
         }
     }
 
