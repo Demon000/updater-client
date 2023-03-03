@@ -37,6 +37,7 @@ export default {
 .change {
   padding: 8px 0;
 }
+
 .change .subject,
 .change .repository {
   display: block;
