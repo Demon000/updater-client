@@ -10,8 +10,12 @@
       {{ subject }}
     </a>
     <div class="repository-type">
-      <span class="type">
+      <span class="badge">
         {{ type }}
+      </span>
+
+      <span class="badge" v-if="!build">
+        {{ branch }}
       </span>
 
       <span class="repository">
@@ -29,6 +33,8 @@ export default {
     subject: String,
     repository: String,
     type: String,
+    branch: String,
+    build: Object,
   },
 }
 </script>
@@ -60,7 +66,7 @@ export default {
   align-items: center;
 }
 
-.change .type {
+.change .badge {
   border-radius: 12px;
   padding: 0 8px;
   margin-right: 8px;
@@ -68,7 +74,7 @@ export default {
   background: rgba(0, 0, 0, 0.15);
 }
 
-#app.dark .change .type {
+#app.dark .change .badge {
   background: rgba(255, 255, 255, 0.15);
 }
 </style>

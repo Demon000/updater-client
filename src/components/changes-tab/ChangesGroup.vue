@@ -12,7 +12,7 @@
       </template>
     </div>
     <template v-for="change in items">
-      <change v-bind="change"></change>
+      <change v-bind:="change" v-bind:build="build"></change>
     </template>
   </div>
 </template>
