@@ -80,7 +80,22 @@ export default {
   },
   computed: {
     sizeHuman() {
-      return this.size ? `${(this.size / Math.pow(1024, 2)).toFixed(2)} MiB` : '';
+      if (this.size !== undefined) {
+        const units = {
+          'GiB': 3,
+          'MiB': 2,
+          'KiB': 1,
+        };
+
+        for (const [unit, exponent] of Object.entries(units)) {
+          if (this.size >= Math.pow(1024, exponent)) {
+            return `${(this.size / Math.pow(1024, exponent)).toFixed(2)} ${unit}`;
+          }
+        }
+
+        return `${this.size} B`;
+      }
+      return '';
     },
   },
 }
