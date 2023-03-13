@@ -80,7 +80,7 @@ export default {
   },
   computed: {
     sizeHuman() {
-      return this.size ? `${(this.size / 1000000).toFixed(2)} MB` : '';
+      return this.size ? `${(this.size / Math.pow(1024, 2)).toFixed(2)} MiB` : '';
     },
   },
 }
