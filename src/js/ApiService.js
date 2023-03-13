@@ -158,7 +158,7 @@ export default class ApiService {
             }
         }
 
-        return false;
+        return versions.length === 0;
     }
 
     static isDeviceSpecificChange(change) {
@@ -281,7 +281,7 @@ export default class ApiService {
                 datetime: Number.MAX_SAFE_INTEGER,
                 version: versions.reduce((a, b) => {
                     return parseFloat(a) > parseFloat(b) ? a : b;
-                }),
+                }, ''),
             },
             items: [],
         });
