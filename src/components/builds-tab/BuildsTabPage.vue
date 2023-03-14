@@ -163,8 +163,10 @@ export default {
   user-select: none;
 }
 
-.builds-tab-page .banner .button:hover {
-  background: rgba(22, 124, 128, 0.15);
+@media (hover: hover) {
+  .builds-tab-page .banner .button:hover {
+    background: rgba(22, 124, 128, 0.15);
+  }
 }
 
 .builds-tab-page .banner .button:active {

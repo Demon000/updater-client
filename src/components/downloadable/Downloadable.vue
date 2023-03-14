@@ -141,12 +141,14 @@ export default {
   color: rgba(255, 255, 255, 0.56);
 }
 
-.downloadable .title-container .controls .icon:hover {
-  background: rgba(0, 0, 0, 0.15);
-}
+@media (hover: hover) {
+  .downloadable .title-container .controls .icon:hover {
+    background: rgba(0, 0, 0, 0.15);
+  }
 
-#app.dark .downloadable .title-container .controls .icon:hover {
-  background: rgba(255, 255, 255, 0.15);
+  #app.dark .downloadable .title-container .controls .icon:hover {
+    background: rgba(255, 255, 255, 0.15);
+  }
 }
 
 .downloadable .title-container.expanded .controls .expand-icon,
