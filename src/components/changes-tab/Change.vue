@@ -14,7 +14,7 @@
         {{ type }}
       </span>
 
-      <span class="badge" v-if="!build">
+      <span class="badge" v-if="!build?.version">
         {{ branch }}
       </span>
 
