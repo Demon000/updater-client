@@ -27,6 +27,7 @@
     <div
         class="list-container"
         data-simplebar
+        v-if="builds.length > 0"
     >
       <div class="list">
         <template v-for="build in builds">
@@ -37,6 +38,18 @@
           ></downloadable-group>
         </template>
       </div>
+    </div>
+    <div class="list-placeholder" v-else>
+      <span>
+        This device doesn't have any builds available, please see
+        <a
+            href="https://wiki.lineageos.org/faq#my-device-is-officially-supported-but-theres-no-zips-for-it-on-the-download-page-where-are-they"
+            target="_blank"
+        >
+          wiki
+        </a>
+        for more info
+      </span>
     </div>
   </div>
 </template>
@@ -166,6 +179,20 @@ export default {
   .builds-tab-page .banner .buttons {
     text-align: right;
   }
+}
+
+.builds-tab-page .list-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-size: 24px;
+  height: 100%;
+}
+
+.builds-tab-page .list-placeholder a {
+  text-decoration: none;
+  color: #167c80;
 }
 
 </style>
