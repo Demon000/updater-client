@@ -86,6 +86,7 @@ export default {
             oem.hidden = false;
             device.hidden = false;
             device.selected = true;
+            return;
           }
         }
       }
