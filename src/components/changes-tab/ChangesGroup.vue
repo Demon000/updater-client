@@ -5,7 +5,7 @@
         v-if="build"
     >
       <template v-if="build.filename === 'next'">
-        To be included in next {{ build.version }} build
+        To be included in the next {{ build.version }} build
       </template>
       <template v-else>
         Included in {{ build.filename }}
