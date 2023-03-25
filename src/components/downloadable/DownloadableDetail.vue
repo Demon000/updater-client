@@ -26,7 +26,7 @@ export default {
 }
 
 .downloadable-detail .title {
-  width: 25%;
+  width: 20%;
   flex-shrink: 0;
   color: rgba(0, 0, 0, 0.5);
 }
@@ -36,7 +36,7 @@ export default {
 }
 
 .downloadable-detail .value {
-  width: 75%;
+  width: 80%;
   flex-shrink: 0;
   word-wrap: break-word;
 }
