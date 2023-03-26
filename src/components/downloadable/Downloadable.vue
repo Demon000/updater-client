@@ -118,7 +118,7 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
-
+  gap: 8px;
   margin: 4px 0;
 }
 
