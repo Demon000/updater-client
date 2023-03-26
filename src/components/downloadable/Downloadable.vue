@@ -183,7 +183,7 @@ export default {
   color: #167c80;
 }
 
-@media (hover: hover) {
+@media (hover: hover), (-moz-touch-enabled: 0) {
   .downloadable .title-container .controls .icon:hover {
     background: rgba(0, 0, 0, 0.15);
   }
