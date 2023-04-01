@@ -129,8 +129,7 @@ export default class ApiService {
     }
 
     static isDeviceSpecificChange(change) {
-        return change.repository.includes('_kernel_') ||
-            change.repository.includes('_device_');
+        return change.type === 'device specific';
     }
 
     static isAndroidRepository(change) {
