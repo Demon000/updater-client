@@ -94,38 +94,6 @@ export default class ApiService {
         return filteredChanges;
     }
 
-    static distinguishDeviceSpecificChanges(changes) {
-        // Matches https://github.com/LineageOS/android/blob/aa01966/snippets/lineage.xml#L163-L173
-        const typeOverrides = {
-            'infrastructure': [
-                'charter',
-                'cm_crowdin',
-                'hudson',
-                'mirror',
-                'www',
-                'lineage_wiki',
-            ],
-            'tools': [
-                'contributors-cloud-generator',
-                'scripts',
-            ],
-        };
-
-        for (const change of changes) {
-            const typeOverride = Object.keys(typeOverrides).find(t => {
-                return typeOverrides[t].includes(change.repository);
-            });
-
-            if (typeOverride !== undefined) {
-                change.type = typeOverride;
-            } else if (this.isDeviceSpecificChange(change)) {
-                change.type = 'device specific';
-            } else {
-                change.type = 'platform';
-            }
-        }
-    }
-
     static async loadMoreChanges(minPages=-1) {
         const page = store.getters.changesPage + 1;
         if (minPages !== -1 && page >= minPages) {
@@ -142,7 +110,6 @@ export default class ApiService {
                 });
 
             const changes = this.filterChanges(response.data);
-            this.distinguishDeviceSpecificChanges(changes);
             store.commit('addNextChangesPage', changes);
             store.commit('endRequest');
         } catch (err) {
