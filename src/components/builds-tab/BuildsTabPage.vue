@@ -67,6 +67,7 @@ export default {
   watch: {
     model() {
       this.loadBuilds();
+      this.loadDeviceDetails();
     },
   },
   mounted() {
