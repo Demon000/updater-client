@@ -1,7 +1,13 @@
 <template>
   <div class="downloadable-detail">
     <div class="title">{{ title }}</div>
-    <div class="value">{{ value }}</div>
+    <div class="value">
+      {{ value }}
+      <div v-if="title == 'SHA256'">
+        <a href="#" v-on:click="compareSha256">Compare</a>
+        <input type="file" ref="input" style="display: none" />
+      </div>
+    </div>
   </div>
 </template>
 
@@ -12,6 +18,28 @@ export default {
     title: String,
     value: String,
   },
+  methods: {
+    compareSha256() {
+      const input = this.$refs.input;
+      input.onchange = () => {
+        const fileReader = new FileReader();
+        fileReader.onload = async () => {
+          const hash = await crypto.subtle.digest('SHA-256', await fileReader.result);
+          const hashString = [...new Uint8Array(hash)]
+            .map(x => x.toString(16).padStart(2, '0'))
+            .join('');
+
+          if (this.$props.value !== hashString) {
+            alert(`SHA256: ${this.$props.value} != ${hashString}`)
+          } else {
+            alert('SHA256: OK')
+          }
+        };
+        fileReader.readAsArrayBuffer(input.files[0]);
+      };
+      input.click();
+    }
+  }
 }
 </script>
 
@@ -29,6 +57,11 @@ export default {
   width: 20%;
   flex-shrink: 0;
   color: rgba(0, 0, 0, 0.5);
+}
+
+.downloadable-detail .value a {
+  color: #167c80;
+  text-decoration: none;
 }
 
 #app.dark .downloadable-detail .title {
