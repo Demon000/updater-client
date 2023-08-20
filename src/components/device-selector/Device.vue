@@ -49,6 +49,7 @@ export default {
   justify-content: space-between;
   align-items: center;
 
+  gap: 16px;
   padding: 16px 16px 16px 32px;
 
   border-top: 1px solid rgba(0, 0, 0, 0.12);
