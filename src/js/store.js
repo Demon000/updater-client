@@ -34,7 +34,7 @@ export default createStore({
             state.builds[payload.model] = payload.data;
         },
         addNextChangesPage(state, changes) {
-            state.changes.items = state.changes.items.concat(changes);
+            state.changes.items = [...new Set([...state.changes.items, ...changes])];
             state.changes.page++;
         },
     },
