@@ -76,9 +76,9 @@ export default {
   props: {
     date: String,
     datetime: Number,
-    name: String,
     filename: String,
     filepath: String,
+    name: String,
     sha256: String,
     size: Number,
     type: String,
