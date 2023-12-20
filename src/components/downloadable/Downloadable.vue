@@ -43,6 +43,11 @@
               v-bind:value="date"
           ></downloadable-detail>
           <downloadable-detail
+              title="OS patch level"
+              v-if="osPatchLevelHuman"
+              v-bind:value="osPatchLevelHuman"
+          ></downloadable-detail>
+          <downloadable-detail
               title="Type"
               v-if="type"
               v-bind:value="type"
@@ -79,6 +84,7 @@ export default {
     filename: String,
     filepath: String,
     name: String,
+    os_patch_level: String,
     sha256: String,
     size: Number,
     type: String,
@@ -86,6 +92,15 @@ export default {
     version: String,
   },
   computed: {
+    osPatchLevelHuman() {
+      if (this.os_patch_level !== undefined) {
+        return new Date(this.os_patch_level).toLocaleString('en-US', {
+          month: 'long',
+          year: 'numeric',
+        });
+      }
+      return '';
+    },
     sizeHuman() {
       if (this.size !== undefined) {
         const units = {
