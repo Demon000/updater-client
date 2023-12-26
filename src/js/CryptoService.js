@@ -83,7 +83,7 @@ export default class CryptoService {
         if (!certificate.publicKey.verify(messageDigest, pkcs.rawCapture.signature)) {
             return {
                 status: false,
-                msg: 'Signature check failed',
+                msg: 'Signature check failed (checksum mismatch)',
                 signInfo: signInfo,
             };
         }
