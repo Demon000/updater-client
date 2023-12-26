@@ -6,6 +6,7 @@ import ChangesTabPage from '../components/changes-tab/ChangesTabPage.vue';
 import DeviceMain from '../components/device-main/DeviceMain.vue';
 import Builds from '../components/builds-tab/BuildsTabPage.vue';
 import ErrorMain from '../components/error-main/ErrorMain.vue';
+import VerifyMain from '../components/verify-main/VerifyMain.vue';
 import DevicesTabPage from '../components/devices-tab/DevicesTabPage.vue';
 import MediaQueryUtils from './MediaQueryUtils';
 
@@ -110,6 +111,15 @@ const router = createRouter({
             components: {
                 sidebar: Sidebar,
                 main: ErrorMain,
+            },
+        },
+        {
+            path: '/verify',
+            name: 'verify',
+            props: true,
+            components: {
+                sidebar: Sidebar,
+                main: VerifyMain,
             },
         },
         {
