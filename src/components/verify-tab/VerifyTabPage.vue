@@ -98,6 +98,7 @@ export default {
       const fileReader = new FileReader();
       fileReader.onload = async () => {
         const result = await CryptoService.verifyPackage(fileReader.result);
+        this.fileName = blob.name;
         this.isVerified = result.status;
         this.verifyResult = result.msg;
         this.verifySignInfo = result.signInfo;
@@ -105,7 +106,6 @@ export default {
       fileReader.onloadstart = () => store.commit('startRequest');
       fileReader.onloadend = () => store.commit('endRequest');
       fileReader.readAsArrayBuffer(blob);
-      this.fileName = blob.name;
     },
     verifyFileInput(event) {
       this.verifyFile(event.currentTarget.files[0]);
