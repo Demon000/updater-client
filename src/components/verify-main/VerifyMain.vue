@@ -42,6 +42,7 @@ export default {
   justify-content: center;
   text-align: center;
 }
+
 .verify-icon {
   display: flex !important;
   flex-direction: row;
