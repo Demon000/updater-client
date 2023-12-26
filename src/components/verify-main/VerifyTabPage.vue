@@ -16,7 +16,7 @@
 import CryptoService from '../../js/CryptoService';
 
 export default {
-  name: 'ErrorMain',
+  name: 'VerifyTabPage',
   methods: {
     fileDragOver(event) {
       event.preventDefault();
