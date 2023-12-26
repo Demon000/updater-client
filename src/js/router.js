@@ -6,7 +6,7 @@ import ChangesTabPage from '../components/changes-tab/ChangesTabPage.vue';
 import DeviceMain from '../components/device-main/DeviceMain.vue';
 import Builds from '../components/builds-tab/BuildsTabPage.vue';
 import ErrorMain from '../components/error-main/ErrorMain.vue';
-import VerifyTabPage from '../components/verify-main/VerifyTabPage.vue';
+import VerifyTabPage from '../components/verify-tab/VerifyTabPage.vue';
 import DevicesTabPage from '../components/devices-tab/DevicesTabPage.vue';
 import MediaQueryUtils from './MediaQueryUtils';
 
