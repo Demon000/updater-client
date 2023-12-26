@@ -63,6 +63,7 @@
 
 <script>
 import CryptoService from '../../js/CryptoService';
+import store from './../../js/store';
 
 export default {
   name: 'VerifyTabPage',
@@ -101,6 +102,8 @@ export default {
         this.verifyResult = result.msg;
         this.verifySignInfo = result.signInfo;
       };
+      fileReader.onloadstart = () => store.commit('startRequest');
+      fileReader.onloadend = () => store.commit('endRequest');
       fileReader.readAsArrayBuffer(blob);
       this.fileName = blob.name;
     },
