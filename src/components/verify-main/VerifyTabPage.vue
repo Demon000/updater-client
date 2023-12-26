@@ -1,5 +1,10 @@
 <template>
-  <div class="tab-page verify-tab-page" ondragover="event.preventDefault()" v-on:drop="fileDropped">
+  <div
+      class="tab-page verify-tab-page"
+      v-on:dragover="fileDragOver"
+      v-on:dragleave="fileDragLeave"
+      v-on:drop="fileDropped"
+  >
     <a href="#" class="verify-icon" v-on:click="verifyClicked">Verify OTA package signature</a>
     <form ref="form">
       <input type="file" ref="input" style="display: none;" />
@@ -17,8 +22,16 @@ export default {
     input.onchange = () => this.verifyFile(input.files[0]);
   },
   methods: {
+    fileDragOver(event) {
+      event.preventDefault();
+      event.currentTarget.classList.add('dragover-border');
+    },
+    fileDragLeave(event) {
+      event.currentTarget.classList.remove('dragover-border');
+    },
     fileDropped(event) {
       event.preventDefault();
+      event.currentTarget.classList.remove('dragover-border');
       this.verifyFile(event.dataTransfer.files[0]);
     },
     verifyClicked() {
@@ -78,5 +91,9 @@ export default {
   #app.dark .verify-icon:hover {
     background: #167c80 !important;
   }
+}
+
+.dragover-border {
+  border: 2px dashed #167c80;
 }
 </style>
