@@ -7,7 +7,7 @@
   >
     <a href="#" class="verify-icon" v-on:click="verifyClicked">Verify OTA package signature</a>
     <form ref="form">
-      <input type="file" ref="input" style="display: none;" />
+      <input type="file" ref="input" v-on:change="verifyFileInput" style="display: none;" />
     </form>
   </div>
 </template>
@@ -17,10 +17,6 @@ import CryptoService from '../../js/CryptoService';
 
 export default {
   name: 'ErrorMain',
-  mounted() {
-    const input = this.$refs.input;
-    input.onchange = () => this.verifyFile(input.files[0]);
-  },
   methods: {
     fileDragOver(event) {
       event.preventDefault();
@@ -48,6 +44,9 @@ export default {
         form.reset();
       };
       fileReader.readAsArrayBuffer(blob);
+    },
+    verifyFileInput(event) {
+      this.verifyFile(event.currentTarget.files[0]);
     },
   }
 }
