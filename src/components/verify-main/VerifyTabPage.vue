@@ -1,5 +1,5 @@
 <template>
-  <div class="tab-page verify-tab-page">
+  <div class="tab-page verify-tab-page" ondragover="event.preventDefault()" v-on:drop="fileDropped">
     <a href="#" class="verify-icon" v-on:click="verifyClicked">Verify OTA package signature</a>
     <form ref="form">
       <input type="file" ref="input" style="display: none;" />
@@ -14,7 +14,18 @@ export default {
   name: 'ErrorMain',
   mounted() {
     const input = this.$refs.input;
-    input.onchange = () => {
+    input.onchange = () => this.verifyFile(input.files[0]);
+  },
+  methods: {
+    fileDropped(event) {
+      event.preventDefault();
+      this.verifyFile(event.dataTransfer.files[0]);
+    },
+    verifyClicked() {
+      const input = this.$refs.input;
+      input.click();
+    },
+    verifyFile(blob) {
       const fileReader = new FileReader();
       fileReader.onload = async () => {
         const result = await CryptoService.verifyPackage(await fileReader.result);
@@ -23,14 +34,8 @@ export default {
         const form = this.$refs.form;
         form.reset();
       };
-      fileReader.readAsArrayBuffer(input.files[0]);
-    };
-  },
-  methods: {
-    verifyClicked() {
-      const input = this.$refs.input;
-      input.click();
-    },
+      fileReader.readAsArrayBuffer(blob);
+    }
   }
 }
 </script>
