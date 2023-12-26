@@ -35,7 +35,7 @@ export default {
         form.reset();
       };
       fileReader.readAsArrayBuffer(blob);
-    }
+    },
   }
 }
 </script>
