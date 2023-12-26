@@ -75,7 +75,7 @@ export default class CryptoService {
             default:
                 return {
                     status: false,
-                    msg: 'Unsupported algorithmOid' + certificate.siginfo.algorithmOid,
+                    msg: `Unsupported algorithmOid ${certificate.siginfo.algorithmOid}`,
                     signInfo: signInfo,
                 };
         }
