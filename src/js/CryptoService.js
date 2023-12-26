@@ -42,6 +42,26 @@ export default class CryptoService {
         const pkcs = forge.pkcs7.messageFromAsn1(asn);
         const certificate = pkcs.certificates[0];
 
+        const signInfo = {
+            // Subject
+            commonName: certificate.subject.getField('CN')?.value,
+            countryName: certificate.subject.getField('C')?.value,
+            localityName: certificate.subject.getField('L')?.value,
+            organizationalUnitName: certificate.subject.getField('OU')?.value,
+            organizationName: certificate.subject.getField('O')?.value,
+            stateOrProvinceName: certificate.subject.getField('ST')?.value,
+
+            // Public key fingerprint
+            publicKeyFingerprint: forge.pki.getPublicKeyFingerprint(certificate.publicKey, {
+                encoding: 'hex',
+                delimiter: ':',
+            }),
+
+            // Miscellaneous
+            serialNumber: certificate.serialNumber,
+            validity: certificate.validity,
+        };
+
         const message = data.slice(0, data.byteLength - commentSize - 2);
         let messageDigest = undefined;
 
@@ -56,6 +76,7 @@ export default class CryptoService {
                 return {
                     status: false,
                     msg: 'Unsupported algorithmOid' + certificate.siginfo.algorithmOid,
+                    signInfo: signInfo,
                 };
         }
 
@@ -63,24 +84,22 @@ export default class CryptoService {
             return {
                 status: false,
                 msg: 'Signature check failed',
+                signInfo: signInfo,
             };
         }
 
-        const publicKeyFingerprint = forge.pki.getPublicKeyFingerprint(certificate.publicKey, {
-            encoding: 'hex',
-            delimiter: ':',
-        });
-
-        if (publicKeyFingerprint !== '72:96:32:27:d6:6c:4c:4d:5f:a0:91:6a:c2:2c:79:3c:d4:5f:43:5c') {
+        if (signInfo.publicKeyFingerprint !== '72:96:32:27:d6:6c:4c:4d:5f:a0:91:6a:c2:2c:79:3c:d4:5f:43:5c') {
             return {
                 status: false,
                 msg: 'Signature check failed (file is not signed by LineageOS)',
+                signInfo: signInfo,
             };
         }
 
         return {
             status: true,
             msg: 'Signature check passed',
+            signInfo: signInfo,
         };
     }
 }
