@@ -29,7 +29,7 @@ export default class CryptoService {
         }
 
         for (let i = 4; i < eocd.length - 3; ++i) {
-            if (eocd[i  ] == 0x50 && eocd[i+1] == 0x4b && eocd[i+2] == 0x05 && eocd[i+3] == 0x06) {
+            if (eocd[i] == 0x50 && eocd[i + 1] == 0x4b && eocd[i + 2] == 0x05 && eocd[i + 3] == 0x06) {
                 return {
                     status: false,
                     msg: 'EOCD marker found after start of EOCD',
