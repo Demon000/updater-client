@@ -97,7 +97,7 @@ export default {
     verifyFile(blob) {
       const fileReader = new FileReader();
       fileReader.onload = async () => {
-        const result = await CryptoService.verifyPackage(fileReader.result);
+        const result = await CryptoService.verifyPackage(new Uint8Array(fileReader.result));
         this.fileName = blob.name;
         this.isVerified = result.status;
         this.verifyResult = result.msg;

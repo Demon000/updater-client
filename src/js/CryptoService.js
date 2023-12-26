@@ -2,11 +2,15 @@ import forge from 'node-forge';
 
 export default class CryptoService {
     static arrayBufferToString(data) {
-        return String.fromCharCode.apply(null, new Uint8Array(data));
+        return this.u8ArrayToString(new Uint8Array(data));
+    }
+
+    static u8ArrayToString(data) {
+        return String.fromCharCode.apply(null, data);
     }
 
     static async verifyPackage(data) {
-        const footer = new Uint8Array(data.slice(-6));
+        const footer = data.subarray(-6);
         const commentSize = (footer[4] & 0xff) | ((footer[5] & 0xff) << 8);
         const signatureStart = (footer[0] & 0xff) | ((footer[1] & 0xff) << 8);
 
@@ -19,7 +23,7 @@ export default class CryptoService {
 
         // Check that we have found the start of the
         // end-of-central-directory record.
-        const eocd = new Uint8Array(data.slice(-(commentSize + 22), data.byteLength));
+        const eocd = data.subarray(-(commentSize + 22), data.byteLength);
 
         if (eocd[0] != 0x50 || eocd[1] != 0x4b || eocd[2] != 0x05 || eocd[3] != 0x06) {
             return {
@@ -37,8 +41,8 @@ export default class CryptoService {
             }
         }
 
-        const signature = data.slice(-signatureStart, data.byteLength - footer.length);
-        const asn = forge.asn1.fromDer(this.arrayBufferToString(signature));
+        const signature = data.subarray(-signatureStart, data.byteLength - footer.length);
+        const asn = forge.asn1.fromDer(this.u8ArrayToString(signature));
         const pkcs = forge.pkcs7.messageFromAsn1(asn);
         const certificate = pkcs.certificates[0];
 
@@ -62,7 +66,7 @@ export default class CryptoService {
             validity: certificate.validity,
         };
 
-        const message = data.slice(0, data.byteLength - commentSize - 2);
+        const message = data.subarray(0, data.byteLength - commentSize - 2);
         let messageDigest = undefined;
 
         switch (certificate.siginfo.algorithmOid) {
