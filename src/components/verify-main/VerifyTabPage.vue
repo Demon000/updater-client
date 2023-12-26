@@ -1,5 +1,5 @@
 <template>
-  <div class="verify-main">
+  <div class="tab-page verify-tab-page">
     <a href="#" class="verify-icon" v-on:click="verifyClicked">Verify OTA package signature</a>
     <form ref="form">
       <input type="file" ref="input" style="display: none;" />
@@ -36,7 +36,9 @@ export default {
 </script>
 
 <style scoped>
-.verify-main {
+@import '../../css/tab-page.css';
+
+.verify-tab-page {
   display: flex;
   align-items: center;
   justify-content: center;
