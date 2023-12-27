@@ -1,4 +1,6 @@
 import './css/index.css'
+import '@fontsource/roboto/400.css'
+import '@fontsource/roboto/500.css'
 import '@mdi/font/css/materialdesignicons.css'
 import 'simplebar'
 import 'simplebar/dist/simplebar.css'
