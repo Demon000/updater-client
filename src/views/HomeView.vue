@@ -22,6 +22,15 @@
         >
           Changes
         </router-link>
+
+        <router-link
+          class="tab"
+          v-bind:to="{
+            name: 'home_verify'
+          }"
+        >
+          OTA Verifier
+        </router-link>
       </template>
     </NavBar>
 
