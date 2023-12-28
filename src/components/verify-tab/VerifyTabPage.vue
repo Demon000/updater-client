@@ -5,60 +5,70 @@
     @dragleave.prevent="fileDragLeave"
     @drop.prevent="fileDropped"
   >
-    <table v-if="verifyResult">
-      <tr>
-        <th colspan="2" :class="{ 'bg-red': !isVerified }">
-          {{ verifyResult }}
-        </th>
-      </tr>
-      <tr>
-        <td>File Name</td>
-        <td>{{ fileName }}</td>
-      </tr>
-      <tr v-if="verifySignInfo?.commonName">
-        <td>Common Name</td>
-        <td>{{ verifySignInfo.commonName }}</td>
-      </tr>
-      <tr v-if="verifySignInfo?.organizationalUnitName">
-        <td>Organizational Unit</td>
-        <td>{{ verifySignInfo.organizationalUnitName }}</td>
-      </tr>
-      <tr v-if="verifySignInfo?.organizationName">
-        <td>Organization</td>
-        <td>{{ verifySignInfo.organizationName }}</td>
-      </tr>
-      <tr v-if="verifySignInfo?.localityName">
-        <td>Locality</td>
-        <td>{{ verifySignInfo.localityName }}</td>
-      </tr>
-      <tr v-if="verifySignInfo?.stateOrProvinceName">
-        <td>State or Province Name</td>
-        <td>{{ verifySignInfo.stateOrProvinceName }}</td>
-      </tr>
-      <tr v-if="verifySignInfo?.countryName">
-        <td>Country Name</td>
-        <td>{{ verifySignInfo.countryName }}</td>
-      </tr>
-      <tr v-if="verifySignInfo?.publicKeyFingerprint">
-        <td>Public Key Fingerprint</td>
-        <td style="word-break: break-all">{{ verifySignInfo.publicKeyFingerprint }}</td>
-      </tr>
-      <tr v-if="verifySignInfo?.serialNumber">
-        <td>Serial Number</td>
-        <td>{{ verifySignInfo.serialNumber }}</td>
-      </tr>
-      <tr v-if="verifySignInfo?.validity">
-        <td>Validity</td>
-        <td>
-          From {{ formatDate(verifySignInfo.validity.notBefore) }} to
-          {{ formatDate(verifySignInfo.validity.notAfter) }}
-        </td>
-      </tr>
-    </table>
-    <a href="#" class="verify-icon" @click="verifyClicked">Verify OTA package signature</a>
-    <form>
-      <input type="file" ref="inputRef" @change="verifyFileInput" style="display: none" />
-    </form>
+    <div class="banner">
+      <div class="text">
+        This page lets you verify whether the OTA package you downloaded is signed with a LineageOS
+        private key and hasn't been tampered with.<br />
+        NOTE: This only works for OTA packages; it won't work with boot.img, recovery.img, etc.
+      </div>
+    </div>
+
+    <div class="content">
+      <table v-if="verifyResult">
+        <tr>
+          <th colspan="2" :class="{ 'bg-red': !isVerified }">
+            {{ verifyResult }}
+          </th>
+        </tr>
+        <tr>
+          <td>File Name</td>
+          <td>{{ fileName }}</td>
+        </tr>
+        <tr v-if="verifySignInfo?.commonName">
+          <td>Common Name</td>
+          <td>{{ verifySignInfo.commonName }}</td>
+        </tr>
+        <tr v-if="verifySignInfo?.organizationalUnitName">
+          <td>Organizational Unit</td>
+          <td>{{ verifySignInfo.organizationalUnitName }}</td>
+        </tr>
+        <tr v-if="verifySignInfo?.organizationName">
+          <td>Organization</td>
+          <td>{{ verifySignInfo.organizationName }}</td>
+        </tr>
+        <tr v-if="verifySignInfo?.localityName">
+          <td>Locality</td>
+          <td>{{ verifySignInfo.localityName }}</td>
+        </tr>
+        <tr v-if="verifySignInfo?.stateOrProvinceName">
+          <td>State or Province Name</td>
+          <td>{{ verifySignInfo.stateOrProvinceName }}</td>
+        </tr>
+        <tr v-if="verifySignInfo?.countryName">
+          <td>Country Name</td>
+          <td>{{ verifySignInfo.countryName }}</td>
+        </tr>
+        <tr v-if="verifySignInfo?.publicKeyFingerprint">
+          <td>Public Key Fingerprint</td>
+          <td style="word-break: break-all">{{ verifySignInfo.publicKeyFingerprint }}</td>
+        </tr>
+        <tr v-if="verifySignInfo?.serialNumber">
+          <td>Serial Number</td>
+          <td>{{ verifySignInfo.serialNumber }}</td>
+        </tr>
+        <tr v-if="verifySignInfo?.validity">
+          <td>Validity</td>
+          <td>
+            From {{ formatDate(verifySignInfo.validity.notBefore) }} to
+            {{ formatDate(verifySignInfo.validity.notAfter) }}
+          </td>
+        </tr>
+      </table>
+      <a href="#" class="verify-icon" @click="verifyClicked">Verify OTA package signature</a>
+      <form>
+        <input type="file" ref="inputRef" @change="verifyFileInput" style="display: none" />
+      </form>
+    </div>
   </div>
 </template>
 
@@ -119,11 +129,13 @@ export default {
 @import '../../css/tab-page.css';
 @import '../../css/table.css';
 
-.verify-tab-page {
+.verify-tab-page .content {
   display: flex;
   align-items: center;
+  flex-direction: column;
   justify-content: center;
   text-align: center;
+  height: 100%;
 }
 
 .verify-icon {
