@@ -8,8 +8,13 @@
             Not all images are necessary for installation or upgrades. Check your device's
             <a v-bind:href="info_url" target="_blank">wiki guides</a> for more info.<br />
             You can verify that a file has not been tampered by
-            <a href="https://wiki.lineageos.org/verifying-builds.html" target="_blank"
-              >checking its signature</a
+            <router-link
+              class="tab"
+              v-bind:to="{
+                name: 'home_verify'
+              }"
+            >
+              checking its signature </router-link
             >.
           </p>
         </div>
