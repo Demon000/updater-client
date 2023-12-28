@@ -21,7 +21,8 @@
               For manual verification, check our
               <a href="https://wiki.lineageos.org/verifying-builds.html" target="_blank"
                 >Verifying Build Authenticity</a
-              > guide.
+              >
+              guide.
             </p>
           </div>
         </div>
