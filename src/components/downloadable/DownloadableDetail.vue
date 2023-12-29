@@ -19,7 +19,9 @@ export default {
     value: String
   },
   methods: {
-    compareSha256() {
+    compareSha256(event) {
+      event.preventDefault()
+
       const input = this.$refs.input
       input.onchange = () => {
         const fileReader = new FileReader()
