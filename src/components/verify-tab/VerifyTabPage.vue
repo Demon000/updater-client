@@ -69,7 +69,7 @@
           </tr>
           <tr v-if="verifySignInfo?.publicKeyFingerprint">
             <td>Public Key Fingerprint</td>
-            <td style="word-break: break-all">{{ verifySignInfo.publicKeyFingerprint }}</td>
+            <td class="break-all">{{ verifySignInfo.publicKeyFingerprint }}</td>
           </tr>
           <tr v-if="verifySignInfo?.serialNumber">
             <td>Serial Number</td>
