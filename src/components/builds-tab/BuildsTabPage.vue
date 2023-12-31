@@ -1,7 +1,7 @@
 <template>
-  <div class="builds-tab-page tab-page">
-    <div class="list-container" data-simplebar v-if="builds.length > 0">
-      <div class="list">
+  <div class="builds-tab-page w-full h-full flex flex-col">
+    <div class="flex-grow w-full h-full overflow-auto" data-simplebar v-if="builds.length > 0">
+      <div class="min-w-0 max-w-[756px] mx-auto px-8">
         <div class="header">
           <h1>Download builds</h1>
           <p>
@@ -19,9 +19,13 @@
           </p>
         </div>
         <div class="list-label">Latest</div>
-        <template v-for="build in builds" :key="build.id">
-          <downloadable-group :items="build.files"></downloadable-group>
-        </template>
+        <downloadable-group
+          v-for="(build, idx) in builds"
+          :key="build.id"
+          :items="build.files"
+          :class="{ 'border rounded-2xl border-opacity-25 dark:border-opacity-25': idx === 0 }"
+        >
+        </downloadable-group>
       </div>
     </div>
     <div class="list-placeholder" v-else>
@@ -95,8 +99,6 @@ export default {
 </script>
 
 <style scoped>
-@import '../../css/tab-page.css';
-
 .builds-tab-page .list-placeholder {
   display: flex;
   align-items: center;
@@ -155,26 +157,6 @@ export default {
 
   .builds-tab-page .list-label {
     padding: 0px 16px 16px;
-  }
-}
-
-div.group:nth-child(3) {
-  border: 1px solid rgba(0, 0, 0, 0.25) !important;
-  border-radius: 16px;
-}
-
-#app.dark div.group:nth-child(3) {
-  border: 1px solid rgba(255, 255, 255, 0.25) !important;
-  border-radius: 16px;
-}
-
-.group {
-  padding: 24px 18px 24px 24px;
-}
-
-@media (max-width: 479px) {
-  .group {
-    padding: 16px 10px 16px 16px;
   }
 }
 </style>

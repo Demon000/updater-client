@@ -1,8 +1,10 @@
 <template>
   <div class="device-selector">
-    <div class="search-container">
+    <div
+      class="search-container text-sm border-b border-solid border-black dark:border-white border-opacity-15 dark:border-opacity-15 focus:border-b-2 focus:border-brand-primary"
+    >
       <input type="text" placeholder="Search..." v-model="filterText" />
-      <i class="mdi mdi-close clear" v-if="filterText" v-on:click="clearFilterText"></i>
+      <i class="mdi mdi-close clear opacity-35" v-if="filterText" v-on:click="clearFilterText"></i>
     </div>
     <div class="oems" data-simplebar>
       <device-oem v-for="oem in oems" v-bind="oem" :key="oem.name"></device-oem>
@@ -153,20 +155,6 @@ export default {
   background: transparent;
 
   transition: border 0.125s ease-out;
-
-  color: rgba(0, 0, 0, 0.87);
-
-  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
-}
-
-#app.dark .device-selector .search-container input {
-  color: rgba(255, 255, 255, 0.87);
-
-  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
-}
-
-.device-selector .search-container input:focus {
-  border-bottom: 2px solid rgba(22, 124, 128, 255);
 }
 
 .device-selector .search-container .clear {
@@ -182,12 +170,6 @@ export default {
   font-size: 24px;
 
   cursor: pointer;
-
-  color: rgba(0, 0, 0, 0.38);
-}
-
-#app.dark .device-selector .search-container .clear {
-  color: rgba(255, 255, 255, 0.38);
 }
 
 .device-selector .oems {

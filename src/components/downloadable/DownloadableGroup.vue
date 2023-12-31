@@ -1,6 +1,8 @@
 <template>
-  <div class="group">
-    <div class="group-header" v-if="title">
+  <div
+    class="p-6 md:p-4 border-b border-solid border-black dark:border-white border-opacity-15 dark:border-opacity-15"
+  >
+    <div class="text-xs font-medium uppercase text-brand-primary tracking-widest" v-if="title">
       {{ title }}
     </div>
     <template v-for="item in items" :key="item.id">
@@ -26,7 +28,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-@import '../../css/group.css';
-</style>

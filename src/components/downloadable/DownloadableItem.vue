@@ -11,13 +11,14 @@
           {{ name || filename }}
         </div>
         <div class="controls">
-          <a v-bind:href="url" class="download-icon">
+          <a :href="url" class="btn px-5 py-2">
             <svg
               width="16"
               height="16"
               viewBox="0 0 16 16"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
+              class="text-brand-dark dark:text-brand-light hover:text-white hover:transition hover:duration-150 hover:ease-out"
             >
               <path
                 d="M2 16C1.45 16 0.979333 15.8043 0.588 15.413C0.196 15.021 0 14.55 0 14V11H2V14H14V11H16V14C16
@@ -27,7 +28,7 @@
             </svg>
           </a>
           <i
-            class="mdi icon expand-icon"
+            class="mdi icon expand-icon opacity-55 dark:opacity-55 hover:bg-dark hover:bg-opacity-15 dark:hover:bg-white dark:hover:bg-opacity-15"
             :class="{ 'mdi-information': isExpanded, 'mdi-information-outline': !isExpanded }"
             v-on:click="toggleManualExpansion"
           ></i>
@@ -35,7 +36,7 @@
       </div>
     </template>
     <template v-slot:content>
-      <div class="details-wrapper">
+      <div class="details-wrapper dark:bg-white dark:bg-opacity-5 rounded-md">
         <div class="details">
           <span class="details-title">Details</span>
           <downloadable-detail title="Date" v-if="date" v-bind:value="date"></downloadable-detail>
@@ -149,74 +150,9 @@ export default {
 
   transition: background 0.125s ease-out;
 
-  color: rgba(0, 0, 0, 0.56);
-
   cursor: pointer;
 
   user-select: none; /* prevent automatic selection of the details contents */
-}
-
-#app.dark .downloadable .title-container .controls .icon {
-  color: rgba(255, 255, 255, 0.56);
-}
-
-.downloadable .title-container .controls .download-icon {
-  display: flex !important;
-  flex-direction: row;
-  align-items: center;
-  padding: 4px 16px;
-  gap: 10px;
-  background: #cce8e9;
-  border-radius: 16px;
-  width: 56px;
-  height: 32px;
-  justify-content: center;
-  transition: background 0.125s ease-out;
-}
-
-#app.dark .downloadable .title-container .controls .download-icon {
-  background: #324b4c !important;
-}
-
-.downloadable .title-container .controls .download-icon svg {
-  color: #324b4c !important;
-}
-
-#app.dark .downloadable .title-container .controls .download-icon svg {
-  color: #cce8e9 !important;
-}
-
-.downloadable .title-container.expanded .controls .expand-icon,
-#app.dark .downloadable .title-container.expanded .controls .expand-icon {
-  color: #167c80;
-}
-
-@media (hover: hover), (-moz-touch-enabled: 0) {
-  .downloadable .title-container .controls .icon:hover {
-    background: rgba(0, 0, 0, 0.15);
-  }
-
-  #app.dark .downloadable .title-container .controls .icon:hover {
-    background: rgba(255, 255, 255, 0.15);
-  }
-
-  .downloadable .title-container .controls .download-icon:hover {
-    background: #167c80 !important;
-  }
-
-  #app.dark .downloadable .title-container .controls .download-icon:hover {
-    background: #167c80 !important;
-  }
-
-  .downloadable .title-container .controls .download-icon:hover svg {
-    color: #fff !important;
-    transition: background 0.125s ease-out;
-  }
-
-  #app.dark .downloadable .title-container .controls .download-icon:hover svg {
-    color: #fff !important;
-    transition: background 0.125s ease-out;
-  }
 }
 
 .downloadable .details-wrapper {
@@ -240,9 +176,5 @@ export default {
 .downloadable .details .details-title {
   display: flex;
   line-height: 150%;
-}
-
-#app.dark .downloadable .details {
-  background: rgba(255, 255, 255, 0.05);
 }
 </style>
