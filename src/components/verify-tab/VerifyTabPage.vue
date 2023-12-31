@@ -87,7 +87,7 @@
           <button class="btn px-4 py-1" @click="verifyClicked">Verify OTA package signature</button>
         </div>
         <form>
-          <input type="file" ref="inputRef" @change="verifyFileInput" style="display: none" />
+          <input class="hidden" type="file" ref="inputRef" @change="verifyFileInput" />
         </form>
       </div>
     </div>
