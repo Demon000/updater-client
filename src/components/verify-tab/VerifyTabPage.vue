@@ -32,7 +32,9 @@
           <tr class="text-center">
             <th
               colspan="2"
-              :class="{ 'bg-[#f8d7da] dark:bg-[#522b2a] dark:text-[#f8d7da]': !isVerified }"
+              :class="{
+                'bg-[#f8d7da] dark:bg-[#522b2a] dark:text-[#f8d7da] font-medium': !isVerified
+              }"
             >
               {{ verifyResult }}
             </th>
