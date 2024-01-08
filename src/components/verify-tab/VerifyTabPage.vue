@@ -11,11 +11,9 @@
           <h1 class="flex-none self-stretch text-3xl m-0 font-medium">OTA Verifier</h1>
           <div class="flex-none order-1 self-stretch flex-grow-0">
             <p>
-              You can verify that your downloaded builds are signed with LineageOS private keys and
-              are untampered by either dragging and dropping a file here or using the button
-              below.<br />
-              NOTE: Verification only works for OTA packages (lineage-*.zip) and is performed
-              locally in your browser.
+              You can use your browser to verify that downloaded OTA packages (lineage-*.zip) are
+              signed with LineageOS private keys and are untampered. Drag a file here or use the
+              button below.
             </p>
             <p>
               For manual verification, check our
