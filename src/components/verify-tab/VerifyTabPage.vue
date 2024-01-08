@@ -8,7 +8,7 @@
     <div class="flex-grow w-full h-full overflow-auto" data-simplebar>
       <div class="min-w-0 max-w-[756px] mx-auto px-8">
         <div class="flex flex-col items-start py-10 px-6 sm:px-4 gap-4">
-          <h1 class="flex-none self-stretch text-3xl m-0 font-semibold">OTA Verifier</h1>
+          <h1 class="flex-none self-stretch text-3xl m-0 font-medium">OTA Verifier</h1>
           <div class="flex-none order-1 self-stretch flex-grow-0">
             <p>
               You can verify that your downloaded builds are signed with LineageOS private keys and
@@ -22,7 +22,7 @@
               <a
                 href="https://wiki.lineageos.org/verifying-builds.html"
                 target="_blank"
-                class="no-underline font-semibold text-brand-primary"
+                class="no-underline font-medium text-brand-primary"
               >
                 Verifying Build Authenticity
               </a>
