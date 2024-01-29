@@ -14,7 +14,7 @@
                 name: 'home_verify'
               }"
             >
-              checking its signature </router-link
+              checking its signature</router-link
             >.
           </p>
         </div>
