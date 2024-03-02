@@ -12,6 +12,9 @@ export default {
       type: String,
       default: 'An unknown error-main occurred'
     }
+  },
+  mounted() {
+    history.pushState({}, null, '/')
   }
 }
 </script>
