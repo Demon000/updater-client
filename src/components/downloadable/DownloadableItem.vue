@@ -87,7 +87,7 @@ export default {
   },
   computed: {
     osPatchLevelHuman() {
-      if (this.os_patch_level !== undefined) {
+      if (typeof this.os_patch_level === 'string') {
         return new Date(this.os_patch_level).toLocaleString('en-US', {
           month: 'long',
           year: 'numeric',
