@@ -1,6 +1,6 @@
 <template>
   <div class="sidebar">
-    <div class="logo">
+    <div class="logo bg-brand-primary">
       <router-link to="/">
         <img src="../../assets/sidebar-logo.svg" alt="LineageOS Logo" />
       </router-link>
@@ -39,8 +39,6 @@ export default {
   justify-content: center;
 
   flex-shrink: 0;
-
-  background: #167c80;
 
   height: 100px;
 }

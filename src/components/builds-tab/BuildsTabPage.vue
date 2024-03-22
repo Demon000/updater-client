@@ -6,7 +6,7 @@
           <h1>Download builds</h1>
           <p>
             Not all images are necessary for installation or upgrades. Check your device's
-            <a v-bind:href="info_url" target="_blank">wiki guides</a> for more info.<br />
+            <a class="text-brand-primary" v-bind:href="info_url" target="_blank">wiki guides</a> for more info.<br />
             You can verify that a file has not been tampered by
             <router-link
               class="tab"
@@ -32,6 +32,7 @@
       <span>
         This device doesn't have any builds available, please see
         <a
+          class="text-brand-primary"
           href="https://wiki.lineageos.org/faq#my-device-is-officially-supported-but-theres-no-zips-for-it-on-the-download-page-where-are-they"
           target="_blank"
         >
@@ -110,7 +111,6 @@ export default {
 
 .builds-tab-page .list-placeholder a {
   text-decoration: none;
-  color: #167c80;
 }
 
 .builds-tab-page .header {
@@ -138,7 +138,6 @@ export default {
 }
 
 .builds-tab-page .header a {
-  color: #167c80;
   text-decoration: none;
   font-weight: 500;
 }

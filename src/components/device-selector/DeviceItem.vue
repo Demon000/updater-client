@@ -10,7 +10,7 @@
     <div
       class="device"
       v-bind:class="{
-        selected: selected
+        'bg-brand-primary': selected
       }"
       v-show="!hidden"
     >
@@ -53,10 +53,6 @@ export default {
   padding: 16px 16px 16px 32px;
 
   border-top: 1px solid rgba(0, 0, 0, 0.12);
-}
-
-.device.selected {
-  background: #167c80;
 }
 
 .device.selected .name {

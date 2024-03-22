@@ -111,7 +111,7 @@ export default {
 }
 
 .navbar .tabs::v-deep(.tab.router-link-exact-active) {
-  border-bottom: 4px solid #167c80;
+  border-bottom: 4px solid var(--tw-brand-primary);
 }
 
 @media (max-width: 1024px) {

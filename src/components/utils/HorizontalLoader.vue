@@ -1,7 +1,7 @@
 <template>
-  <div class="loader-track">
-    <div class="loader-first"></div>
-    <div class="loader-second"></div>
+  <div class="loader-track bg-brand-primary/[.5]">
+    <div class="loader-first bg-brand-primary"></div>
+    <div class="loader-second bg-brand-primary"></div>
   </div>
 </template>
 
@@ -19,8 +19,6 @@ export default {
   position: relative;
 
   overflow: hidden;
-
-  background: rgba(22, 124, 128, 0.5);
 }
 
 .loader-first,
@@ -30,8 +28,6 @@ export default {
 
   top: 0;
   left: 0;
-
-  background: #167c80;
 
   position: absolute;
 }

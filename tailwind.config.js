@@ -11,5 +11,9 @@ export default {
       }
     }
   },
-  plugins: []
+  plugins: [
+    require('@tailwind-plugin/expose-colors')({
+      extract: ['brand-primary']
+    })
+  ]
 }

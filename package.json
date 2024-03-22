@@ -22,6 +22,7 @@
   },
   "devDependencies": {
     "@rushstack/eslint-patch": "^1.7.2",
+    "@tailwind-plugin/expose-colors": "^1.1.7",
     "@vitejs/plugin-vue": "^4.6.2",
     "@vue/eslint-config-prettier": "^8.0.0",
     "autoprefixer": "^10.4.18",

@@ -4,7 +4,7 @@
     <div class="value">
       {{ value }}
       <div v-if="title == 'SHA256'">
-        <a href="#" v-on:click="compareSha256">Compare</a>
+        <a class="text-brand-primary" href="#" v-on:click="compareSha256">Compare</a>
         <input class="hidden" type="file" ref="input" />
       </div>
     </div>
@@ -61,7 +61,6 @@ export default {
 }
 
 .downloadable-detail .value a {
-  color: #167c80;
   text-decoration: none;
 }
 
