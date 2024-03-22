@@ -6,9 +6,7 @@
       </div>
       <div class="right">
         <slot name="right">
-          <div class="logo">
-            <img src="../../assets/navbar-logo.svg" alt="LineageOS Logo" />
-          </div>
+          <div class="logo" v-html="logo"></div>
         </slot>
       </div>
     </div>
@@ -19,6 +17,8 @@
 </template>
 
 <script>
+import logo from '../../assets/logo.svg?raw'
+
 export default {
   name: 'NavBar',
   props: {
@@ -42,6 +42,11 @@ export default {
       type: Array,
       default: () => []
     }
+  },
+  data() {
+    return {
+      logo
+    }
   }
 }
 </script>
@@ -59,6 +64,7 @@ export default {
 
 .navbar .top {
   line-height: 24px;
+  height: 56px;
 
   display: flex;
   justify-content: space-between;
@@ -66,6 +72,7 @@ export default {
 
 .navbar .left,
 .navbar .right {
+  height: 100%;
   padding: 16px;
 }
 
@@ -82,8 +89,8 @@ export default {
   display: none;
 }
 
-.navbar .logo > img {
-  height: 100%;
+.navbar .logo::v-deep(path) {
+  fill: var(--tw-brand-primary);
 }
 
 .navbar .tabs {

@@ -1,16 +1,17 @@
 <template>
   <div class="sidebar">
-    <div class="logo bg-brand-primary">
-      <router-link to="/">
-        <img src="../../assets/sidebar-logo.svg" alt="LineageOS Logo" />
-      </router-link>
-    </div>
+    <router-link to="/">
+      <div class="logo bg-brand-primary">
+        <div class="logo-wrapper" v-html="logo"></div>
+      </div>
+    </router-link>
     <device-selector v-bind:active-model="activeModel"></device-selector>
   </div>
 </template>
 
 <script>
 import DeviceSelector from '../device-selector/DeviceSelector.vue'
+import logo from '../../assets/logo.svg?raw'
 
 export default {
   name: 'SideBar',
@@ -19,6 +20,11 @@ export default {
   },
   props: {
     activeModel: String
+  },
+  data() {
+    return {
+      logo
+    }
   }
 }
 </script>
@@ -43,7 +49,11 @@ export default {
   height: 100px;
 }
 
-.sidebar .logo img {
+.sidebar .logo .logo-wrapper {
   height: 40px;
+}
+
+.sidebar .logo .logo-wrapper::v-deep(path) {
+  fill: #fff;
 }
 </style>
