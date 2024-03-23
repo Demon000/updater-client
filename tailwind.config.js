@@ -5,9 +5,9 @@ export default {
     extend: {
       colors: {
         dark: '#121212',
-        'brand-light': '#cce8e9',
-        'brand-dark': '#324b4c',
-        'brand-primary': '#167c80'
+        'brand-light': '#5c5c5c',
+        'brand-dark': '#050505',
+        'brand-primary': '#343434'
       }
     }
   },
