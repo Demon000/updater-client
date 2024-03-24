@@ -1,4 +1,5 @@
 import forge from 'node-forge'
+import { BRAND_NAME } from './config'
 
 export default class CryptoService {
   static arrayBufferToString(data) {
@@ -98,7 +99,7 @@ export default class CryptoService {
     ) {
       return {
         status: false,
-        msg: 'Signature check failed (file is not signed by LineageOS)',
+        msg: `Signature check failed (file is not signed by ${BRAND_NAME})`,
         signInfo: signInfo
       }
     }

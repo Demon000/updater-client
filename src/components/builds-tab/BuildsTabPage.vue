@@ -33,7 +33,7 @@
         This device doesn't have any builds available, please see
         <a
           class="text-brand-primary"
-          href="https://wiki.lineageos.org/faq#my-device-is-officially-supported-but-theres-no-zips-for-it-on-the-download-page-where-are-they"
+          :href="`${WIKI_URL}/faq#my-device-is-officially-supported-but-theres-no-zips-for-it-on-the-download-page-where-are-they`"
           target="_blank"
         >
           wiki
@@ -48,6 +48,7 @@
 import ApiService from '../../js/ApiService'
 import { beforeTryError } from '../../js/router_utils'
 import DownloadableGroup from '../downloadable/DownloadableGroup.vue'
+import { WIKI_URL } from '../../js/config'
 
 const loadDeviceBuildsBeforeHook = beforeTryError((to) => {
   return ApiService.loadDeviceBuilds(to.params.model)
@@ -63,6 +64,7 @@ export default {
   },
   data() {
     return {
+      WIKI_URL,
       builds: []
     }
   },
